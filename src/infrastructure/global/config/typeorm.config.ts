@@ -1,22 +1,24 @@
 import {Module} from "@nestjs/common";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {SnakeNamingStrategy} from "typeorm-naming-strategies";
-import {UserModule} from "../module/user.module";
-import {UserTypeormEntity} from "../../user/persistence/user.entity";
+import {ConfigService} from "@nestjs/config";
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '11111111',
-      database: 'recorder',
-      synchronize: true,
-      autoLoadEntities: true,
-      logging: true,
-      namingStrategy: new SnakeNamingStrategy()
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get('DB_URL'),
+        port: Number(config.get('DB_PORT')),
+        database: config.get('DB_NAME'),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        synchronize: true,
+        autoLoadEntities: true,
+        logging: true,
+        namingStrategy: new SnakeNamingStrategy()
+      })
     }),
   ],
 })

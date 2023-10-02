@@ -1,14 +1,14 @@
-import {TokenResponse} from "../dto/auth.dto";
+import { TokenResponse } from '../dto/auth.dto'
 
 export interface JwtPort {
   generateToken(userId: string): Promise<TokenResponse>;
 }
 
 export interface OAuthPort {
-  getAccessTokenByCode(code: string): Promise<string>
+  getAccessTokenByCode(code: string): Promise<string>;
 
-  getUserInfo(accessToken: string): Promise<any>
+  getUserInfo(accessToken: string): Promise<any>;
 }
 
-export const JwtPort = Symbol('IJwtPort');
-export const OAuthPort = Symbol('IOAuthPort');
+export const JwtPort = Symbol('IJwtPort')
+export const OAuthPort = Symbol('IOAuthPort')

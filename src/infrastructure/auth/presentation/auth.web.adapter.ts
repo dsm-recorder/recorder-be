@@ -1,6 +1,6 @@
-import {Controller, Get, Post, Query, Redirect} from "@nestjs/common";
-import {LoginUseCase} from "../../../application/auth/usecase/login-usecase";
-import {ConfigService} from "@nestjs/config";
+import { Controller, Get, Query, Redirect } from '@nestjs/common'
+import { LoginUseCase } from '../../../application/auth/usecase/login-usecase'
+import { ConfigService } from '@nestjs/config'
 
 @Controller('auth')
 export class AuthWebAdapter {
@@ -13,7 +13,7 @@ export class AuthWebAdapter {
   @Get('/oauth/github')
   @Redirect()
   githubOAuth() {
-    return { url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}`};
+    return { url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}` }
   }
 
   @Get('/login')

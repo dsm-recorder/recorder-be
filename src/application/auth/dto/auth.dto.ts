@@ -1,4 +1,4 @@
 export class TokenResponse {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string
+  refreshToken: string
 }

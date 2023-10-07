@@ -1,9 +1,9 @@
-import { CacheModule } from '@nestjs/cache-manager'
-import { RedisClientOptions } from 'redis'
-import { redisStore } from 'cache-manager-redis-yet'
-import { Module } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { RefreshTokenRepository } from '../../auth/persistence/repository/refresh-token.repository'
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisClientOptions } from 'redis';
+import { redisStore } from 'cache-manager-redis-yet';
+import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { RefreshTokenRepository } from '../../auth/persistence/repository/refresh-token.repository';
 
 @Module({
   imports: [

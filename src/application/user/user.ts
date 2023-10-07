@@ -1,5 +1,5 @@
 export class User {
-  id?: string
-  githubAccountId: string
-  profileUrl: string
+  id?: string;
+  githubAccountId: string;
+  profileUrl: string;
 }

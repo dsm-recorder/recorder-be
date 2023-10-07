@@ -1,7 +1,9 @@
-import { TokenResponse } from '../dto/auth.dto'
+import { TokenResponse } from '../dto/auth.dto';
 
 export interface JwtPort {
   generateToken(userId: string): Promise<TokenResponse>;
+
+  getSubject(token: string): Promise<string>;
 }
 
 export interface OAuthPort {
@@ -10,5 +12,10 @@ export interface OAuthPort {
   getUserInfo(accessToken: string): Promise<any>;
 }
 
-export const JwtPort = Symbol('IJwtPort')
-export const OAuthPort = Symbol('IOAuthPort')
+export interface RefreshTokenPort {
+  queryRefreshTokenByUserId(userId: string): Promise<string>;
+}
+
+export const JwtPort = Symbol('IJwtPort');
+export const OAuthPort = Symbol('IOAuthPort');
+export const RefreshTokenPort = Symbol('IRefreshTokenPort');

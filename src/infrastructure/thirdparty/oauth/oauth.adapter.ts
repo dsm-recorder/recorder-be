@@ -1,7 +1,7 @@
-import { OAuthPort } from '../../../application/auth/spi/auth.spi'
-import axios from 'axios'
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import { OAuthPort } from '../../../application/auth/spi/auth.spi';
+import axios from 'axios';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class OAuthAdapter implements OAuthPort {
@@ -11,23 +11,25 @@ export class OAuthAdapter implements OAuthPort {
   }
 
   async getUserInfo(accessToken: string): Promise<any> {
-    return await axios.get('https://api.github.com/user', {
+    const response = await axios.get('https://api.github.com/user', {
       headers: { Authorization: `Bearer ${accessToken}` }
-    })
+    });
+
+    return response.data;
   }
 
   async getAccessTokenByCode(code: string): Promise<string> {
-    const authenticationUrl = 'https://github.com/login/oauth/access_token'
+    const authenticationUrl = 'https://github.com/login/oauth/access_token';
 
-    const params = new URLSearchParams()
-    params.append('code', code)
-    params.append('client_id', this.configService.get<string>('GITHUB_ACCESS'))
-    params.append('client_secret', this.configService.get<string>('GITHUB_SECRET'))
+    const params = new URLSearchParams();
+    params.append('code', code);
+    params.append('client_id', this.configService.get<string>('GITHUB_ACCESS'));
+    params.append('client_secret', this.configService.get<string>('GITHUB_SECRET'));
     const response = await axios.post(authenticationUrl, params, {
       headers: { Accept: 'application/json' }
-    })
+    });
 
-    return response.data.access_token
+    return response.data.access_token;
   }
 
 }

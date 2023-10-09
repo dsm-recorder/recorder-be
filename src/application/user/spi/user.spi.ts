@@ -1,4 +1,4 @@
-import { User } from '../user'
+import { User } from '../user';
 
 export interface UserPort {
   queryUserByAccountId(accountId: string): Promise<User | null>;
@@ -6,4 +6,4 @@ export interface UserPort {
   saveUser(user: User): Promise<User>;
 }
 
-export const UserPort = Symbol('IUserPort')
+export const UserPort = Symbol('IUserPort');

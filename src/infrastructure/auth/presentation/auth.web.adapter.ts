@@ -27,4 +27,5 @@ export class AuthWebAdapter {
   async reissueToken(@Headers('Refresh-Token') refreshToken: string) {
     return await this.tokenReissueUseCase.execute(refreshToken);
   }
+
 }

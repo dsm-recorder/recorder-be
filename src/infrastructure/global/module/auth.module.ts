@@ -10,11 +10,13 @@ import { ConfigService } from '@nestjs/config';
 import { OAuthAdapter } from '../../thirdparty/oauth/oauth.adapter';
 import { TokenReissueUseCase } from '../../../application/auth/usecase/token-reissue.usecase';
 import { RefreshTokenPersistenceAdapter } from '../../auth/persistence/refresh-token.persistence.adapter';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '../guard/jwt.guard';
 
 const JWT_PORT = { provide: JwtPort, useClass: JwtAdapter };
 const OAUTH_PORT = { provide: OAuthPort, useClass: OAuthAdapter };
 const REFRESH_TOKEN_PORT = { provide: RefreshTokenPort, useClass: RefreshTokenPersistenceAdapter };
-
+const GLOBAL_GUARD = { provide: APP_GUARD, useClass: JwtAuthGuard };
 @Module({
   imports: [UserModule, RedisCacheModule, JwtModule.registerAsync({
     inject: [ConfigService],
@@ -28,7 +30,8 @@ const REFRESH_TOKEN_PORT = { provide: RefreshTokenPort, useClass: RefreshTokenPe
     TokenReissueUseCase,
     JWT_PORT,
     OAUTH_PORT,
-    REFRESH_TOKEN_PORT
+    REFRESH_TOKEN_PORT,
+    GLOBAL_GUARD
   ]
 })
 export class AuthModule {

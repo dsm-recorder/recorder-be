@@ -10,4 +10,12 @@ export class UserTypeormEntity {
 
   @Column('varchar')
   profileUrl: string;
+
+  @Column('varchar', { length: 5 })
+  authority: string;
 }
+
+export const Authority = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};

@@ -25,7 +25,7 @@ export class JwtAuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request.headers);
     const { sub } = this.parseToken(token);
 
-    const currentUser = await this.userRepository.findOneBy({ id: sub });
+    const currentUser = await this.queryUserById(sub);
     request.user = currentUser;
 
     return this.matchRole(authority, currentUser.authority);
@@ -45,12 +45,21 @@ export class JwtAuthGuard implements CanActivate {
     return parsed;
   }
 
-  private matchRole(required: string[], provided: string) {
+  private matchRole(required: string[], provided: string): boolean {
     return required.includes(provided);
   }
 
-  private extractTokenFromHeader(header: any) {
+  private extractTokenFromHeader(header: any): string {
     const { authorization } = header;
     return authorization.substring(7);
+  }
+
+  private async queryUserById(userId: string): Promise<UserTypeormEntity> {
+    const user = await this.userRepository.findOneBy({ id: userId });
+    if (!user) {
+      throw new UnauthorizedException("Invalid Token");
+    }
+
+    return user;
   }
 }

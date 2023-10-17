@@ -3,6 +3,7 @@ import { UserPort } from '../../user/spi/user.spi';
 import { User } from '../../user/user';
 import { JwtPort, OAuthPort } from '../spi/auth.spi';
 import { TokenResponse } from '../dto/auth.dto';
+import { Authority } from '../../../infrastructure/user/persistence/user.entity';
 
 @Injectable()
 export class LoginUseCase {
@@ -31,7 +32,8 @@ export class LoginUseCase {
     if (!user) {
       user = await this.userPort.saveUser({
         githubAccountId,
-        profileUrl
+        profileUrl,
+        authority: Authority.USER
       });
     }
 

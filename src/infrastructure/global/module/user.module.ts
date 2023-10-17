@@ -5,11 +5,12 @@ import { UserPort } from '../../../application/user/spi/user.spi';
 import { UserPersistenceAdapter } from '../../user/persistence/user.persistence.adapter';
 
 const USER_PORT = { provide: UserPort, useClass: UserPersistenceAdapter };
+const USER_REPOSITORY = TypeOrmModule.forFeature([UserTypeormEntity]);
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserTypeormEntity])],
+  imports: [USER_REPOSITORY],
   providers: [USER_PORT],
-  exports: [USER_PORT]
+  exports: [USER_PORT, USER_REPOSITORY]
 })
 export class UserModule {
 }

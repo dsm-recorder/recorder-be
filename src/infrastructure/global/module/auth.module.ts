@@ -16,7 +16,7 @@ import { JwtAuthGuard } from '../guard/jwt.guard';
 const JWT_PORT = { provide: JwtPort, useClass: JwtAdapter };
 const OAUTH_PORT = { provide: OAuthPort, useClass: OAuthAdapter };
 const REFRESH_TOKEN_PORT = { provide: RefreshTokenPort, useClass: RefreshTokenPersistenceAdapter };
-
+const GLOBAL_GUARD = { provide: APP_GUARD, useClass: JwtAuthGuard };
 @Module({
   imports: [UserModule, RedisCacheModule, JwtModule.registerAsync({
     inject: [ConfigService],
@@ -31,7 +31,7 @@ const REFRESH_TOKEN_PORT = { provide: RefreshTokenPort, useClass: RefreshTokenPe
     JWT_PORT,
     OAUTH_PORT,
     REFRESH_TOKEN_PORT,
-    { provide: APP_GUARD, useClass: JwtAuthGuard }
+    GLOBAL_GUARD
   ]
 })
 export class AuthModule {

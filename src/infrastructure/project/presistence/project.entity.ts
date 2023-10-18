@@ -13,15 +13,15 @@ export class ProjectTypeormEntity {
   @Column('varchar', { nullable: false, length: 20 })
   name: string;
 
-  @Column('varchar', { nullable: false, length: 100 })
-  skills: string;
+  @Column('varchar', { length: 100, default: null })
+  skills?: string;
 
   @Column('tinyint', { nullable: false })
   isPublic: boolean;
 
-  @Column('varchar', { length: 255 })
-  logoUrl: string;
+  @Column('varchar', { length: 255, default: null })
+  logoUrl?: string;
 
-  @Column('varchar', { length: 400 })
-  description: string;
+  @Column('varchar', { length: 400, default: null })
+  description?: string;
 }

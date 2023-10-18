@@ -9,13 +9,14 @@ export class AuthWebAdapter {
     private readonly loginUseCase: LoginUseCase,
     private readonly configService: ConfigService,
     private readonly tokenReissueUseCase: TokenReissueUseCase
-  ) {
-  }
+  ) {}
 
   @Get('/oauth/github')
   @Redirect()
   githubOAuth() {
-    return { url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}` };
+    return {
+      url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}`
+    };
   }
 
   @Get('/login')
@@ -27,5 +28,4 @@ export class AuthWebAdapter {
   async reissueToken(@Headers('Refresh-Token') refreshToken: string) {
     return await this.tokenReissueUseCase.execute(refreshToken);
   }
-
 }

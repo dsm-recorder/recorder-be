@@ -17,8 +17,6 @@ export class CreateProjectUseCase {
     const repository = await this.githubPort.getRepositoryDetails(request.repositoryName);
     const projectName = request.repositoryName.substring(request.repositoryName.indexOf('/') + 1);
 
-    console.log(user);
-
     await this.projectPort.saveProject({
       userId: user.id,
       name: projectName,

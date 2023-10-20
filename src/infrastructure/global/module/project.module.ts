@@ -9,13 +9,15 @@ import { ProjectWebAdapter } from '../../project/presentation/project.web.adapte
 import { QueryCurrentRepositoryUseCase } from '../../../application/project/usecase/query-current-repository.usecase';
 import { GithubModule } from './github.module';
 import { CreateProjectUseCase } from '../../../application/project/usecase/create-project.usecase';
+import { UserModule } from './user.module';
 
 const PROJECT_PORT = { provide: ProjectPort, useClass: ProjectPersistenceAdapter };
+const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectTypeormEntity, UserTypeormEntity]), GithubModule],
+  imports: [PROJECT_REPOSITORY, GithubModule, UserModule],
   providers: [PROJECT_PORT, ProjectMapper, QueryCurrentRepositoryUseCase, CreateProjectUseCase],
-  exports: [PROJECT_PORT],
+  exports: [PROJECT_PORT, PROJECT_REPOSITORY],
   controllers: [ProjectWebAdapter]
 })
 export class ProjectModule {}

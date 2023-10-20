@@ -11,7 +11,6 @@ export class GithubAdapter implements GithubPort {
   }
 
   async getRepositoryDetails(repositoryName: string): Promise<any> {
-    console.log(repositoryName);
     return await axios.get(`https://api.github.com/repos/${repositoryName}`);
   }
 }

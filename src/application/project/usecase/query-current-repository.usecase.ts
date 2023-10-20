@@ -10,7 +10,7 @@ export class QueryCurrentRepositoryUseCase {
   ) {}
 
   async execute(name: string): Promise<QueryCurrentRepositoryResponse> {
-    const repositories = await this.githubPort.getCurrentRepositories(name);
+    const repositories = await this.githubPort.getUserRepositories(name);
 
     let names: { name: string }[] = [];
     repositories.data.forEach(item => names.push({ name: item.full_name }));

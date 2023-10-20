@@ -6,7 +6,7 @@ import axios from 'axios';
 export class GithubAdapter implements GithubPort {
   constructor() {}
 
-  async getCurrentRepositories(username: string): Promise<any> {
+  async getUserRepositories(username: string): Promise<any> {
     return await axios.get(`https://api.github.com/users/${username}/repos`);
   }
 

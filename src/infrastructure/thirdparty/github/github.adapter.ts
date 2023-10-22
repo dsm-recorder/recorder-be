@@ -4,8 +4,6 @@ import axios from 'axios';
 
 @Injectable()
 export class GithubAdapter implements GithubPort {
-  constructor() {}
-
   async getUserRepositories(username: string): Promise<any> {
     return await axios.get(`https://api.github.com/users/${username}/repos`);
   }

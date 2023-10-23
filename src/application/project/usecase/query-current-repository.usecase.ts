@@ -12,7 +12,11 @@ export class QueryCurrentRepositoryUseCase {
   async execute(name: string): Promise<QueryCurrentRepositoryResponse> {
     const repositories = await this.githubPort.getUserRepositories(name);
 
-    let names: { name: string }[] = repositories.map(item => ({ name: item.full_name }));
+    let names: { name: string; description: string; language: string }[] = repositories.map(item => ({
+      name: item.full_name,
+      description: item.description,
+      language: item.language
+    }));
 
     return {
       repos: names

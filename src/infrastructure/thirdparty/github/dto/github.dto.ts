@@ -5,5 +5,5 @@ export class QueryUserRepositoriesResponse {
 }
 
 export class QueryRepositoryDetailsResponse {
-  private: boolean;
+  name: string;
 }

@@ -15,13 +15,12 @@ export class CreateProjectUseCase {
 
   async execute(request: CreateProjectRequest, user: User) {
     const repository = await this.githubPort.getRepositoryDetails(request.repositoryName);
-    const projectName = request.repositoryName.substring(request.repositoryName.indexOf('/') + 1);
 
     await this.projectPort.saveProject({
       userId: user.id,
-      name: projectName,
+      name: repository.name,
       skills: request.skills.join(),
-      isPublic: !repository.private
+      isPublic: request.isPublic
     });
   }
 }

@@ -14,15 +14,16 @@ export class ProjectWebAdapter {
     private readonly createProjectUseCase: CreateProjectUseCase
   ) {}
 
+  @Permission([Authority.USER])
   @Get('/repository')
-  async queryCurrentRepository(@Query('name') name: string) {
-    return this.queryCurrentRepositoryUseCase.execute(name);
+  async queryCurrentRepository(@CurrentUser() user: User) {
+    return await this.queryCurrentRepositoryUseCase.execute(user);
   }
 
-  @Post()
   @Permission([Authority.USER])
   @HttpCode(201)
+  @Post()
   async createProject(@Body() request: CreateProjectRequest, @CurrentUser() user: User) {
-    return this.createProjectUseCase.execute(request, user);
+    return await this.createProjectUseCase.execute(request, user);
   }
 }

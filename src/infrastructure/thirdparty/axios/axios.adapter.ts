@@ -4,6 +4,7 @@ import { QueryRepositoryDetailsResponse, QueryUserInfoResponse, QueryUserReposit
 import { getAndHandleError } from './util/axios.util';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { response } from 'express';
 
 @Injectable()
 export class AxiosAdapter implements AxiosPort {
@@ -16,7 +17,8 @@ export class AxiosAdapter implements AxiosPort {
     }
 
     async getRepositoryDetails(repositoryName: string): Promise<QueryRepositoryDetailsResponse> {
-        return await getAndHandleError(`https://api.github.com/repos/${repositoryName}`);
+        return await axios.get(`https://api.github.com/repos/${repositoryName}`)
+            .then(response => response.data);
     }
 
     async getUserInfo(accessToken: string): Promise<QueryUserInfoResponse> {

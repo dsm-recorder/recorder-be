@@ -1,8 +1,8 @@
-import { JwtPort } from '../../../../application/auth/spi/auth.spi';
+import { JwtPort } from '../../../../application/domain/auth/spi/auth.spi';
 import { JwtService } from '@nestjs/jwt';
-import { TokenResponse } from '../../../../application/auth/dto/auth.dto';
+import { TokenResponse } from '../../../../application/domain/auth/dto/auth.dto';
 import { Injectable } from '@nestjs/common';
-import { RefreshTokenRepository } from '../../../auth/persistence/repository/refresh-token.repository';
+import { RefreshTokenRepository } from '../../../domain/auth/persistence/repository/refresh-token.repository';
 
 @Injectable()
 export class JwtAdapter implements JwtPort {

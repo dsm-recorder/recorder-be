@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ProjectPort } from '../../../application/project/spi/project.spi';
-import { Project } from '../../../application/project/project';
+import { ProjectPort } from '../../../../application/domain/project/spi/project.spi';
+import { Project } from '../../../../application/domain/project/project';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectTypeormEntity } from './project.entity';
 import { Repository } from 'typeorm';

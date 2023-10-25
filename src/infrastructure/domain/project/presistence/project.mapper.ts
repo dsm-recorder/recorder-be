@@ -1,4 +1,4 @@
-import { Project } from '../../../application/project/project';
+import { Project } from '../../../../application/domain/project/project';
 import { ProjectTypeormEntity } from './project.entity';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';

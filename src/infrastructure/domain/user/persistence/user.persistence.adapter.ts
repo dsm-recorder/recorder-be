@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserPort } from '../../../application/user/spi/user.spi';
-import { User } from '../../../application/user/user';
+import { UserPort } from '../../../../application/domain/user/spi/user.spi';
+import { User } from '../../../../application/domain/user/user';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserTypeormEntity } from './user.entity';
 import { Repository } from 'typeorm';

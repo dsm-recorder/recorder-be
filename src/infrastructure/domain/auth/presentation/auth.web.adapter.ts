@@ -1,7 +1,7 @@
 import { Controller, Get, Headers, Put, Query, Redirect } from '@nestjs/common';
-import { LoginUseCase } from '../../../application/auth/usecase/login.usecase';
+import { LoginUseCase } from '../../../../application/domain/auth/usecase/login.usecase';
 import { ConfigService } from '@nestjs/config';
-import { TokenReissueUseCase } from '../../../application/auth/usecase/token-reissue.usecase';
+import { TokenReissueUseCase } from '../../../../application/domain/auth/usecase/token-reissue.usecase';
 
 @Controller('auth')
 export class AuthWebAdapter {

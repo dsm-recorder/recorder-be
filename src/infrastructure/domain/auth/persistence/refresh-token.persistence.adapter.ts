@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RefreshTokenPort } from '../../../application/auth/spi/auth.spi';
+import { RefreshTokenPort } from '../../../../application/domain/auth/spi/auth.spi';
 import { RefreshTokenRepository } from './repository/refresh-token.repository';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserTypeormEntity } from '../../user/persistence/user.entity';
+import { UserTypeormEntity } from '../../domain/user/persistence/user.entity';
 import { Repository } from 'typeorm';
 import { Reflector } from '@nestjs/core';
 import { Permission } from '../decorator/authority.decorator';

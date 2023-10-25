@@ -18,6 +18,8 @@ export class GlobalExceptionFilter {
             console.error(exception.response.data);
             status = exception.response.status;
             message = 'Axios Server Error';
+        } else {
+            console.error(exception)
         }
 
         const responseBody = {

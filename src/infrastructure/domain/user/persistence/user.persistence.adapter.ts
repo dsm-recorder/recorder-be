@@ -7,18 +7,17 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserPersistenceAdapter implements UserPort {
-  constructor(
-    @InjectRepository(UserTypeormEntity)
-    private readonly userRepository: Repository<UserTypeormEntity>
-  ) {
-  }
+    constructor(
+        @InjectRepository(UserTypeormEntity)
+        private readonly userRepository: Repository<UserTypeormEntity>,
+    ) {}
 
-  async queryUserByAccountId(accountId: string): Promise<User | null> {
-    return await this.userRepository.findOneBy({ githubAccountId: accountId });
-  }
+    async queryUserByAccountId(accountId: string): Promise<User | null> {
+        return await this.userRepository.findOneBy({ githubAccountId: accountId });
+    }
 
-  async saveUser(user: User): Promise<User> {
-    return await this.userRepository.save(user);
-  }
+    async saveUser(user: User): Promise<User> {
+        return await this.userRepository.save(user);
+    }
 
 }

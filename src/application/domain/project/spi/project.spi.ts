@@ -1,16 +1,17 @@
 import { Project } from '../project';
 import {
-  QueryRepositoryDetailsResponse,
-  QueryUserRepositoriesResponse
+    QueryRepositoryDetailsResponse,
+    QueryUserRepositoriesResponse,
 } from '../../../../infrastructure/thirdparty/axios/dto/github.dto';
 
 export interface ProjectPort {
-  saveProject(project: Project): Promise<Project>;
+    saveProject(project: Project): Promise<Project>;
 }
 
 export interface ProjectGithubAxiosPort {
-  getUserRepositories(username: string): Promise<QueryUserRepositoriesResponse[]>;
-  getRepositoryDetails(repositoryName: string): Promise<QueryRepositoryDetailsResponse>;
+    getUserRepositories(username: string): Promise<QueryUserRepositoriesResponse[]>;
+
+    getRepositoryDetails(repositoryName: string): Promise<QueryRepositoryDetailsResponse>;
 }
 
 export const ProjectPort = Symbol('IProjectPort');

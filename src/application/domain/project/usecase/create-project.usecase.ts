@@ -5,19 +5,18 @@ import { CreateProjectRequest } from '../../../../infrastructure/domain/project/
 
 @Injectable()
 export class CreateProjectUseCase {
-  constructor(
-    @Inject(ProjectPort)
-    private readonly projectPort: ProjectPort
-  ) {
-  }
+    constructor(
+        @Inject(ProjectPort)
+        private readonly projectPort: ProjectPort,
+    ) {}
 
-  async execute(request: CreateProjectRequest, user: User) {
-    await this.projectPort.saveProject({
-      userId: user.id,
-      name: request.projectName,
-      skills: request.skills.join(),
-      githubOwnerRepository: request.repositoryName,
-      isPublic: request.isPublic
-    });
-  }
+    async execute(request: CreateProjectRequest, user: User) {
+        await this.projectPort.saveProject({
+            userId: user.id,
+            name: request.projectName,
+            skills: request.skills.join(),
+            githubOwnerRepository: request.repositoryName,
+            isPublic: request.isPublic,
+        });
+    }
 }

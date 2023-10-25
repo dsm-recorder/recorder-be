@@ -7,13 +7,14 @@ import { ProjectModule } from './infrastructure/global/module/project.module';
 import { AxiosModule } from './infrastructure/global/module/axios.module';
 
 @Module({
-  imports: [
-    UserModule,
-    AuthModule,
-    ProjectModule,
-    AxiosModule,
-    TypeormConfigModule,
-    ConfigModule.forRoot({ isGlobal: true })
-  ]
+    imports: [
+        UserModule,
+        AuthModule,
+        ProjectModule,
+        AxiosModule,
+        TypeormConfigModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}

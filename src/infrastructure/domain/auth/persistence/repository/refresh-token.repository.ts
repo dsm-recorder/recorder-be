@@ -6,18 +6,17 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RefreshTokenRepository {
-  constructor(
-    @Inject(CACHE_MANAGER)
-    private readonly cacheManager: Cache,
-    private readonly configService: ConfigService
-  ) {
-  }
+    constructor(
+        @Inject(CACHE_MANAGER)
+        private readonly cacheManager: Cache,
+        private readonly configService: ConfigService,
+    ) {}
 
-  async get(key: string): Promise<string> {
-    return await this.cacheManager.get(key);
-  }
+    async get(key: string): Promise<string> {
+        return await this.cacheManager.get(key);
+    }
 
-  async save(refreshToken: RefreshTokenRedisEntity) {
-    await this.cacheManager.set(refreshToken.userId, refreshToken.token, this.configService.get<number>('REFRESH_EXP'));
-  }
+    async save(refreshToken: RefreshTokenRedisEntity) {
+        await this.cacheManager.set(refreshToken.userId, refreshToken.token, this.configService.get<number>('REFRESH_EXP'));
+    }
 }

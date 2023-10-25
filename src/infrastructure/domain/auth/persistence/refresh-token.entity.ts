@@ -1,4 +1,4 @@
 export class RefreshTokenRedisEntity {
-  userId: string;
-  token: string;
+    userId: string;
+    token: string;
 }

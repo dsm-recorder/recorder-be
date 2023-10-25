@@ -1,14 +1,14 @@
 export class QueryUserRepositoriesResponse {
-  full_name: string;
-  description: string;
-  language: string;
+    full_name: string;
+    description: string;
+    language: string;
 }
 
 export class QueryRepositoryDetailsResponse {
-  name: string;
+    name: string;
 }
 
 export class QueryUserInfoResponse {
-  accountId: string;
-  avatarUrl: string;
+    accountId: string;
+    avatarUrl: string;
 }

@@ -9,12 +9,14 @@ import { RefreshTokenRepository } from '../../auth/persistence/repository/refres
   imports: [
     CacheModule.registerAsync<RedisClientOptions>({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        store: redisStore,
-        socket: {
-          host: config.get<string>('REDIS_HOST'),
-          port: config.get<number>('REDIS_PORT')
-        }
+      useFactory: async (config: ConfigService) => ({
+        store: await redisStore({
+          socket: {
+            host: config.get<string>('REDIS_HOST'),
+            port: config.get<number>('REDIS_PORT'),
+          },
+          password: 'recorderredis'
+        })
       })
     })
   ],

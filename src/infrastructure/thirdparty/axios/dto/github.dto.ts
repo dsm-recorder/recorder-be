@@ -7,3 +7,8 @@ export class QueryUserRepositoriesResponse {
 export class QueryRepositoryDetailsResponse {
   name: string;
 }
+
+export class QueryUserInfoResponse {
+  accountId: string;
+  avatarUrl: string;
+}

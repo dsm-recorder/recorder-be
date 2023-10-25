@@ -4,14 +4,14 @@ import { TypeormConfigModule } from './infrastructure/global/config/typeorm.conf
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './infrastructure/global/module/auth.module';
 import { ProjectModule } from './infrastructure/global/module/project.module';
-import { GithubModule } from './infrastructure/global/module/github.module';
+import { AxiosModule } from './infrastructure/global/module/axios.module';
 
 @Module({
   imports: [
     UserModule,
     AuthModule,
     ProjectModule,
-    GithubModule,
+    AxiosModule,
     TypeormConfigModule,
     ConfigModule.forRoot({ isGlobal: true })
   ]

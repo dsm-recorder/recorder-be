@@ -1,4 +1,5 @@
 import { TokenResponse } from '../dto/auth.dto';
+import { QueryUserInfoResponse } from '../../../../infrastructure/thirdparty/axios/dto/github.dto';
 
 export interface JwtPort {
   generateToken(userId: string): Promise<TokenResponse>;
@@ -6,10 +7,10 @@ export interface JwtPort {
   getSubject(token: string): Promise<string>;
 }
 
-export interface OAuthPort {
+export interface OAuthAxiosPort {
   getAccessTokenByCode(code: string): Promise<string>;
 
-  getUserInfo(accessToken: string): Promise<any>;
+  getUserInfo(accessToken: string): Promise<QueryUserInfoResponse>;
 }
 
 export interface RefreshTokenPort {
@@ -17,5 +18,4 @@ export interface RefreshTokenPort {
 }
 
 export const JwtPort = Symbol('IJwtPort');
-export const OAuthPort = Symbol('IOAuthPort');
 export const RefreshTokenPort = Symbol('IRefreshTokenPort');

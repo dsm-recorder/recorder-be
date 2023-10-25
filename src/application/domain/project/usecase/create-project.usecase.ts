@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ProjectPort } from '../spi/project.spi';
-import { GithubPort } from '../../github/spi/github.spi';
+import { ProjectGithubAxiosPort, ProjectPort } from '../spi/project.spi';
+import { AxiosPort } from '../../../common/spi/axios.spi';
 import { User } from '../../user/user';
-import { CreateProjectRequest } from '../../../infrastructure/project/presentation/dto/project.web.dto';
+import { CreateProjectRequest } from '../../../../infrastructure/domain/project/presentation/dto/project.web.dto';
 
 @Injectable()
 export class CreateProjectUseCase {
   constructor(
     @Inject(ProjectPort)
     private readonly projectPort: ProjectPort,
-    @Inject(GithubPort)
-    private readonly githubPort: GithubPort
+    @Inject(AxiosPort)
+    private readonly githubPort: ProjectGithubAxiosPort
   ) {}
 
   async execute(request: CreateProjectRequest, user: User) {

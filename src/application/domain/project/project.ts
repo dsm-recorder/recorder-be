@@ -5,5 +5,6 @@ export class Project {
   skills?: string;
   isPublic: boolean;
   logoUrl?: string;
+  githubOwnerRepository: string;
   description?: string;
 }

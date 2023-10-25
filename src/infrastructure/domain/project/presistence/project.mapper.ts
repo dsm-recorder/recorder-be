@@ -10,7 +10,8 @@ export class ProjectMapper {
   constructor(
     @InjectRepository(UserTypeormEntity)
     private readonly userRepository: Repository<UserTypeormEntity>
-  ) {}
+  ) {
+  }
 
   async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
     return {
@@ -20,7 +21,8 @@ export class ProjectMapper {
       name: entity.name,
       logoUrl: entity.logoUrl,
       isPublic: entity.isPublic,
-      description: entity.description
+      description: entity.description,
+      githubOwnerRepository: entity.githubOwnerRepository
     };
   }
 
@@ -33,7 +35,8 @@ export class ProjectMapper {
       name: domain.name,
       logoUrl: domain.logoUrl,
       isPublic: domain.isPublic,
-      description: domain.description
+      description: domain.description,
+      githubOwnerRepository: domain.githubOwnerRepository
     };
   }
 }

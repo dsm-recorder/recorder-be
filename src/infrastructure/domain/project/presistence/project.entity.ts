@@ -24,4 +24,7 @@ export class ProjectTypeormEntity {
 
   @Column('varchar', { length: 400, default: null })
   description?: string;
+
+  @Column('varchar', { nullable: false })
+  githubOwnerRepository: string;
 }

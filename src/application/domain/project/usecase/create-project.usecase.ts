@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ProjectGithubAxiosPort, ProjectPort } from '../spi/project.spi';
-import { AxiosPort } from '../../../common/spi/axios.spi';
+import { ProjectPort } from '../spi/project.spi';
 import { User } from '../../user/user';
 import { CreateProjectRequest } from '../../../../infrastructure/domain/project/presentation/dto/project.web.dto';
 
@@ -8,18 +7,16 @@ import { CreateProjectRequest } from '../../../../infrastructure/domain/project/
 export class CreateProjectUseCase {
   constructor(
     @Inject(ProjectPort)
-    private readonly projectPort: ProjectPort,
-    @Inject(AxiosPort)
-    private readonly githubPort: ProjectGithubAxiosPort
-  ) {}
+    private readonly projectPort: ProjectPort
+  ) {
+  }
 
   async execute(request: CreateProjectRequest, user: User) {
-    const repository = await this.githubPort.getRepositoryDetails(request.repositoryName);
-
     await this.projectPort.saveProject({
       userId: user.id,
-      name: repository.name,
+      name: request.projectName,
       skills: request.skills.join(),
+      githubOwnerRepository: request.repositoryName,
       isPublic: request.isPublic
     });
   }

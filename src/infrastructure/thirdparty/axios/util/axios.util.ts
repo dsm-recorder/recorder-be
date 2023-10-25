@@ -5,7 +5,6 @@ export async function getAndHandleError<T = any>(url: string): Promise<T> {
     return await axios
         .get<T>(url)
         .then(response => {
-            console.log(response);
             return response.data;
         })
         .catch(error => {

@@ -1,9 +1,9 @@
-import { ArgumentsHost, Catch, HttpException, HttpStatus } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { Request, Response } from 'express';
 
 @Catch()
-export class GlobalExceptionFilter {
+export class GlobalExceptionFilter implements ExceptionFilter{
     catch(exception: unknown, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const request = ctx.getRequest<Request>();

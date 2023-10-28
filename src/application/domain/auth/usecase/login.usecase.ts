@@ -30,11 +30,13 @@ export class LoginUseCase {
         user = await this.userPort.queryUserByAccountId(githubAccountId);
 
         if (!user) {
-            user = await this.userPort.saveUser({
-                githubAccountId,
-                profileUrl,
-                authority: Authority.USER
-            });
+            user = await this.userPort.saveUser(
+                new User(
+                    githubAccountId,
+                    profileUrl,
+                    Authority.USER
+                )
+            );
         }
 
         return user;

@@ -5,6 +5,7 @@ import { UserTypeormEntity } from '../../domain/user/persistence/user.entity';
 import { Repository } from 'typeorm';
 import { Reflector } from '@nestjs/core';
 import { Permission } from '../decorator/authority.decorator';
+import { User } from '../../../application/domain/user/user';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -25,7 +26,12 @@ export class JwtAuthGuard implements CanActivate {
         const { sub } = this.parseToken(token);
 
         const currentUser = await this.queryUserById(sub);
-        request.user = currentUser;
+        request.user = new User(
+            currentUser.githubAccountId,
+            currentUser.profileUrl,
+            currentUser.authority,
+            currentUser.id
+        );
 
         return this.matchRole(authority, currentUser.authority);
     }

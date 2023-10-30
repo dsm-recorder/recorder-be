@@ -16,7 +16,7 @@ export class CreateProjectUseCase {
             name: request.projectName,
             skills: request.skills.join(),
             githubOwnerRepository: request.repositoryName,
-            isPublic: request.isPublic,
+            isPublic: false,
         });
     }
 }

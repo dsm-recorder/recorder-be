@@ -9,6 +9,7 @@ import { QueryCurrentRepositoryUseCase } from '../../../application/domain/proje
 import { CreateProjectUseCase } from '../../../application/domain/project/usecase/create-project.usecase';
 import { UserModule } from './user.module';
 import { QueryCurrentOrganizationsUseCase } from '../../../application/domain/project/usecase/query-current-organizations.usecase';
+import { QueryOrganizationRepositoriesUseCase } from '../../../application/domain/project/usecase/query-organization-repositories.usecase';
 
 const PROJECT_PORT = { provide: ProjectPort, useClass: ProjectPersistenceAdapter };
 const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
@@ -21,9 +22,9 @@ const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
         QueryCurrentRepositoryUseCase,
         CreateProjectUseCase,
         QueryCurrentOrganizationsUseCase,
+        QueryOrganizationRepositoriesUseCase,
     ],
     exports: [PROJECT_PORT, PROJECT_REPOSITORY],
     controllers: [ProjectWebAdapter],
 })
-export class ProjectModule {
-}
+export class ProjectModule {}

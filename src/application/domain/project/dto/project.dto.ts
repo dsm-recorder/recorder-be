@@ -9,3 +9,11 @@ export class QueryCurrentRepositoryResponse {
 export class QueryCurrentOrganizationsResponse {
     organizations: string[];
 }
+
+export class QueryOrganizationRepositoriesResponse {
+    repos: {
+        name: string;
+        description: string;
+        language: string;
+    }[];
+}

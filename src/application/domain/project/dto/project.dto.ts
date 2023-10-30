@@ -5,3 +5,7 @@ export class QueryCurrentRepositoryResponse {
         language: string;
     }[];
 }
+
+export class QueryCurrentOrganizationsResponse {
+    organizations: string[];
+}

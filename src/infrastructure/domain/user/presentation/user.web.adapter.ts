@@ -32,6 +32,7 @@ export class UserWebAdapter {
     }
 
     @Permission([Authority.USER])
+    @HttpCode(204)
     @Delete()
     async deleteUser(@CurrentUser() user: User, @Body() request: DeleteUserRequest) {
         await this.deleteUserUseCase.execute(user, request);

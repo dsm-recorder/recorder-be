@@ -21,9 +21,17 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     }
 
     async queryProjectsByUserId(userId: string): Promise<Project[]> {
-        const projects = await this.projectRepository.findBy({ user: { id: userId } });
+        const projects = await this.projectRepository.find({
+            where: {
+                user: { id: userId },
+            },
+            relations: {
+                user: true,
+            },
+        });
 
         return projects.map((project): Project => {
+            const user = project.user;
             return {
                 id: project.id,
                 userId: project.user.id,

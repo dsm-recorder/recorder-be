@@ -6,7 +6,6 @@ import { User } from '../../../../application/domain/user/user';
 import { UpdateProfileUseCase } from '../../../../application/domain/user/usecase/update-profile.usecase';
 import { QueryMyInfoResponse, UpdateProfileRequest } from './dto/user.web.dto';
 import { DeleteUserUseCase } from '../../../../application/domain/user/usecase/delete-user.usecase';
-import { DeleteUserRequest } from '../../../../application/domain/user/dto/user.dto';
 
 @Controller('users')
 export class UserWebAdapter {
@@ -34,7 +33,7 @@ export class UserWebAdapter {
     @Permission([Authority.USER])
     @HttpCode(204)
     @Delete()
-    async deleteUser(@CurrentUser() user: User, @Body() request: DeleteUserRequest) {
-        await this.deleteUserUseCase.execute(user, request);
+    async deleteUser(@CurrentUser() user: User) {
+        await this.deleteUserUseCase.execute(user);
     }
 }

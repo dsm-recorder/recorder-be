@@ -1,18 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { QueryRepositoriesResponse } from '../dto/project.dto';
 import { AxiosPort } from '../../../common/spi/axios.spi';
-import { User } from '../../user/user';
 import { ProjectGithubAxiosPort } from '../spi/project.spi';
+import { QueryRepositoriesResponse } from '../dto/project.dto';
 
 @Injectable()
-export class QueryCurrentRepositoryUseCase {
+export class QueryOrganizationRepositoriesUseCase {
     constructor(
         @Inject(AxiosPort)
         private readonly githubPort: ProjectGithubAxiosPort,
     ) {}
 
-    async execute(user: User): Promise<QueryRepositoriesResponse> {
-        const repositories = await this.githubPort.getUserRepositories(user.githubAccountId);
+    async execute(organization: string): Promise<QueryRepositoriesResponse> {
+        const repositories = await this.githubPort.getOrganizationRepositories(organization);
 
         return {
             repos: repositories.map((item) => ({

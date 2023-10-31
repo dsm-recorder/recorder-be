@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './infrastructure/global/module/auth.module';
 import { ProjectModule } from './infrastructure/global/module/project.module';
 import { AxiosModule } from './infrastructure/global/module/axios.module';
+import { ImageModule } from './infrastructure/global/module/image.module';
+import { AwsModule } from './infrastructure/global/module/aws.module';
 
 @Module({
     imports: [
@@ -13,6 +15,8 @@ import { AxiosModule } from './infrastructure/global/module/axios.module';
         ProjectModule,
         AxiosModule,
         TypeormConfigModule,
+        ImageModule,
+        AwsModule,
         ConfigModule.forRoot({ isGlobal: true }),
     ],
 })

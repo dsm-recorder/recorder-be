@@ -7,6 +7,8 @@ import {
 
 export interface ProjectPort {
     saveProject(project: Project): Promise<Project>;
+
+    queryProjectsByUserId(userId: string): Promise<Project[]>;
 }
 
 export interface ProjectGithubAxiosPort {

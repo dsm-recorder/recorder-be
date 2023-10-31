@@ -9,3 +9,14 @@ export class QueryRepositoriesResponse {
         language: string;
     }[];
 }
+
+export class QueryMyProjectsResponse {
+    projects: ProjectResponse[];
+}
+
+export class ProjectResponse {
+    name: string;
+    logoImageUrl: string;
+    createdAt: Date;
+    description: string;
+}

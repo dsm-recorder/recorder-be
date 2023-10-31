@@ -1,4 +1,4 @@
-export class QueryUserRepositoriesResponse {
+export class QueryRepositoriesResponse {
     full_name: string;
     description: string;
     language: string;
@@ -11,4 +11,8 @@ export class QueryRepositoryDetailsResponse {
 export class QueryUserInfoResponse {
     accountId: string;
     avatarUrl: string;
+}
+
+export class QueryOrganizationsResponse {
+    login: string;
 }

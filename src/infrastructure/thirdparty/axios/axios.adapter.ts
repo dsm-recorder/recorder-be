@@ -1,30 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { AxiosPort } from '../../../application/common/spi/axios.spi';
-import { QueryRepositoryDetailsResponse, QueryUserInfoResponse, QueryUserRepositoriesResponse } from './dto/github.dto';
+import {
+    QueryRepositoriesResponse,
+    QueryRepositoryDetailsResponse,
+    QueryUserInfoResponse,
+} from './dto/github.dto';
 import { getAndHandleError } from './util/axios.util';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { response } from 'express';
 
 @Injectable()
 export class AxiosAdapter implements AxiosPort {
-    constructor(
-        private readonly configService: ConfigService,
-    ) {}
+    constructor(private readonly configService: ConfigService) {}
 
-    async getUserRepositories(username: string): Promise<QueryUserRepositoriesResponse[]> {
+    async getUserRepositories(username: string): Promise<QueryRepositoriesResponse[]> {
         return await getAndHandleError(`https://api.github.com/users/${username}/repos`);
     }
 
     async getRepositoryDetails(repositoryName: string): Promise<QueryRepositoryDetailsResponse> {
-        return await axios.get(`https://api.github.com/repos/${repositoryName}`)
-            .then(response => response.data);
+        return await axios
+            .get(`https://api.github.com/repos/${repositoryName}`)
+            .then((response) => response.data);
     }
 
     async getUserInfo(accessToken: string): Promise<QueryUserInfoResponse> {
-        const response = (await axios.get('https://api.github.com/user', {
-            headers: { Authorization: `Bearer ${accessToken}` },
-        })).data;
+        const response = (
+            await axios.get('https://api.github.com/user', {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            })
+        ).data;
 
         return {
             accountId: response.login,
@@ -44,5 +48,13 @@ export class AxiosAdapter implements AxiosPort {
         });
 
         return response.data.access_token;
+    }
+
+    async getOrganizationsByUsername(username: string) {
+        return await getAndHandleError(`https://api.github.com/users/${username}/orgs`);
+    }
+
+    async getOrganizationRepositories(organization: string): Promise<QueryRepositoriesResponse[]> {
+        return await getAndHandleError(`https://api.github.com/orgs/${organization}/repos`);
     }
 }

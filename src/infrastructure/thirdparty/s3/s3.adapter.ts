@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PutObjectAclCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 import { UploadImagePort } from '../../../application/domain/image/spi/image.spi';
 
 @Injectable()
-export class S3Adapter implements UploadImagePort{
+export class S3Adapter implements UploadImagePort {
     private readonly s3Client = new S3Client({
         region: this.configService.get<string>('AWS_REGION'),
         credentials: {
             accessKeyId: this.configService.get<string>('AWS_ACCESS'),
-            secretAccessKey: this.configService.get<string>('AWS_SECRET')
-        }
+            secretAccessKey: this.configService.get<string>('AWS_SECRET'),
+        },
     });
 
     constructor(
@@ -23,7 +23,7 @@ export class S3Adapter implements UploadImagePort{
                 Bucket: this.configService.get<string>('AWS_S3_BUCKET'),
                 Key: fileName,
                 Body: buffer,
-                ACL: "public-read"
+                ACL: 'public-read',
             }),
         );
     }

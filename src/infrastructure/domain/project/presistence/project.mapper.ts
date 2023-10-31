@@ -36,7 +36,7 @@ export class ProjectMapper {
             logoUrl: domain.logoUrl,
             isPublic: domain.isPublic,
             description: domain.description,
-            githubOwnerRepository: domain.githubOwnerRepository,
+            githubOwnerRepository: domain.githubOwnerRepository
         };
     }
 }

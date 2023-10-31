@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 
 @Entity('tbl_project')
@@ -29,4 +29,7 @@ export class ProjectTypeormEntity {
 
     @Column('varchar', { nullable: false })
     githubOwnerRepository: string;
+
+    @CreateDateColumn()
+    createdAt?: Date;
 }

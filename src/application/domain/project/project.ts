@@ -7,4 +7,5 @@ export class Project {
     logoUrl?: string;
     githubOwnerRepository: string;
     description?: string;
+    createdAt?: Date;
 }

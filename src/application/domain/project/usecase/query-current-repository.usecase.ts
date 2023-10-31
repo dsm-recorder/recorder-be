@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { QueryCurrentRepositoryResponse } from '../dto/project.dto';
+import { QueryRepositoriesResponse } from '../dto/project.dto';
 import { AxiosPort } from '../../../common/spi/axios.spi';
 import { User } from '../../user/user';
 import { ProjectGithubAxiosPort } from '../spi/project.spi';
@@ -11,11 +11,11 @@ export class QueryCurrentRepositoryUseCase {
         private readonly githubPort: ProjectGithubAxiosPort,
     ) {}
 
-    async execute(user: User): Promise<QueryCurrentRepositoryResponse> {
+    async execute(user: User): Promise<QueryRepositoriesResponse> {
         const repositories = await this.githubPort.getUserRepositories(user.githubAccountId);
 
         return {
-            repos: repositories.map(item => ({
+            repos: repositories.map((item) => ({
                 name: item.full_name,
                 description: item.description,
                 language: item.language,

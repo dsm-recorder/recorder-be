@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AxiosPort } from '../../../common/spi/axios.spi';
 import { ProjectGithubAxiosPort } from '../spi/project.spi';
-import { QueryOrganizationRepositoriesResponse } from '../dto/project.dto';
+import { QueryRepositoriesResponse } from '../dto/project.dto';
 
 @Injectable()
 export class QueryOrganizationRepositoriesUseCase {
@@ -10,7 +10,7 @@ export class QueryOrganizationRepositoriesUseCase {
         private readonly githubPort: ProjectGithubAxiosPort,
     ) {}
 
-    async execute(organization: string): Promise<QueryOrganizationRepositoriesResponse> {
+    async execute(organization: string): Promise<QueryRepositoriesResponse> {
         const repositories = await this.githubPort.getOrganizationRepositories(organization);
 
         return {

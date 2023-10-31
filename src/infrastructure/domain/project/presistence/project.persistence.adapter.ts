@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectTypeormEntity } from './project.entity';
 import { Repository } from 'typeorm';
 import { ProjectMapper } from './project.mapper';
-import { User } from '../../../../application/domain/user/user';
 
 @Injectable()
 export class ProjectPersistenceAdapter implements ProjectPort {

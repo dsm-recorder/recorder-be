@@ -12,10 +12,11 @@ export class ProjectMapper {
         private readonly userRepository: Repository<UserTypeormEntity>,
     ) {}
 
-    async toDomain(entity: ProjectTypeormEntity): Promise<Project | null> {
-        return entity ?{
+    async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
+        const user = await entity.user;
+        return {
             id: entity.id,
-            userId: entity.user.id,
+            userId: user.id,
             skills: entity.skills,
             name: entity.name,
             logoUrl: entity.logoUrl,
@@ -28,15 +29,16 @@ export class ProjectMapper {
 
     async toEntity(domain: Project): Promise<ProjectTypeormEntity> {
         let user = await this.userRepository.findOneBy({ id: domain.userId });
-        return {
-            id: domain.id,
-            user: user,
-            skills: domain.skills,
-            name: domain.name,
-            logoUrl: domain.logoUrl,
-            isPublic: domain.isPublic,
-            description: domain.description,
-            githubOwnerRepository: domain.githubOwnerRepository
-        };
+        return new ProjectTypeormEntity(
+            domain.id,
+            Promise.resolve(user),
+            domain.name,
+            domain.skills,
+            domain.isPublic,
+            domain.logoUrl,
+            domain.description,
+            domain.githubOwnerRepository,
+            domain.createdAt
+        )
     }
 }

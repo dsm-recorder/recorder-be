@@ -15,8 +15,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     ) {}
 
     async saveProject(project: Project): Promise<Project> {
+        const entity = await this.projectMapper.toEntity(project);
+
         return this.projectMapper.toDomain(
-            await this.projectRepository.save(await this.projectMapper.toEntity(project)),
+            await this.projectRepository.save(entity),
         );
     }
 
@@ -30,19 +32,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             },
         });
 
-        return projects.map((project): Project => {
-            const user = project.user;
-            return {
-                id: project.id,
-                userId: project.user.id,
-                name: project.name,
-                skills: project.skills,
-                isPublic: project.isPublic,
-                logoUrl: project.logoUrl,
-                githubOwnerRepository: project.githubOwnerRepository,
-                description: project.description,
-                createdAt: project.createdAt,
-            };
-        });
+        return Promise.all(
+            projects.map(async (project) =>
+                await this.projectMapper.toDomain(project),
+            ),
+        );
     }
 }

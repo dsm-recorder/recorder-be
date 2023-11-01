@@ -56,7 +56,7 @@ export class JwtAuthGuard implements CanActivate {
 
     private extractTokenFromHeader(header: any): string {
         const { authorization } = header;
-        return authorization.substring(7);
+        return authorization?.substring(7);
     }
 
     private async queryUserById(userId: string): Promise<UserTypeormEntity> {

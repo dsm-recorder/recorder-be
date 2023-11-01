@@ -27,6 +27,6 @@ export class UserPersistenceAdapter implements UserPort {
     }
 
     async deleteUser(user: User) {
-        await this.userRepository.delete(this.userMapper.toEntity(user));
+        await this.userRepository.remove(this.userMapper.toEntity(user));
     }
 }

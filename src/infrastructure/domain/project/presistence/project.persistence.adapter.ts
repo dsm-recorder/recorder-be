@@ -15,8 +15,27 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     ) {}
 
     async saveProject(project: Project): Promise<Project> {
+        const entity = await this.projectMapper.toEntity(project);
+
         return this.projectMapper.toDomain(
-            await this.projectRepository.save(await this.projectMapper.toEntity(project)),
+            await this.projectRepository.save(entity),
+        );
+    }
+
+    async queryProjectsByUserId(userId: string): Promise<Project[]> {
+        const projects = await this.projectRepository.find({
+            where: {
+                user: { id: userId },
+            },
+            relations: {
+                user: true,
+            },
+        });
+
+        return Promise.all(
+            projects.map(async (project) =>
+                await this.projectMapper.toDomain(project),
+            ),
         );
     }
 }

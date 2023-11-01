@@ -15,6 +15,8 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     ) {}
 
     async saveProject(project: Project): Promise<Project> {
-        return this.projectMapper.toDomain(await this.projectRepository.save(await this.projectMapper.toEntity(project)));
+        return this.projectMapper.toDomain(
+            await this.projectRepository.save(await this.projectMapper.toEntity(project)),
+        );
     }
 }

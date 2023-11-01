@@ -6,7 +6,9 @@ export class ProjectTypeormEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'project_id' })
     id: string;
 
-    @ManyToOne(() => UserTypeormEntity)
+    @ManyToOne(() => UserTypeormEntity, (user) => user.projects, {
+        onDelete: 'CASCADE',
+    })
     @JoinColumn({ name: 'user_id' })
     user: UserTypeormEntity;
 

@@ -6,6 +6,7 @@ import { UserPersistenceAdapter } from '../../domain/user/persistence/user.persi
 import { UserMapper } from '../../domain/user/persistence/user.mapper';
 import { UserWebAdapter } from '../../domain/user/presentation/user.web.adapter';
 import { UpdateProfileUseCase } from '../../../application/domain/user/usecase/update-profile.usecase';
+import { DeleteUserUseCase } from '../../../application/domain/user/usecase/delete-user.usecase';
 
 const USER_PORT = { provide: UserPort, useClass: UserPersistenceAdapter };
 const USER_REPOSITORY = TypeOrmModule.forFeature([UserTypeormEntity]);
@@ -13,8 +14,7 @@ const USER_REPOSITORY = TypeOrmModule.forFeature([UserTypeormEntity]);
 @Module({
     imports: [USER_REPOSITORY],
     controllers: [UserWebAdapter],
-    providers: [USER_PORT, UserMapper, UpdateProfileUseCase],
+    providers: [USER_PORT, UserMapper, UpdateProfileUseCase, DeleteUserUseCase],
     exports: [USER_PORT, USER_REPOSITORY, UserMapper],
 })
-export class UserModule {
-}
+export class UserModule {}

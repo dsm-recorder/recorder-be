@@ -11,19 +11,22 @@ export class UserPersistenceAdapter implements UserPort {
     constructor(
         @InjectRepository(UserTypeormEntity)
         private readonly userRepository: Repository<UserTypeormEntity>,
-        private readonly userMapper: UserMapper
+        private readonly userMapper: UserMapper,
     ) {}
 
     async queryUserByAccountId(accountId: string): Promise<User> {
         return this.userMapper.toDomain(
-            await this.userRepository.findOneBy({ githubAccountId: accountId })
+            await this.userRepository.findOneBy({ githubAccountId: accountId }),
         );
     }
 
     async saveUser(user: User): Promise<User> {
         return this.userMapper.toDomain(
-            await this.userRepository.save(this.userMapper.toEntity(user))
+            await this.userRepository.save(this.userMapper.toEntity(user)),
         );
     }
 
+    async deleteUser(user: User) {
+        await this.userRepository.delete(this.userMapper.toEntity(user));
+    }
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProjectTypeormEntity } from '../../project/presistence/project.entity';
 
 @Entity('tbl_user')
 export class UserTypeormEntity {
@@ -20,6 +21,11 @@ export class UserTypeormEntity {
 
     @Column('varchar', { length: 5 })
     authority: string;
+
+    @OneToMany(() => ProjectTypeormEntity, (project) => project.user, {
+        cascade: true,
+    })
+    projects: ProjectTypeormEntity[];
 }
 
 export const Authority = {

@@ -12,8 +12,8 @@ export class ProjectMapper {
         private readonly userRepository: Repository<UserTypeormEntity>,
     ) {}
 
-    async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
-        return {
+    async toDomain(entity: ProjectTypeormEntity): Promise<Project | null> {
+        return entity ?{
             id: entity.id,
             userId: entity.user.id,
             skills: entity.skills,
@@ -22,7 +22,8 @@ export class ProjectMapper {
             isPublic: entity.isPublic,
             description: entity.description,
             githubOwnerRepository: entity.githubOwnerRepository,
-        };
+        }
+        : null;
     }
 
     async toEntity(domain: Project): Promise<ProjectTypeormEntity> {

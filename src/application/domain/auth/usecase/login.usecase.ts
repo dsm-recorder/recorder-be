@@ -28,7 +28,6 @@ export class LoginUseCase {
     private async getUserOrCreate(githubAccountId: string, profileUrl: string): Promise<User> {
         let user: User;
         user = await this.userPort.queryUserByAccountId(githubAccountId);
-
         if (!user) {
             user = await this.userPort.saveUser(
                 new User(

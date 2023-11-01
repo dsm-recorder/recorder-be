@@ -14,17 +14,18 @@ export class ProjectMapper {
 
     async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
         const user = await entity.user;
-        return {
-            id: entity.id,
-            userId: user.id,
-            skills: entity.skills,
-            name: entity.name,
-            logoUrl: entity.logoUrl,
-            isPublic: entity.isPublic,
-            description: entity.description,
-            githubOwnerRepository: entity.githubOwnerRepository,
-        }
-        : null;
+        return entity
+            ? {
+                id: entity.id,
+                userId: user.id,
+                skills: entity.skills,
+                name: entity.name,
+                logoUrl: entity.logoUrl,
+                isPublic: entity.isPublic,
+                description: entity.description,
+                githubOwnerRepository: entity.githubOwnerRepository,
+            }
+            : null;
     }
 
     async toEntity(domain: Project): Promise<ProjectTypeormEntity> {
@@ -38,7 +39,7 @@ export class ProjectMapper {
             domain.logoUrl,
             domain.description,
             domain.githubOwnerRepository,
-            domain.createdAt
-        )
+            domain.createdAt,
+        );
     }
 }

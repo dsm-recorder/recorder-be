@@ -14,7 +14,9 @@ export class CreateProjectUseCase {
         await this.projectPort.saveProject({
             userId: user.id,
             name: request.projectName,
-            skills: request.skills.join(),
+            logoUrl: request.logoImageUrl,
+            description: request.description,
+            skills: request.skills,
             githubOwnerRepository: request.repositoryName,
             isPublic: false,
         });

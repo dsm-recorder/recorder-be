@@ -22,5 +22,4 @@ import { ConfigService } from '@nestjs/config';
         }),
     ],
 })
-export class TypeormConfigModule {
-}
+export class TypeormConfigModule {}

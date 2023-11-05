@@ -12,7 +12,7 @@ export class PRRecordTypeormEntity {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'project_id' })
-    project: ProjectTypeormEntity;
+    project: Promise<ProjectTypeormEntity>;
 
     @Column('varchar', { length: 1000, nullable: false })
     content: string;

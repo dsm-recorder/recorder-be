@@ -16,15 +16,16 @@ export class ProjectMapper {
         const user = await entity.user;
         return entity
             ? {
-                id: entity.id,
-                userId: user.id,
-                skills: entity.skills,
-                name: entity.name,
-                logoUrl: entity.logoUrl,
-                isPublic: entity.isPublic,
-                description: entity.description,
-                githubOwnerRepository: entity.githubOwnerRepository,
-            }
+                  id: entity.id,
+                  userId: user.id,
+                  skills: entity.skills,
+                  name: entity.name,
+                  logoUrl: entity.logoUrl,
+                  isPublic: entity.isPublic,
+                  description: entity.description,
+                  githubOwnerRepository: entity.githubOwnerRepository,
+                  createdAt: entity.createdAt,
+              }
             : null;
     }
 

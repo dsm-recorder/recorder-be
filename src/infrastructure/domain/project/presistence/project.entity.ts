@@ -1,12 +1,28 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
+import { PRRecordTypeormEntity } from '../../pr_record/persistence/pr-record.entity';
 
 @Entity('tbl_project')
 export class ProjectTypeormEntity {
-
-    constructor(id: string, user: Promise<UserTypeormEntity>, name: string, skills: string[],
-                isPublic: boolean, logoUrl: string, description: string, githubOwnerRepository: string,
-                createdAt: Date) {
+    constructor(
+        id: string,
+        user: Promise<UserTypeormEntity>,
+        name: string,
+        skills: string[],
+        isPublic: boolean,
+        logoUrl: string,
+        description: string,
+        githubOwnerRepository: string,
+        createdAt: Date,
+    ) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -17,7 +33,6 @@ export class ProjectTypeormEntity {
         this.githubOwnerRepository = githubOwnerRepository;
         this.createdAt = createdAt;
     }
-
     @PrimaryGeneratedColumn('uuid', { name: 'project_id' })
     id: string;
 
@@ -47,4 +62,9 @@ export class ProjectTypeormEntity {
 
     @CreateDateColumn()
     createdAt?: Date;
+
+    @OneToMany(() => PRRecordTypeormEntity, (prRecord) => prRecord.project, {
+        cascade: true,
+    })
+    prRecords: PRRecordTypeormEntity[];
 }

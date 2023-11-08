@@ -10,7 +10,7 @@ export class Project {
         logoUrl: string,
         githubOwnerRepository: string,
         description: string,
-        createdAt: Date,
+        createdAt: LocalDate,
     ) {
         this.id = id;
         this.userId = userId;

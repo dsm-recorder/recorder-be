@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ProjectTypeormEntity } from '../../project/presistence/project.entity';
 import { RecordType } from '../../../../application/domain/pr_record/pr-record';
 import { RecordAttachmentTypeormEntity } from './record-attachment.entity';
+import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 
 @Entity('tbl_pr_record')
 export class PRRecordTypeormEntity {

@@ -5,6 +5,22 @@ import { RecordAttachmentTypeormEntity } from './record-attachment.entity';
 
 @Entity('tbl_pr_record')
 export class PRRecordTypeormEntity {
+    constructor(
+        id: string,
+        project: Promise<ProjectTypeormEntity>,
+        title: string,
+        content: string,
+        solution: string,
+        type: RecordType,
+    ) {
+        this.id = id;
+        this.project = project;
+        this.title = title;
+        this.content = content;
+        this.solution = solution;
+        this.type = type;
+    }
+
     @PrimaryGeneratedColumn('uuid', { name: 'pr_record_id' })
     id: string;
 
@@ -13,6 +29,9 @@ export class PRRecordTypeormEntity {
     })
     @JoinColumn({ name: 'project_id' })
     project: Promise<ProjectTypeormEntity>;
+
+    @Column('varchar', { length: 30, nullable: false })
+    title: string;
 
     @Column('varchar', { length: 1000, nullable: false })
     content: string;

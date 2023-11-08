@@ -1,7 +1,7 @@
 import { LocalDate } from 'js-joda';
 
 export class QueryTodosResponse {
-    todos: TodoResponse[]
+    todos: TodoResponse[];
 }
 
 export class TodoResponse {

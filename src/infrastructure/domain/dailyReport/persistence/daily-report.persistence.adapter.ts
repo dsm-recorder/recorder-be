@@ -12,7 +12,7 @@ export class DailyReportPersistenceAdapter implements DailyReportPort {
     constructor(
         @InjectRepository(DailyReportTypeormEntity)
         private readonly dailyReportRepository: Repository<DailyReportTypeormEntity>,
-        private readonly dilayReportMapper: DailyReportMapper,
+        private readonly dilayReportMapper: DailyReportMapper
     ) {}
 
     async queryDailyReportsByDateAndProjectId(date: LocalDate, projectId: string): Promise<DailyReport[]> {
@@ -20,24 +20,24 @@ export class DailyReportPersistenceAdapter implements DailyReportPort {
             where: {
                 date: Equal(convert(date).toDate()),
                 project: {
-                    id: projectId,
-                },
+                    id: projectId
+                }
             },
             relations: {
-                project: true,
-            },
+                project: true
+            }
         });
 
         return Promise.all(
             dailyReports.map(async (dailyReport) => {
                 return await this.dilayReportMapper.toDomain(dailyReport);
-            }),
+            })
         );
     }
 
     async saveDailyReport(dailyReport: DailyReport): Promise<void> {
         await this.dailyReportRepository.save(
-            await this.dilayReportMapper.toEntity(dailyReport),
+            await this.dilayReportMapper.toEntity(dailyReport)
         );
     }
 
@@ -45,12 +45,12 @@ export class DailyReportPersistenceAdapter implements DailyReportPort {
         return await this.dilayReportMapper.toDomain(
             await this.dailyReportRepository.findOne({
                 where: {
-                    id: dailyReportId,
+                    id: dailyReportId
                 },
                 relations: {
-                    project: true,
-                },
-            }),
+                    project: true
+                }
+            })
         );
     }
 
@@ -64,18 +64,18 @@ export class DailyReportPersistenceAdapter implements DailyReportPort {
     async queryDailyReportsByProjectId(projectId: string): Promise<DailyReport[]> {
         const dailyReports = await this.dailyReportRepository.find({
             where: {
-                project: { id: projectId },
+                project: { id: projectId }
             },
             relations: {
-                project: true,
+                project: true
             },
-            order: { date: 'desc' },
+            order: { date: 'desc' }
         });
 
         return Promise.all(
             dailyReports.map(async (dailyReport) => {
                 return await this.dilayReportMapper.toDomain(dailyReport);
-            }),
+            })
         );
     }
 

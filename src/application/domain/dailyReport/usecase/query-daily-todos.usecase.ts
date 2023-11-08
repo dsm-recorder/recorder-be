@@ -7,7 +7,7 @@ import { QueryTodosResponse, TodoResponse } from '../dto/daily-report.dto';
 export class QueryDailyTodosUseCase {
     constructor(
         @Inject(DailyReportPort)
-        private readonly dailyReportPort: DailyReportPort,
+        private readonly dailyReportPort: DailyReportPort
     ) {}
 
     async execute(projectId: string): Promise<QueryTodosResponse> {
@@ -20,9 +20,9 @@ export class QueryDailyTodosUseCase {
                 return {
                     id: todo.id,
                     content: todo.content,
-                    complete: todo.isComplete,
+                    complete: todo.isComplete
                 };
-            }),
+            })
         };
     }
 

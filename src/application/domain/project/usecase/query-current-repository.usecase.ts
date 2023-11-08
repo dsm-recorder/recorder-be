@@ -8,7 +8,7 @@ import { ProjectGithubAxiosPort } from '../spi/project.spi';
 export class QueryCurrentRepositoryUseCase {
     constructor(
         @Inject(AxiosPort)
-        private readonly githubPort: ProjectGithubAxiosPort,
+        private readonly githubPort: ProjectGithubAxiosPort
     ) {}
 
     async execute(user: User): Promise<QueryRepositoriesResponse> {
@@ -18,8 +18,8 @@ export class QueryCurrentRepositoryUseCase {
             repos: repositories.map((item) => ({
                 name: item.full_name,
                 description: item.description,
-                language: item.language,
-            })),
+                language: item.language
+            }))
         };
     }
 }

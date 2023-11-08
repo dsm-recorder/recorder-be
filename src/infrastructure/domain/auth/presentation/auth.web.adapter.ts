@@ -8,14 +8,14 @@ export class AuthWebAdapter {
     constructor(
         private readonly loginUseCase: LoginUseCase,
         private readonly configService: ConfigService,
-        private readonly tokenReissueUseCase: TokenReissueUseCase,
+        private readonly tokenReissueUseCase: TokenReissueUseCase
     ) {}
 
     @Get('/oauth/github')
     @Redirect()
     githubOAuth() {
         return {
-            url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}`,
+            url: `https://github.com/login/oauth/authorize?client_id=${this.configService.get<string>('GITHUB_ACCESS')}`
         };
     }
 

@@ -14,7 +14,7 @@ export class LoginUseCase {
         @Inject(JwtPort)
         private readonly jwtPort: JwtPort,
         @Inject(AxiosPort)
-        private readonly oAuthPort: OAuthAxiosPort,
+        private readonly oAuthPort: OAuthAxiosPort
     ) {}
 
     async execute(code: string): Promise<TokenResponse> {

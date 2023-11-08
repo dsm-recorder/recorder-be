@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProjectTypeormEntity } from '../../domain/project/presistence/project.entity';
-import { ProjectPersistenceAdapter } from '../../domain/project/presistence/project.persistence.adapter';
+import { ProjectTypeormEntity } from '../../domain/project/persistence/project.entity';
+import { ProjectPersistenceAdapter } from '../../domain/project/persistence/project.persistence.adapter';
 import { ProjectPort } from '../../../application/domain/project/spi/project.spi';
-import { ProjectMapper } from '../../domain/project/presistence/project.mapper';
+import { ProjectMapper } from '../../domain/project/persistence/project.mapper';
 import { ProjectWebAdapter } from '../../domain/project/presentation/project.web.adapter';
 import {
-    QueryCurrentRepositoryUseCase,
+    QueryCurrentRepositoryUseCase
 } from '../../../application/domain/project/usecase/query-current-repository.usecase';
 import { CreateProjectUseCase } from '../../../application/domain/project/usecase/create-project.usecase';
 import { UserModule } from './user.module';
 import {
-    QueryCurrentOrganizationsUseCase,
+    QueryCurrentOrganizationsUseCase
 } from '../../../application/domain/project/usecase/query-current-organizations.usecase';
 import {
-    QueryOrganizationRepositoriesUseCase,
+    QueryOrganizationRepositoriesUseCase
 } from '../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import { QueryMyProjectsUseCase } from '../../../application/domain/project/usecase/query-my-projects.usecase';
 
@@ -30,9 +30,9 @@ const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
         CreateProjectUseCase,
         QueryCurrentOrganizationsUseCase,
         QueryOrganizationRepositoriesUseCase,
-        QueryMyProjectsUseCase,
+        QueryMyProjectsUseCase
     ],
     exports: [PROJECT_PORT, PROJECT_REPOSITORY],
-    controllers: [ProjectWebAdapter],
+    controllers: [ProjectWebAdapter]
 })
 export class ProjectModule {}

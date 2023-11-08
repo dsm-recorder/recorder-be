@@ -4,6 +4,6 @@ import { UploadImageUseCase } from '../../../application/domain/image/usecase/up
 
 @Module({
     controllers: [ImageWebAdapter],
-    providers: [UploadImageUseCase],
+    providers: [UploadImageUseCase]
 })
 export class ImageModule {}

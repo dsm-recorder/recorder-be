@@ -2,7 +2,7 @@ import { Project } from '../project';
 import {
     QueryOrganizationsResponse,
     QueryRepositoriesResponse,
-    QueryRepositoryDetailsResponse,
+    QueryRepositoryDetailsResponse
 } from '../../../../infrastructure/thirdparty/axios/dto/github.dto';
 
 export interface ProjectPort {

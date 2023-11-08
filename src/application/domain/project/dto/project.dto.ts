@@ -1,3 +1,5 @@
+import { LocalDate } from 'js-joda';
+
 export class QueryCurrentOrganizationsResponse {
     organizations: string[];
 }
@@ -17,6 +19,6 @@ export class QueryMyProjectsResponse {
 export class ProjectResponse {
     name: string;
     logoImageUrl: string;
-    createdAt: Date;
+    createdAt: LocalDate;
     description: string;
 }

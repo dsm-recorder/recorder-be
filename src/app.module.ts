@@ -21,7 +21,7 @@ import { PRRecordModule } from './infrastructure/global/module/pr-record.module'
         ImageModule,
         AwsModule,
         PRRecordModule,
-        ConfigModule.forRoot({ isGlobal: true }),
-    ],
+        ConfigModule.forRoot({ isGlobal: true })
+    ]
 })
 export class AppModule {}

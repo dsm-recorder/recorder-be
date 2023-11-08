@@ -6,7 +6,7 @@ import { QueryTodosResponse, TodoResponse } from '../dto/daily-report.dto';
 export class QueryDailyReportHistoryUseCase {
     constructor(
         @Inject(DailyReportPort)
-        private readonly dailyReportPort: DailyReportPort,
+        private readonly dailyReportPort: DailyReportPort
     ) {}
 
     async execute(projectId: string): Promise<QueryTodosResponse> {
@@ -18,7 +18,7 @@ export class QueryDailyReportHistoryUseCase {
                     content: dailyReport.content,
                     complete: dailyReport.isComplete,
                     date: dailyReport.date
-                }
+                };
             })
         };
     }

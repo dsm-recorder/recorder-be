@@ -9,7 +9,7 @@ export class RefreshTokenRepository {
     constructor(
         @Inject(CACHE_MANAGER)
         private readonly cacheManager: Cache,
-        private readonly configService: ConfigService,
+        private readonly configService: ConfigService
     ) {}
 
     async get(key: string): Promise<string> {

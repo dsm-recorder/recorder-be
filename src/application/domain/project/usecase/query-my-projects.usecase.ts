@@ -7,7 +7,7 @@ import { ProjectResponse, QueryMyProjectsResponse } from '../dto/project.dto';
 export class QueryMyProjectsUseCase {
     constructor(
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort,
+        private readonly projectPort: ProjectPort
     ) {}
 
     async execute(user: User): Promise<QueryMyProjectsResponse> {
@@ -20,7 +20,7 @@ export class QueryMyProjectsUseCase {
                     logoImageUrl: project.logoUrl,
                     createdAt: project.createdAt,
                     description: project.description
-                }
+                };
             })
         };
     }

@@ -29,6 +29,6 @@ const DAILY_REPORT_REPOSITORY = TypeOrmModule.forFeature([DailyReportTypeormEnti
         QueryDailyReportHistoryUseCase
     ],
     exports: [DAILY_REPORT_PORT, DAILY_REPORT_REPOSITORY],
-    controllers: [DailyReportWebAdapter],
+    controllers: [DailyReportWebAdapter]
 })
 export class DailyReportModule {}

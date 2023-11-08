@@ -17,9 +17,9 @@ import { ConfigService } from '@nestjs/config';
                 synchronize: true,
                 autoLoadEntities: true,
                 logging: true,
-                namingStrategy: new SnakeNamingStrategy(),
-            }),
-        }),
-    ],
+                namingStrategy: new SnakeNamingStrategy()
+            })
+        })
+    ]
 })
 export class TypeormConfigModule {}

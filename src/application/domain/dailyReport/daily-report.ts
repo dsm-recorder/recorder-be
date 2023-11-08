@@ -6,12 +6,8 @@ export class DailyReport {
         private _isComplete: boolean,
         private _date: LocalDate,
         private _projectId: string,
-        private _id?: string,
+        private _id?: string
     ) {}
-
-    public toggleCompleteStatus() {
-        this._isComplete = !this._isComplete;
-    }
 
     get content(): string {
         return this._content;
@@ -31,5 +27,9 @@ export class DailyReport {
 
     get projectId(): string {
         return this._projectId;
+    }
+
+    public toggleCompleteStatus() {
+        this._isComplete = !this._isComplete;
     }
 }

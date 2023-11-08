@@ -13,15 +13,15 @@ import { RefreshTokenRepository } from '../../domain/auth/persistence/repository
                 store: await redisStore({
                     socket: {
                         host: config.get<string>('REDIS_HOST'),
-                        port: config.get<number>('REDIS_PORT'),
+                        port: config.get<number>('REDIS_PORT')
                     },
-                    password: config.get<string>('REDIS_PASSWORD'),
-                }),
-            }),
-        }),
+                    password: config.get<string>('REDIS_PASSWORD')
+                })
+            })
+        })
     ],
     providers: [RefreshTokenRepository],
-    exports: [RefreshTokenRepository],
+    exports: [RefreshTokenRepository]
 })
 export class RedisCacheModule {
 }

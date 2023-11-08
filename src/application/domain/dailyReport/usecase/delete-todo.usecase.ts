@@ -11,7 +11,7 @@ export class DeleteTodoUseCase {
     async execute(dailyReportId: string): Promise<void> {
         const dailyReport = await this.dailyReportPort.queryDailyReportById(dailyReportId);
         if (!dailyReport) {
-            throw new NotFoundException("Daily Report Not Found");
+            throw new NotFoundException('Daily Report Not Found');
         }
 
         await this.dailyReportPort.deleteDailyReport(dailyReport.id);

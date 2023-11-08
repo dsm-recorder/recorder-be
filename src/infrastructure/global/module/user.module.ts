@@ -15,6 +15,6 @@ const USER_REPOSITORY = TypeOrmModule.forFeature([UserTypeormEntity]);
     imports: [USER_REPOSITORY],
     controllers: [UserWebAdapter],
     providers: [USER_PORT, UserMapper, UpdateProfileUseCase, DeleteUserUseCase],
-    exports: [USER_PORT, USER_REPOSITORY, UserMapper],
+    exports: [USER_PORT, USER_REPOSITORY, UserMapper]
 })
 export class UserModule {}

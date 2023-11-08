@@ -8,7 +8,7 @@ import { RefreshTokenRepository } from '../../../domain/auth/persistence/reposit
 export class JwtAdapter implements JwtPort {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly refreshTokenRepository: RefreshTokenRepository,
+        private readonly refreshTokenRepository: RefreshTokenRepository
     ) {}
 
     async generateToken(userId: string): Promise<TokenResponse> {
@@ -17,12 +17,12 @@ export class JwtAdapter implements JwtPort {
 
         await this.refreshTokenRepository.save({
             userId,
-            token: refreshToken,
+            token: refreshToken
         });
 
         return {
             accessToken,
-            refreshToken,
+            refreshToken
         };
     }
 
@@ -35,7 +35,7 @@ export class JwtAdapter implements JwtPort {
     private async signJwtToken(userId: string, exp: string, typ: string) {
         return await this.jwtService.signAsync(
             { sub: userId, typ },
-            { expiresIn: exp },
+            { expiresIn: exp }
         );
     }
 }

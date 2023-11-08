@@ -11,7 +11,7 @@ import { DeleteUserUseCase } from '../../../../application/domain/user/usecase/d
 export class UserWebAdapter {
     constructor(
         private readonly updateProfileUseCase: UpdateProfileUseCase,
-        private readonly deleteUserUseCase: DeleteUserUseCase,
+        private readonly deleteUserUseCase: DeleteUserUseCase
     ) {}
 
     @HttpCode(204)
@@ -26,7 +26,7 @@ export class UserWebAdapter {
     queryMyInfo(@CurrentUser() user: User): QueryMyInfoResponse {
         return {
             accountId: user.githubAccountId,
-            profileImageUrl: user.profileUrl,
+            profileImageUrl: user.profileUrl
         };
     }
 

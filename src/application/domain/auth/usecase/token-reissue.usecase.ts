@@ -8,7 +8,7 @@ export class TokenReissueUseCase {
         @Inject(JwtPort)
         private readonly jwtPort: JwtPort,
         @Inject(RefreshTokenPort)
-        private readonly refreshTokenPort: RefreshTokenPort,
+        private readonly refreshTokenPort: RefreshTokenPort
     ) {}
 
     async execute(token: string): Promise<TokenResponse> {

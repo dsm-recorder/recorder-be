@@ -20,8 +20,8 @@ const GLOBAL_GUARD = { provide: APP_GUARD, useClass: JwtAuthGuard };
     imports: [UserModule, RedisCacheModule, JwtModule.registerAsync({
         inject: [ConfigService],
         useFactory: (config: ConfigService) => ({
-            secret: config.get<string>('JWT_SECRET'),
-        }),
+            secret: config.get<string>('JWT_SECRET')
+        })
     })],
     controllers: [AuthWebAdapter],
     providers: [
@@ -29,7 +29,7 @@ const GLOBAL_GUARD = { provide: APP_GUARD, useClass: JwtAuthGuard };
         TokenReissueUseCase,
         JWT_PORT,
         REFRESH_TOKEN_PORT,
-        GLOBAL_GUARD,
-    ],
+        GLOBAL_GUARD
+    ]
 })
 export class AuthModule {}

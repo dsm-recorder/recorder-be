@@ -6,7 +6,7 @@ import { LocalDate } from 'js-joda';
 export class ChangeTodoStatusUseCase {
     constructor(
         @Inject(DailyReportPort)
-        private readonly dailyReportPort: DailyReportPort,
+        private readonly dailyReportPort: DailyReportPort
     ) {}
 
     async execute(dailyReportId: string): Promise<void> {

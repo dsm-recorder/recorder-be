@@ -12,7 +12,7 @@ export class CreateTodoUseCase {
         @Inject(DailyReportPort)
         private readonly dailyReportPort: DailyReportPort,
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort,
+        private readonly projectPort: ProjectPort
     ) {}
 
     async execute(request: CreateTodoRequest, projectId: string): Promise<void> {
@@ -25,8 +25,8 @@ export class CreateTodoUseCase {
                 request.content,
                 false,
                 LocalDate.now(),
-                projectId,
-            ),
+                projectId
+            )
         );
     }
 }

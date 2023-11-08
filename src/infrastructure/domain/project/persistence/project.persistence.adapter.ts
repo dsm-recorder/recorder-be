@@ -11,45 +11,44 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     constructor(
         @InjectRepository(ProjectTypeormEntity)
         private readonly projectRepository: Repository<ProjectTypeormEntity>,
-        private readonly projectMapper: ProjectMapper,
+        private readonly projectMapper: ProjectMapper
     ) {}
 
     async saveProject(project: Project): Promise<Project> {
         const entity = await this.projectMapper.toEntity(project);
 
-        return this.projectMapper.toDomain(await this.projectRepository.save(entity));
+        return this.projectMapper.toDomain(
+            await this.projectRepository.save(entity)
+        );
     }
 
     async queryProjectsByUserId(userId: string): Promise<Project[]> {
         const projects = await this.projectRepository.find({
             where: {
-                user: { id: userId },
+                user: { id: userId }
             },
             relations: {
-                user: true,
-            },
+                user: true
+            }
         });
 
         return Promise.all(
-            projects.map(async (project) => await this.projectMapper.toDomain(project)),
+            projects.map(async (project) =>
+                await this.projectMapper.toDomain(project)
+            )
         );
     }
 
-    async queryProjectByUserIdAndRepositoryName(
-        userId: string,
-        repositoryName: string,
-    ): Promise<Project> {
-        return this.projectMapper.toDomain(
-            await this.projectRepository.findOneBy({
-                user: { id: userId },
-                githubOwnerRepository: repositoryName,
-            }),
-        );
-    }
-
-    async queryProjectById(id: string): Promise<Project> {
-        return this.projectMapper.toDomain(
-            await this.projectRepository.findOne({ where: { id: id }, relations: { user: true } }),
+    async queryProjectById(projectId: string): Promise<Project> {
+        return await this.projectMapper.toDomain(
+            await this.projectRepository.findOne({
+                where: {
+                    id: projectId
+                },
+                relations: {
+                    user: true
+                }
+            })
         );
     }
 }

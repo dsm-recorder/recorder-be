@@ -10,7 +10,7 @@ import { convert, LocalDate, nativeJs } from 'js-joda';
 export class DailyReportMapper {
     constructor(
         @InjectRepository(ProjectTypeormEntity)
-        private readonly dailyReportRepository: Repository<ProjectTypeormEntity>,
+        private readonly dailyReportRepository: Repository<ProjectTypeormEntity>
     ) {}
 
     async toDomain(entity: DailyReportTypeormEntity): Promise<DailyReport> {
@@ -20,14 +20,14 @@ export class DailyReportMapper {
                 entity.isComplete,
                 LocalDate.from(nativeJs(entity.date)),
                 (await entity.project).id,
-                entity.id,
+                entity.id
             )
             : null;
     }
 
     async toEntity(domain: DailyReport): Promise<DailyReportTypeormEntity> {
         const project = await this.dailyReportRepository.findOneBy({
-            id: domain.projectId,
+            id: domain.projectId
         });
 
         return new DailyReportTypeormEntity(
@@ -35,7 +35,7 @@ export class DailyReportMapper {
             domain.content,
             domain.isComplete,
             convert(domain.date).toDate(),
-            Promise.resolve(project),
+            Promise.resolve(project)
         );
     }
 }

@@ -20,7 +20,7 @@ export class UserMapper {
             domain.githubAccountId,
             domain.profileUrl,
             domain.authority,
-            domain.id,
+            domain.id
         );
     }
 }

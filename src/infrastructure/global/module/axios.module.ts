@@ -7,7 +7,7 @@ const GITHUB_PORT = { provide: AxiosPort, useClass: AxiosAdapter };
 @Global()
 @Module({
     providers: [GITHUB_PORT],
-    exports: [GITHUB_PORT],
+    exports: [GITHUB_PORT]
 })
 export class AxiosModule {
 }

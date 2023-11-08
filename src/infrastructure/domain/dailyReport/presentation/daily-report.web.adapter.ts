@@ -8,7 +8,7 @@ import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
 import { DeleteTodoUseCase } from '../../../../application/domain/dailyReport/usecase/delete-todo.usecase';
 import {
-    QueryDailyReportHistoryUseCase,
+    QueryDailyReportHistoryUseCase
 } from '../../../../application/domain/dailyReport/usecase/query-daily-report-history.usecase';
 
 @Controller('daily-reports')
@@ -18,7 +18,7 @@ export class DailyReportWebAdapter {
         private readonly createTodoService: CreateTodoUseCase,
         private readonly changeTodoStatusUseCase: ChangeTodoStatusUseCase,
         private readonly deleteTodoUseCase: DeleteTodoUseCase,
-        private readonly queryDailyReportHistoryUseCase: QueryDailyReportHistoryUseCase,
+        private readonly queryDailyReportHistoryUseCase: QueryDailyReportHistoryUseCase
     ) {}
 
     @Permission([Authority.USER])

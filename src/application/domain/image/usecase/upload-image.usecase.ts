@@ -6,14 +6,14 @@ import { UploadImageResponse } from '../dto/image.dto';
 export class UploadImageUseCase {
     constructor(
         @Inject(UploadImagePort)
-        private readonly uploadImagePort: UploadImagePort,
+        private readonly uploadImagePort: UploadImagePort
     ) {}
 
     async execute(fileName: string, buffer: Buffer): Promise<UploadImageResponse> {
         await this.uploadImagePort.uploadImage(fileName, buffer);
 
         return {
-            url: this.uploadImagePort.getImageUrl(fileName),
+            url: this.uploadImagePort.getImageUrl(fileName)
         };
     }
 

@@ -17,9 +17,7 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     async saveProject(project: Project): Promise<Project> {
         const entity = await this.projectMapper.toEntity(project);
 
-        return this.projectMapper.toDomain(
-            await this.projectRepository.save(entity),
-        );
+        return this.projectMapper.toDomain(await this.projectRepository.save(entity));
     }
 
     async queryProjectsByUserId(userId: string): Promise<Project[]> {
@@ -33,9 +31,25 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         });
 
         return Promise.all(
-            projects.map(async (project) =>
-                await this.projectMapper.toDomain(project),
-            ),
+            projects.map(async (project) => await this.projectMapper.toDomain(project)),
+        );
+    }
+
+    async queryProjectByUserIdAndRepositoryName(
+        userId: string,
+        repositoryName: string,
+    ): Promise<Project> {
+        return this.projectMapper.toDomain(
+            await this.projectRepository.findOneBy({
+                user: { id: userId },
+                githubOwnerRepository: repositoryName,
+            }),
+        );
+    }
+
+    async queryProjectById(id: string): Promise<Project> {
+        return this.projectMapper.toDomain(
+            await this.projectRepository.findOne({ where: { id: id }, relations: { user: true } }),
         );
     }
 }

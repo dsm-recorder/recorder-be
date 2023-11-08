@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PRRecordPort } from '../spi/pr-record.spi';
 import { CreatePRRecordRequest } from '../dto/pr-record.dto';
 import { ProjectPort } from '../../project/spi/project.spi';
@@ -15,6 +15,9 @@ export class CreatePRRecordUseCase {
 
     async execute(request: CreatePRRecordRequest, user: User) {
         const project = await this.projectPort.queryProjectById(request.projectId);
+        if (!project) {
+            throw new NotFoundException('Project Not Found');
+        }
 
         if (project.userId !== user.id) {
             throw new UnauthorizedException('Invalid User');

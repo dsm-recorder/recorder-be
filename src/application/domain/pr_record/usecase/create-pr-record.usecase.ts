@@ -14,9 +14,8 @@ export class CreatePRRecordUseCase {
     ) {}
 
     async execute(request: CreatePRRecordRequest, user: User) {
-        console.log('start');
         const project = await this.projectPort.queryProjectById(request.projectId);
-        console.log('end');
+
         if (project.userId !== user.id) {
             throw new UnauthorizedException('Invalid User');
         }

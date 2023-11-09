@@ -1,7 +1,11 @@
-import { PRRecord } from '../pr-record';
+import { PrRecord } from '../pr-record';
 
-export interface PRRecordPort {
-    savePRRecord(prRecord: PRRecord): Promise<void>;
+export interface PrRecordPort {
+    queryPrRecordsByProjectId(projectId: string): Promise<PrRecord[]>;
+
+    queryPrRecordById(prRecordId: string): Promise<PrRecord>;
+
+    savePrRecord(prRecord: PrRecord): Promise<void>;
 }
 
-export const PRRecordPort = Symbol('IPRRecordPort');
+export const PrRecordPort = Symbol('IPrRecordPort');

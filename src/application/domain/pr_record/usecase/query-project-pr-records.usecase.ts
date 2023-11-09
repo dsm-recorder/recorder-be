@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PrRecordPort } from '../spi/pr-record.spi';
 import { PrRecordResponse, QueryProjectPrRecordsResponse } from '../dto/pr-record.dto';
 import { ProjectPort } from '../../project/spi/project.spi';
@@ -12,13 +12,18 @@ export class QueryProjectPrRecordsUseCase {
         private readonly projectPort: ProjectPort
     ) {}
 
-    async execute(projectId: string): Promise<QueryProjectPrRecordsResponse> {
+    async execute(projectId: string, userId: string): Promise<QueryProjectPrRecordsResponse> {
         const project = await this.projectPort.queryProjectById(projectId);
         if (!project) {
             throw new NotFoundException('Project Not Found');
         }
-        const prRecords = await this.prRecordPort.queryPrRecordsByProjectId(projectId);
 
+        if (project.userId !== userId) {
+            throw new ForbiddenException('Invalid User');
+        }
+
+        const prRecords = await this.prRecordPort.queryPrRecordsByProjectId(projectId);
+        
         return {
             prRecords: prRecords.map((prRecord): PrRecordResponse => {
                 return {

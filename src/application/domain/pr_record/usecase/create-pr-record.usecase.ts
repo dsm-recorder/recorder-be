@@ -13,8 +13,8 @@ export class CreatePRRecordUseCase {
         private readonly projectPort: ProjectPort,
     ) {}
 
-    async execute(request: CreatePRRecordRequest, user: User) {
-        const project = await this.projectPort.queryProjectById(request.projectId);
+    async execute(projectId: string, request: CreatePRRecordRequest, user: User) {
+        const project = await this.projectPort.queryProjectById(projectId);
         if (!project) {
             throw new NotFoundException('Project Not Found');
         }

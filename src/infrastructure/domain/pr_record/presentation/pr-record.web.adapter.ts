@@ -12,8 +12,12 @@ export class PRRecordWebAdapter {
 
     @Permission([Authority.USER])
     @HttpCode(201)
-    @Post()
-    async createPRRecord(@Body() request: CreatePRRecordRequest, @CurrentUser() user: User) {
-        await this.createPRRecordUseCase.execute(request, user);
+    @Post(':projectId')
+    async createPRRecord(
+        @Param('projectId') projectId: string,
+        @Body() request: CreatePRRecordRequest,
+        @CurrentUser() user: User,
+    ) {
+        await this.createPRRecordUseCase.execute(projectId, request, user);
     }
 }

@@ -14,7 +14,7 @@ export class PRRecordPersistenceAdapter implements PRRecordPort {
         private readonly prRecordMapper: PRRecordMapper,
     ) {}
 
-    async savePRRecord(prRecord: PRRecord) {
+    async savePRRecord(prRecord: PRRecord): Promise<void> {
         await this.prRecordRepository.save(await this.prRecordMapper.toEntity(prRecord));
     }
 }

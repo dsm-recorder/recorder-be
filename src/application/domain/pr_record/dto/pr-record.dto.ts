@@ -2,7 +2,7 @@ import { RecordType } from '../pr-record';
 import { LocalDate } from 'js-joda';
 
 export class QueryProjectPrRecordsResponse {
-    prRecords: PrRecordResponse[]
+    prRecords: PrRecordResponse[];
 }
 
 export class PrRecordResponse {

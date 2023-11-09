@@ -6,7 +6,7 @@ import { User } from '../user';
 export class UpdateProfileUseCase {
     constructor(
         @Inject(UserPort)
-        private readonly userPort: UserPort,
+        private readonly userPort: UserPort
     ) {}
 
     async execute(user: User, profileImageUrl: string) {

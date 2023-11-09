@@ -7,6 +7,7 @@ import { ProjectModule } from './infrastructure/global/module/project.module';
 import { AxiosModule } from './infrastructure/global/module/axios.module';
 import { ImageModule } from './infrastructure/global/module/image.module';
 import { AwsModule } from './infrastructure/global/module/aws.module';
+import { DailyReportModule } from './infrastructure/global/module/daily-report.module';
 import { PRRecordModule } from './infrastructure/global/module/pr-record.module';
 
 @Module({
@@ -14,12 +15,13 @@ import { PRRecordModule } from './infrastructure/global/module/pr-record.module'
         UserModule,
         AuthModule,
         ProjectModule,
+        DailyReportModule,
         AxiosModule,
         TypeormConfigModule,
         ImageModule,
         AwsModule,
         PRRecordModule,
-        ConfigModule.forRoot({ isGlobal: true }),
-    ],
+        ConfigModule.forRoot({ isGlobal: true })
+    ]
 })
 export class AppModule {}

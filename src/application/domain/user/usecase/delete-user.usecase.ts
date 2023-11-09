@@ -6,7 +6,7 @@ import { User } from '../user';
 export class DeleteUserUseCase {
     constructor(
         @Inject(UserPort)
-        private readonly userPort: UserPort,
+        private readonly userPort: UserPort
     ) {}
 
     async execute(user: User) {

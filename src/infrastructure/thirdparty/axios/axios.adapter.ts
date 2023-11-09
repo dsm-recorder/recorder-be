@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AxiosPort } from '../../../application/common/spi/axios.spi';
-import {
-    QueryRepositoriesResponse,
-    QueryRepositoryDetailsResponse,
-    QueryUserInfoResponse,
-} from './dto/github.dto';
+import { QueryRepositoriesResponse, QueryRepositoryDetailsResponse, QueryUserInfoResponse } from './dto/github.dto';
 import { getAndHandleError } from './util/axios.util';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
@@ -26,13 +22,13 @@ export class AxiosAdapter implements AxiosPort {
     async getUserInfo(accessToken: string): Promise<QueryUserInfoResponse> {
         const response = (
             await axios.get('https://api.github.com/user', {
-                headers: { Authorization: `Bearer ${accessToken}` },
+                headers: { Authorization: `Bearer ${accessToken}` }
             })
         ).data;
 
         return {
             accountId: response.login,
-            avatarUrl: response.avatar_url,
+            avatarUrl: response.avatar_url
         };
     }
 
@@ -44,7 +40,7 @@ export class AxiosAdapter implements AxiosPort {
         params.append('client_id', this.configService.get<string>('GITHUB_ACCESS'));
         params.append('client_secret', this.configService.get<string>('GITHUB_SECRET'));
         const response = await axios.post(authenticationUrl, params, {
-            headers: { Accept: 'application/json' },
+            headers: { Accept: 'application/json' }
         });
 
         return response.data.access_token;

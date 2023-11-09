@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { Request, Response } from 'express';
 
 @Catch()
-export class GlobalExceptionFilter implements ExceptionFilter{
+export class GlobalExceptionFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const request = ctx.getRequest<Request>();
@@ -19,14 +19,14 @@ export class GlobalExceptionFilter implements ExceptionFilter{
             status = exception.response.status;
             message = 'Axios Server Error';
         } else {
-            console.error(exception)
+            console.error(exception);
         }
 
         const responseBody = {
             statusCode: status,
             message: message,
             timestamp: new Date().toISOString(),
-            path: request.path,
+            path: request.path
         };
 
         response

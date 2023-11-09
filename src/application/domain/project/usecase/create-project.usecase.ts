@@ -7,7 +7,7 @@ import { CreateProjectRequest } from '../../../../infrastructure/domain/project/
 export class CreateProjectUseCase {
     constructor(
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort,
+        private readonly projectPort: ProjectPort
     ) {}
 
     async execute(request: CreateProjectRequest, user: User) {
@@ -27,7 +27,7 @@ export class CreateProjectUseCase {
             description: request.description,
             skills: request.skills,
             githubOwnerRepository: request.repositoryName,
-            isPublic: false,
+            isPublic: false
         });
     }
 }

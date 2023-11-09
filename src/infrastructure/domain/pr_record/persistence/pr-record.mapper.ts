@@ -1,39 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { ProjectTypeormEntity } from '../../project/presistence/project.entity';
+import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 import { PRRecordTypeormEntity } from './pr-record.entity';
 import { PRRecord } from '../../../../application/domain/pr_record/pr-record';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { convert, LocalDate, nativeJs } from 'js-joda';
 
 @Injectable()
-export class PRRecordMapper {
+export class PrRecordMapper {
     constructor(
         @InjectRepository(ProjectTypeormEntity)
-        private readonly projectRepository: Repository<ProjectTypeormEntity>,
+        private readonly dailyReportRepository: Repository<ProjectTypeormEntity>
     ) {}
+
     async toDomain(entity: PRRecordTypeormEntity): Promise<PRRecord> {
-        const project = await entity.project;
-        return entity
-            ? {
-                  id: entity.id,
-                  projectId: project.id,
-                  title: entity.title,
-                  content: entity.content,
-                  solution: entity.solution,
-                  type: entity.type,
-              }
+        return entity ?
+            new PRRecord(
+                entity.title,
+                (await entity.project).id,
+                entity.content,
+                entity.importance,
+                entity.type,
+                LocalDate.from(nativeJs(entity.createdAt)),
+                entity.id,
+                entity.solution
+            )
             : null;
     }
 
     async toEntity(domain: PRRecord): Promise<PRRecordTypeormEntity> {
-        const project = await this.projectRepository.findOneBy({ id: domain.projectId });
+        const project = await this.dailyReportRepository.findOneBy({
+            id: domain.projectId
+        });
+
         return new PRRecordTypeormEntity(
-            domain.id,
-            Promise.resolve(project),
             domain.title,
+            Promise.resolve(project),
             domain.content,
-            domain.solution,
+            domain.importance,
             domain.type,
+            convert(domain.date).toDate(),
+            domain.id,
+            domain.solution
         );
     }
 }

@@ -13,7 +13,7 @@ export class JwtAuthGuard implements CanActivate {
         @InjectRepository(UserTypeormEntity)
         private readonly userRepository: Repository<UserTypeormEntity>,
         private readonly jwtService: JwtService,
-        private readonly reflector: Reflector,
+        private readonly reflector: Reflector
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

@@ -8,6 +8,6 @@ const S3_PORT = { provide: UploadImagePort, useClass: S3Adapter };
 @Global()
 @Module({
     providers: [S3_PORT],
-    exports: [S3_PORT],
+    exports: [S3_PORT]
 })
 export class AwsModule {}

@@ -7,7 +7,7 @@ import { QueryRepositoriesResponse } from '../dto/project.dto';
 export class QueryOrganizationRepositoriesUseCase {
     constructor(
         @Inject(AxiosPort)
-        private readonly githubPort: ProjectGithubAxiosPort,
+        private readonly githubPort: ProjectGithubAxiosPort
     ) {}
 
     async execute(organization: string): Promise<QueryRepositoriesResponse> {
@@ -17,8 +17,8 @@ export class QueryOrganizationRepositoriesUseCase {
             repos: repositories.map((item) => ({
                 name: item.full_name,
                 description: item.description,
-                language: item.language,
-            })),
+                language: item.language
+            }))
         };
     }
 }

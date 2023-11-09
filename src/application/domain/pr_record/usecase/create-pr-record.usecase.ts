@@ -3,6 +3,7 @@ import { PRRecordPort } from '../spi/pr-record.spi';
 import { CreatePRRecordRequest } from '../dto/pr-record.dto';
 import { ProjectPort } from '../../project/spi/project.spi';
 import { User } from '../../user/user';
+import { LocalDate } from 'js-joda';
 
 @Injectable()
 export class CreatePRRecordUseCase {
@@ -24,11 +25,13 @@ export class CreatePRRecordUseCase {
         }
 
         await this.prRecordPort.savePRRecord({
-            projectId: project.id,
             title: request.title,
+            projectId: projectId,
             content: request.content,
-            solution: request.solution,
+            importance: request.importance,
             type: request.type,
+            date: LocalDate.now(),
+            solution: request.solution
         });
     }
 }

@@ -9,12 +9,12 @@ export class S3Adapter implements UploadImagePort {
         region: this.configService.get<string>('AWS_REGION'),
         credentials: {
             accessKeyId: this.configService.get<string>('AWS_ACCESS'),
-            secretAccessKey: this.configService.get<string>('AWS_SECRET'),
-        },
+            secretAccessKey: this.configService.get<string>('AWS_SECRET')
+        }
     });
 
     constructor(
-        private readonly configService: ConfigService,
+        private readonly configService: ConfigService
     ) {}
 
     async uploadImage(fileName: string, buffer: Buffer) {
@@ -23,8 +23,8 @@ export class S3Adapter implements UploadImagePort {
                 Bucket: this.configService.get<string>('AWS_S3_BUCKET'),
                 Key: fileName,
                 Body: buffer,
-                ACL: 'public-read',
-            }),
+                ACL: 'public-read'
+            })
         );
     }
 

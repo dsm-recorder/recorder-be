@@ -7,13 +7,13 @@ import { UploadImageResponse } from '../../../../application/domain/image/dto/im
 export class ImageWebAdapter {
 
     constructor(
-        private readonly uploadImageUseCase: UploadImageUseCase,
+        private readonly uploadImageUseCase: UploadImageUseCase
     ) {}
 
     @Post()
     @UseInterceptors(FileInterceptor('image'))
     async uploadFile(@UploadedFile(
-        new ParseFilePipe(),
+        new ParseFilePipe()
     ) image: Express.Multer.File): Promise<UploadImageResponse> {
         return await this.uploadImageUseCase.execute(image.originalname, image.buffer);
     }

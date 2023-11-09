@@ -1,3 +1,5 @@
+import { LocalDate } from 'js-joda';
+
 export class Project {
     constructor(
         id: string,
@@ -8,7 +10,7 @@ export class Project {
         logoUrl: string,
         githubOwnerRepository: string,
         description: string,
-        createdAt: Date,
+        createdAt: LocalDate,
     ) {
         this.id = id;
         this.userId = userId;
@@ -29,5 +31,5 @@ export class Project {
     logoUrl?: string;
     githubOwnerRepository: string;
     description?: string;
-    createdAt?: Date;
+    createdAt?: LocalDate;
 }

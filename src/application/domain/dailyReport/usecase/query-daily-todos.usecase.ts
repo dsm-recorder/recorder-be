@@ -13,8 +13,7 @@ export class QueryDailyTodosUseCase {
     async execute(projectId: string): Promise<QueryTodosResponse> {
         const todos =
             await this.dailyReportPort.queryDailyReportsByDateAndProjectId(LocalDate.now(), projectId);
-
-
+        
         return {
             todos: todos.map((todo): TodoResponse => {
                 return {

@@ -12,7 +12,7 @@ export class ChangeTodoStatusUseCase {
     async execute(dailyReportId: string): Promise<void> {
         const dailyReport = await this.dailyReportPort.queryDailyReportById(dailyReportId);
         if (!dailyReport) {
-            throw new NotFoundException('Daily Report NotFound');
+            throw new NotFoundException('Daily Report Not Found');
         }
 
         if (LocalDate.now().isAfter(dailyReport.date)) {

@@ -1,17 +1,17 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { PRRecordPort } from '../spi/pr-record.spi';
-import { CreatePRRecordRequest } from '../dto/pr-record.dto';
+import { PrRecordPort } from '../spi/pr-record.spi';
 import { ProjectPort } from '../../project/spi/project.spi';
 import { User } from '../../user/user';
-import { LocalDate } from 'js-joda';
+import { PrRecord } from '../pr-record';
+import { CreatePRRecordRequest } from '../../../../infrastructure/domain/pr_record/presentation/pr-record.web.dto';
 
 @Injectable()
 export class CreatePRRecordUseCase {
     constructor(
-        @Inject(PRRecordPort)
-        private readonly prRecordPort: PRRecordPort,
+        @Inject(PrRecordPort)
+        private readonly prRecordPort: PrRecordPort,
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort,
+        private readonly projectPort: ProjectPort
     ) {}
 
     async execute(projectId: string, request: CreatePRRecordRequest, user: User) {
@@ -24,14 +24,15 @@ export class CreatePRRecordUseCase {
             throw new UnauthorizedException('Invalid User');
         }
 
-        await this.prRecordPort.savePRRecord({
-            title: request.title,
-            projectId: projectId,
-            content: request.content,
-            importance: request.importance,
-            type: request.type,
-            date: LocalDate.now(),
-            solution: request.solution
-        });
+        await this.prRecordPort.savePrRecord(
+            new PrRecord(
+                request.title,
+                project.id,
+                request.content,
+                request.importance,
+                request.type,
+                request.solution
+            )
+        );
     }
 }

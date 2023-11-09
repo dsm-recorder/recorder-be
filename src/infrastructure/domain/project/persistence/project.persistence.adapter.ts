@@ -14,6 +14,18 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         private readonly projectMapper: ProjectMapper
     ) {}
 
+    async queryProjectByUserIdAndRepositoryName(
+        userId: string,
+        repositoryName: string
+    ): Promise<Project> {
+        return this.projectMapper.toDomain(
+            await this.projectRepository.findOneBy({
+                user: { id: userId },
+                githubOwnerRepository: repositoryName
+            })
+        );
+    }
+
     async saveProject(project: Project): Promise<Project> {
         const entity = await this.projectMapper.toEntity(project);
 

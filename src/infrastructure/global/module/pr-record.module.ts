@@ -6,19 +6,19 @@ import { PRRecordPort } from '../../../application/domain/pr_record/spi/pr-recor
 import { PRRecordPersistenceAdapter } from '../../domain/pr_record/persistence/pr-record.persistence.adapter';
 import { ProjectModule } from './project.module';
 import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
-import { PRRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
+import { PrRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
 import { PRRecordWebAdapter } from '../../domain/pr_record/presentation/pr-record.web.adapter';
 
 const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
     PRRecordTypeormEntity,
-    RecordAttachmentTypeormEntity,
+    RecordAttachmentTypeormEntity
 ]);
 const PR_RECORD_PORT = { provide: PRRecordPort, useClass: PRRecordPersistenceAdapter };
 
 @Module({
     imports: [PR_RECORD_REPOSITORY, ProjectModule],
-    providers: [CreatePRRecordUseCase, PRRecordMapper, PR_RECORD_PORT],
+    providers: [CreatePRRecordUseCase, PrRecordMapper, PR_RECORD_PORT],
     exports: [PR_RECORD_REPOSITORY, PR_RECORD_PORT],
-    controllers: [PRRecordWebAdapter],
+    controllers: [PRRecordWebAdapter]
 })
 export class PRRecordModule {}

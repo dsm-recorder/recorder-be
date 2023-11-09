@@ -1,6 +1,6 @@
 import { LocalDate } from 'js-joda';
 
-export class PRRecord {
+export class PrRecord {
     id?: string;
     title: string;
     projectId: string;
@@ -8,10 +8,10 @@ export class PRRecord {
     importance: number;
     solution?: string;
     type: RecordType;
-    date: LocalDate;
+    date?: LocalDate;
 
 
-    constructor(title: string, projectId: string, content: string, importance: number, type: RecordType, date: LocalDate, id?: string, solution?: string) {
+    constructor(title: string, projectId: string, content: string, importance: number, type: RecordType, solution?: string, date?: LocalDate, id?: string) {
         this.id = id;
         this.title = title;
         this.projectId = projectId;
@@ -20,6 +20,14 @@ export class PRRecord {
         this.solution = solution;
         this.type = type;
         this.date = date;
+    }
+
+    public update(title: string, content: string, importance: number, type: RecordType, solution?: string) {
+        this.title = title;
+        this.content = content;
+        this.importance = importance;
+        this.type = type;
+        this.solution = solution;
     }
 }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 import { PRRecordTypeormEntity } from './pr-record.entity';
-import { PRRecord } from '../../../../application/domain/pr_record/pr-record';
+import { PrRecord } from '../../../../application/domain/pr_record/pr-record';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { convert, LocalDate, nativeJs } from 'js-joda';
@@ -13,22 +13,22 @@ export class PrRecordMapper {
         private readonly dailyReportRepository: Repository<ProjectTypeormEntity>
     ) {}
 
-    async toDomain(entity: PRRecordTypeormEntity): Promise<PRRecord> {
+    async toDomain(entity: PRRecordTypeormEntity): Promise<PrRecord> {
         return entity ?
-            new PRRecord(
+            new PrRecord(
                 entity.title,
                 (await entity.project).id,
                 entity.content,
                 entity.importance,
                 entity.type,
+                entity.solution,
                 LocalDate.from(nativeJs(entity.createdAt)),
-                entity.id,
-                entity.solution
+                entity.id
             )
             : null;
     }
 
-    async toEntity(domain: PRRecord): Promise<PRRecordTypeormEntity> {
+    async toEntity(domain: PrRecord): Promise<PRRecordTypeormEntity> {
         const project = await this.dailyReportRepository.findOneBy({
             id: domain.projectId
         });
@@ -39,7 +39,6 @@ export class PrRecordMapper {
             domain.content,
             domain.importance,
             domain.type,
-            convert(domain.date).toDate(),
             domain.id,
             domain.solution
         );

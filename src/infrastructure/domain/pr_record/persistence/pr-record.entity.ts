@@ -5,7 +5,7 @@ import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 
 @Entity('tbl_pr_record')
 export class PRRecordTypeormEntity {
-    constructor(title: string, project: Promise<ProjectTypeormEntity>, content: string, importance: number, type: RecordType, date: Date, id?: string, solution?: string) {
+    constructor(title: string, project: Promise<ProjectTypeormEntity>, content: string, importance: number, type: RecordType, id?: string, solution?: string) {
         this.id = id;
         this.title = title;
         this.project = project;
@@ -13,7 +13,6 @@ export class PRRecordTypeormEntity {
         this.importance = importance;
         this.solution = solution;
         this.type = type;
-        this.createdAt = date;
     }
 
     @PrimaryGeneratedColumn('uuid', { name: 'pr_record_id' })

@@ -1,24 +1,35 @@
-import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PRRecordTypeormEntity } from '../../domain/pr_record/persistence/pr-record.entity';
 import { RecordAttachmentTypeormEntity } from '../../domain/pr_record/persistence/record-attachment.entity';
-import { PRRecordPort } from '../../../application/domain/pr_record/spi/pr-record.spi';
-import { PRRecordPersistenceAdapter } from '../../domain/pr_record/persistence/pr-record.persistence.adapter';
+import { PrRecordPort } from '../../../application/domain/pr_record/spi/pr-record.spi';
+import { PrRecordPersistenceAdapter } from '../../domain/pr_record/persistence/pr-record.persistence.adapter';
+import { Module } from '@nestjs/common';
 import { ProjectModule } from './project.module';
-import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
 import { PrRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
-import { PRRecordWebAdapter } from '../../domain/pr_record/presentation/pr-record.web.adapter';
+import {
+    QueryProjectPrRecordsUseCase
+} from '../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
+import { PrRecordWebAdapter } from '../../domain/pr_record/presentation/pr-record.web.adapter';
+import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
+import { UpdatePrRecordUseCase } from '../../../application/domain/pr_record/usecase/update-pr-record.usecase';
+
 
 const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
     PRRecordTypeormEntity,
     RecordAttachmentTypeormEntity
 ]);
-const PR_RECORD_PORT = { provide: PRRecordPort, useClass: PRRecordPersistenceAdapter };
+const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAdapter };
 
 @Module({
     imports: [PR_RECORD_REPOSITORY, ProjectModule],
-    providers: [CreatePRRecordUseCase, PrRecordMapper, PR_RECORD_PORT],
-    exports: [PR_RECORD_REPOSITORY, PR_RECORD_PORT],
-    controllers: [PRRecordWebAdapter]
+    providers: [
+        PR_RECORD_PORT,
+        PrRecordMapper,
+        QueryProjectPrRecordsUseCase,
+        CreatePRRecordUseCase,
+        UpdatePrRecordUseCase
+    ],
+    exports: [PR_RECORD_PORT, PR_RECORD_REPOSITORY],
+    controllers: [PrRecordWebAdapter]
 })
 export class PRRecordModule {}

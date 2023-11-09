@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { PRRecordTypeormEntity } from './pr-record.entity';
 
 @Entity('tbl_record_attachment')
@@ -7,7 +7,7 @@ export class RecordAttachmentTypeormEntity {
     attachmentUrl: string;
 
     @ManyToOne(() => PRRecordTypeormEntity, (prRecord) => prRecord.recordAttachments, {
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE'
     })
     @PrimaryColumn('varchar', { name: 'pr_record_id' })
     prRecord: PRRecordTypeormEntity;

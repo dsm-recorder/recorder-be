@@ -9,6 +9,10 @@ export interface ProjectPort {
     saveProject(project: Project): Promise<Project>;
 
     queryProjectsByUserId(userId: string): Promise<Project[]>;
+
+    queryProjectById(id: String): Promise<Project>;
+
+    queryProjectByUserIdAndRepositoryName(userId: string, repositoryName: string): Promise<Project>;
 }
 
 export interface ProjectGithubAxiosPort {

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { ProjectPort } from '../spi/project.spi';
 import { User } from '../../user/user';
 import { CreateProjectRequest } from '../../../../infrastructure/domain/project/presentation/dto/project.web.dto';
@@ -11,6 +11,15 @@ export class CreateProjectUseCase {
     ) {}
 
     async execute(request: CreateProjectRequest, user: User) {
+        if (
+            await this.projectPort.queryProjectByUserIdAndRepositoryName(
+                user.id,
+                request.repositoryName,
+            )
+        ) {
+            throw new ConflictException('Project Already Exists');
+        }
+
         await this.projectPort.saveProject({
             userId: user.id,
             name: request.projectName,

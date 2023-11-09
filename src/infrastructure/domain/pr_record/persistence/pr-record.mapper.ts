@@ -26,7 +26,7 @@ export class PRRecordMapper {
     }
 
     async toEntity(domain: PRRecord): Promise<PRRecordTypeormEntity> {
-        let project = await this.projectRepository.findOneBy({ id: domain.projectId });
+        const project = await this.projectRepository.findOneBy({ id: domain.projectId });
         return new PRRecordTypeormEntity(
             domain.id,
             Promise.resolve(project),

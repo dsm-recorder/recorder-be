@@ -32,8 +32,8 @@ export class PrRecordWebAdapter {
 
     @Permission([Authority.USER])
     @Get(':projectId')
-    async queryProjectPrRecords(@Param('projectId') projectId: string): Promise<QueryProjectPrRecordsResponse> {
-        return await this.queryProjectPrRecordsUseCase.execute(projectId);
+    async queryProjectPrRecords(@Param('projectId') projectId: string, @CurrentUser() user: User): Promise<QueryProjectPrRecordsResponse> {
+        return await this.queryProjectPrRecordsUseCase.execute(projectId, user.id);
     }
 
     @HttpCode(204)

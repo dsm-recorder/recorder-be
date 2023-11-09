@@ -23,7 +23,7 @@ export class QueryProjectPrRecordsUseCase {
         }
 
         const prRecords = await this.prRecordPort.queryPrRecordsByProjectId(projectId);
-        
+
         return {
             prRecords: prRecords.map((prRecord): PrRecordResponse => {
                 return {

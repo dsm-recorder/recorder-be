@@ -1,9 +1,14 @@
 import { RecordType } from '../pr-record';
+import { LocalDate } from 'js-joda';
 
-export class CreatePRRecordRequest {
+export class QueryProjectPrRecordsResponse {
+    prRecords: PrRecordResponse[]
+}
+
+export class PrRecordResponse {
+    id: string;
     title: string;
-    content: string;
     importance: number;
-    solution?: string;
     type: RecordType;
+    date: LocalDate;
 }

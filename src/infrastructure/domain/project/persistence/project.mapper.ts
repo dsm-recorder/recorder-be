@@ -4,27 +4,28 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { convert } from 'js-joda';
+import { convert, LocalDate, LocalTime, nativeJs } from 'js-joda';
 
 @Injectable()
 export class ProjectMapper {
     constructor(
         @InjectRepository(UserTypeormEntity)
-        private readonly userRepository: Repository<UserTypeormEntity>
+        private readonly userRepository: Repository<UserTypeormEntity>,
     ) {}
 
     async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
         return entity
-            ? {
-                id: entity.id,
-                userId: (await entity.user).id,
-                skills: entity.skills,
-                name: entity.name,
-                logoUrl: entity.logoUrl,
-                isPublic: entity.isPublic,
-                description: entity.description,
-                githubOwnerRepository: entity.githubOwnerRepository
-            }
+            ? new Project(
+                  (await entity.user).id,
+                  entity.name,
+                  entity.skills,
+                  entity.isPublic,
+                  entity.logoUrl,
+                  entity.githubOwnerRepository,
+                  entity.description,
+                  LocalDate.from(nativeJs(entity.createdAt)),
+                  entity.id,
+              )
             : null;
     }
 
@@ -39,7 +40,7 @@ export class ProjectMapper {
             domain.logoUrl,
             domain.description,
             domain.githubOwnerRepository,
-            convert(domain.createdAt).toDate()
+            convert(domain.createdAt).toDate(),
         );
     }
 }

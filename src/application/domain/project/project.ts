@@ -2,7 +2,6 @@ import { LocalDate } from 'js-joda';
 
 export class Project {
     constructor(
-        id: string,
         userId: string,
         name: string,
         skills: string[],
@@ -10,7 +9,8 @@ export class Project {
         logoUrl: string,
         githubOwnerRepository: string,
         description: string,
-        createdAt: LocalDate,
+        createdAt?: LocalDate,
+        id?: string,
     ) {
         this.id = id;
         this.userId = userId;
@@ -32,4 +32,18 @@ export class Project {
     githubOwnerRepository: string;
     description?: string;
     createdAt?: LocalDate;
+
+    public update(
+        name: string,
+        skills: string[],
+        isPublic: boolean,
+        logoUrl: string,
+        description?: string,
+    ) {
+        this.name = name;
+        this.skills = skills;
+        this.isPublic = isPublic;
+        this.logoUrl = logoUrl;
+        this.description = description;
+    }
 }

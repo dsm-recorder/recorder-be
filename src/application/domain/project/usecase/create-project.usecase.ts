@@ -2,12 +2,13 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { ProjectPort } from '../spi/project.spi';
 import { User } from '../../user/user';
 import { CreateProjectRequest } from '../../../../infrastructure/domain/project/presentation/dto/project.web.dto';
+import { Project } from '../project';
 
 @Injectable()
 export class CreateProjectUseCase {
     constructor(
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort
+        private readonly projectPort: ProjectPort,
     ) {}
 
     async execute(request: CreateProjectRequest, user: User) {
@@ -20,14 +21,16 @@ export class CreateProjectUseCase {
             throw new ConflictException('Project Already Exists');
         }
 
-        await this.projectPort.saveProject({
-            userId: user.id,
-            name: request.projectName,
-            logoUrl: request.logoImageUrl,
-            description: request.description,
-            skills: request.skills,
-            githubOwnerRepository: request.repositoryName,
-            isPublic: false
-        });
+        await this.projectPort.saveProject(
+            new Project(
+                user.id,
+                request.projectName,
+                request.skills,
+                false,
+                request.logoImageUrl,
+                request.repositoryName,
+                request.description,
+            ),
+        );
     }
 }

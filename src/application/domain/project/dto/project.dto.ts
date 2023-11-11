@@ -17,6 +17,7 @@ export class QueryMyProjectsResponse {
 }
 
 export class ProjectResponse {
+    id: string;
     name: string;
     logoImageUrl: string;
     createdAt: LocalDate;

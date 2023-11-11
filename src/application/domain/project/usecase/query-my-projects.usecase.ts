@@ -16,6 +16,7 @@ export class QueryMyProjectsUseCase {
         return {
             projects: projects.map((project): ProjectResponse => {
                 return {
+                    id: project.id,
                     name: project.name,
                     logoImageUrl: project.logoUrl,
                     createdAt: project.createdAt,

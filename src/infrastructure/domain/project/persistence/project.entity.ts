@@ -31,12 +31,22 @@ export class ProjectTypeormEntity {
     @Column('varchar', { nullable: false })
     githubOwnerRepository: string;
 
+    @Column('tinyint', { nullable: false })
+    isPublished: boolean;
+
+    @Column('varchar', { length: 200 })
+    role?: string;
+
+    @Column('varchar', { length: 200 })
+    learned?: string;
+
     @CreateDateColumn()
     createdAt?: Date;
 
+
     constructor(id: string, user: Promise<UserTypeormEntity>, name: string, skills: string[],
                 isPublic: boolean, logoUrl: string, description: string, githubOwnerRepository: string,
-                createdAt: Date) {
+                isPublished: boolean, createdAt: Date, role?: string, learned?: string) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -45,6 +55,9 @@ export class ProjectTypeormEntity {
         this.logoUrl = logoUrl;
         this.description = description;
         this.githubOwnerRepository = githubOwnerRepository;
+        this.isPublished = isPublished;
+        this.role = role;
+        this.learned = learned;
         this.createdAt = createdAt;
     }
 }

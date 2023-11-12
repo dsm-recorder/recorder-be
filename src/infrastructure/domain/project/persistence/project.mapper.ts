@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { convert, LocalDate, LocalTime, nativeJs } from 'js-joda';
+import { convert, LocalDate, nativeJs } from 'js-joda';
 
 @Injectable()
 export class ProjectMapper {
@@ -16,16 +16,19 @@ export class ProjectMapper {
     async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
         return entity
             ? new Project(
-                  (await entity.user).id,
-                  entity.name,
-                  entity.skills,
-                  entity.isPublic,
-                  entity.logoUrl,
-                  entity.githubOwnerRepository,
-                  entity.description,
-                  LocalDate.from(nativeJs(entity.createdAt)),
-                  entity.id,
-              )
+                (await entity.user).id,
+                entity.name,
+                entity.skills,
+                entity.isPublic,
+                entity.logoUrl,
+                entity.githubOwnerRepository,
+                entity.description,
+                entity.isPublished,
+                LocalDate.from(nativeJs(entity.createdAt)),
+                entity.role,
+                entity.learned,
+                entity.id
+            )
             : null;
     }
 
@@ -40,7 +43,10 @@ export class ProjectMapper {
             domain.logoUrl,
             domain.description,
             domain.githubOwnerRepository,
+            domain.isPublished,
             convert(domain.createdAt).toDate(),
+            domain.role,
+            domain.learned
         );
     }
 }

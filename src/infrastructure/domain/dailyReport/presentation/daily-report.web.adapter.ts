@@ -21,7 +21,7 @@ export class DailyReportWebAdapter {
 
     @Permission([Authority.USER])
     @HttpCode(201)
-    @Post(':projectId')
+    @Post('/:projectId')
     async createTodo(
         @Param('projectId') projectId: string,
         @Body() request: CreateTodoRequest,
@@ -31,7 +31,7 @@ export class DailyReportWebAdapter {
 
     @Permission([Authority.USER])
     @HttpCode(204)
-    @Patch(':dailyReportId')
+    @Patch('/:dailyReportId')
     async changeStatus(@Param('dailyReportId') dailyReportId: string) {
         await this.changeTodoStatusUseCase.execute(dailyReportId);
     }

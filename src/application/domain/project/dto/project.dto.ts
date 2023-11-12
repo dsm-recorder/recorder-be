@@ -22,3 +22,11 @@ export class ProjectResponse {
     createdAt: LocalDate;
     description: string;
 }
+
+export class UpdateProjectRequest {
+    name: string;
+    skills: string[];
+    isPublic: boolean;
+    logoUrl: string;
+    description?: string;
+}

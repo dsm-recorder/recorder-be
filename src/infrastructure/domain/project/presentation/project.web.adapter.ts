@@ -1,25 +1,21 @@
-import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
-import {
-    QueryCurrentRepositoryUseCase
-} from '../../../../application/domain/project/usecase/query-current-repository.usecase';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
+import { QueryCurrentRepositoryUseCase } from '../../../../application/domain/project/usecase/query-current-repository.usecase';
 import { CreateProjectUseCase } from '../../../../application/domain/project/usecase/create-project.usecase';
 import { CreateProjectRequest } from './dto/project.web.dto';
 import { CurrentUser } from '../../../global/decorator/current-user.decorator';
 import { User } from '../../../../application/domain/user/user';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
-import {
-    QueryCurrentOrganizationsUseCase
-} from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
-import {
-    QueryOrganizationRepositoriesUseCase
-} from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
+import { QueryCurrentOrganizationsUseCase } from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
+import { QueryOrganizationRepositoriesUseCase } from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import {
     QueryCurrentOrganizationsResponse,
     QueryMyProjectsResponse,
-    QueryRepositoriesResponse
+    QueryRepositoriesResponse,
+    UpdateProjectRequest,
 } from '../../../../application/domain/project/dto/project.dto';
 import { QueryMyProjectsUseCase } from '../../../../application/domain/project/usecase/query-my-projects.usecase';
+import { UpdateProjectUseCase } from '../../../../application/domain/project/usecase/update-project.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -28,7 +24,8 @@ export class ProjectWebAdapter {
         private readonly createProjectUseCase: CreateProjectUseCase,
         private readonly queryCurrentOrganizationsUseCase: QueryCurrentOrganizationsUseCase,
         private readonly queryOrganizationRepositoriesUseCase: QueryOrganizationRepositoriesUseCase,
-        private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase
+        private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase,
+        private readonly updateProjectUseCase: UpdateProjectUseCase,
     ) {}
 
     @Permission([Authority.USER])
@@ -46,13 +43,17 @@ export class ProjectWebAdapter {
 
     @Permission([Authority.USER])
     @Get('/organization')
-    async queryCurrentOrganizations(@CurrentUser() user: User): Promise<QueryCurrentOrganizationsResponse> {
+    async queryCurrentOrganizations(
+        @CurrentUser() user: User,
+    ): Promise<QueryCurrentOrganizationsResponse> {
         return await this.queryCurrentOrganizationsUseCase.execute(user);
     }
 
     @Permission([Authority.USER])
     @Get('/organization/repository')
-    async queryOrganizationRepositories(@Query('organization') organization: string): Promise<QueryRepositoriesResponse> {
+    async queryOrganizationRepositories(
+        @Query('organization') organization: string,
+    ): Promise<QueryRepositoriesResponse> {
         return await this.queryOrganizationRepositoriesUseCase.execute(organization);
     }
 
@@ -60,5 +61,15 @@ export class ProjectWebAdapter {
     @Get('/my')
     async queryMyProjects(@CurrentUser() user: User): Promise<QueryMyProjectsResponse> {
         return await this.queryMyProjectsUseCase.execute(user);
+    }
+
+    @Permission([Authority.USER])
+    @HttpCode(204)
+    @Put('/:projectId')
+    async updateProject(
+        @Param('projectId') projectId: string,
+        @Body() request: UpdateProjectRequest,
+    ) {
+        await this.updateProjectUseCase.execute(projectId, request);
     }
 }

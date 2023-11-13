@@ -1,7 +1,9 @@
 import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
-import { QueryCurrentRepositoryUseCase } from '../../../../application/domain/project/usecase/query-current-repository.usecase';
+import {
+    QueryCurrentRepositoryUseCase
+} from '../../../../application/domain/project/usecase/query-current-repository.usecase';
 import { CreateProjectUseCase } from '../../../../application/domain/project/usecase/create-project.usecase';
-import { CreateProjectRequest } from './dto/project.web.dto';
+import { CreateProjectRequest, PublishProjectRequest } from './dto/project.web.dto';
 import { CurrentUser } from '../../../global/decorator/current-user.decorator';
 import { User } from '../../../../application/domain/user/user';
 import { Permission } from '../../../global/decorator/authority.decorator';
@@ -25,6 +27,7 @@ export class ProjectWebAdapter {
         private readonly queryCurrentOrganizationsUseCase: QueryCurrentOrganizationsUseCase,
         private readonly queryOrganizationRepositoriesUseCase: QueryOrganizationRepositoriesUseCase,
         private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase,
+        private readonly publishProjectUseCase: PublishProjectUseCase
         private readonly updateProjectUseCase: UpdateProjectUseCase,
     ) {}
 
@@ -57,10 +60,17 @@ export class ProjectWebAdapter {
         return await this.queryOrganizationRepositoriesUseCase.execute(organization);
     }
 
+    @HttpCode(204)
     @Permission([Authority.USER])
     @Get('/my')
     async queryMyProjects(@CurrentUser() user: User): Promise<QueryMyProjectsResponse> {
         return await this.queryMyProjectsUseCase.execute(user);
+    }
+
+    @Permission([Authority.USER])
+    @Patch('/:projectId/export')
+    async publishProject(@Body() request: PublishProjectRequest, @Param('projectId') projectId: string, @CurrentUser() user: User) {
+        await this.publishProjectUseCase.execute(request, projectId, user);
     }
 
     @Permission([Authority.USER])

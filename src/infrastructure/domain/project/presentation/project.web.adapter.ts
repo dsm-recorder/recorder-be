@@ -69,7 +69,7 @@ export class ProjectWebAdapter {
     }
 
     @Permission([Authority.USER])
-    @Patch('/:projectId/export')
+    @Patch('/:projectId/publish')
     async publishProject(@Body() request: PublishProjectRequest, @Param('projectId') projectId: string, @CurrentUser() user: User) {
         await this.publishProjectUseCase.execute(request, projectId, user);
     }

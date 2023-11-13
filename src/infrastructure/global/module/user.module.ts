@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserTypeormEntity } from '../../domain/user/persistence/user.entity';
 import { UserPort } from '../../../application/domain/user/spi/user.spi';
@@ -11,6 +11,7 @@ import { DeleteUserUseCase } from '../../../application/domain/user/usecase/dele
 const USER_PORT = { provide: UserPort, useClass: UserPersistenceAdapter };
 const USER_REPOSITORY = TypeOrmModule.forFeature([UserTypeormEntity]);
 
+@Global()
 @Module({
     imports: [USER_REPOSITORY],
     controllers: [UserWebAdapter],

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthWebAdapter } from '../../domain/auth/presentation/auth.web.adapter';
 import { LoginUseCase } from '../../../application/domain/auth/usecase/login.usecase';
 import { UserModule } from './user.module';
@@ -16,8 +16,9 @@ const JWT_PORT = { provide: JwtPort, useClass: JwtAdapter };
 const REFRESH_TOKEN_PORT = { provide: RefreshTokenPort, useClass: RefreshTokenPersistenceAdapter };
 const GLOBAL_GUARD = { provide: APP_GUARD, useClass: JwtAuthGuard };
 
+@Global()
 @Module({
-    imports: [UserModule, RedisCacheModule, JwtModule.registerAsync({
+    imports: [RedisCacheModule, JwtModule.registerAsync({
         inject: [ConfigService],
         useFactory: (config: ConfigService) => ({
             secret: config.get<string>('JWT_SECRET')

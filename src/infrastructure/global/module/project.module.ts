@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectTypeormEntity } from '../../domain/project/persistence/project.entity';
 import { ProjectPersistenceAdapter } from '../../domain/project/persistence/project.persistence.adapter';
@@ -11,13 +11,16 @@ import { UserModule } from './user.module';
 import { QueryCurrentOrganizationsUseCase } from '../../../application/domain/project/usecase/query-current-organizations.usecase';
 import { QueryOrganizationRepositoriesUseCase } from '../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import { QueryMyProjectsUseCase } from '../../../application/domain/project/usecase/query-my-projects.usecase';
+import { PublishProjectUseCase } from '../../../application/domain/project/usecase/publish-project.usecase';
+import { PRRecordModule } from './pr-record.module';
 import { UpdateProjectUseCase } from '../../../application/domain/project/usecase/update-project.usecase';
 
 const PROJECT_PORT = { provide: ProjectPort, useClass: ProjectPersistenceAdapter };
 const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
 
+@Global()
 @Module({
-    imports: [PROJECT_REPOSITORY, UserModule],
+    imports: [PROJECT_REPOSITORY],
     providers: [
         PROJECT_PORT,
         ProjectMapper,
@@ -26,6 +29,7 @@ const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
         QueryCurrentOrganizationsUseCase,
         QueryOrganizationRepositoriesUseCase,
         QueryMyProjectsUseCase,
+        PublishProjectUseCase
         UpdateProjectUseCase,
     ],
     exports: [PROJECT_PORT, PROJECT_REPOSITORY],

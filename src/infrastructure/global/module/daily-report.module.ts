@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { DailyReportTypeormEntity } from '../../domain/dailyReport/persistence/daily-report.entity';
 import { DailyReportPersistenceAdapter } from '../../domain/dailyReport/persistence/daily-report.persistence.adapter';
 import { DailyReportPort } from '../../../application/domain/daily_report/spi/daily-report.spi';
@@ -15,8 +15,9 @@ import { QueryDailyReportHistoryUseCase } from '../../../application/domain/dail
 const DAILY_REPORT_PORT = { provide: DailyReportPort, useClass: DailyReportPersistenceAdapter };
 const DAILY_REPORT_REPOSITORY = TypeOrmModule.forFeature([DailyReportTypeormEntity]);
 
+@Global()
 @Module({
-    imports: [DAILY_REPORT_REPOSITORY, ProjectModule],
+    imports: [DAILY_REPORT_REPOSITORY],
     providers: [
         DAILY_REPORT_PORT,
         DailyReportMapper,

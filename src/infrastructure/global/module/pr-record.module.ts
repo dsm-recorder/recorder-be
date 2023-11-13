@@ -3,7 +3,7 @@ import { PRRecordTypeormEntity } from '../../domain/pr_record/persistence/pr-rec
 import { RecordAttachmentTypeormEntity } from '../../domain/pr_record/persistence/record-attachment.entity';
 import { PrRecordPort } from '../../../application/domain/pr_record/spi/pr-record.spi';
 import { PrRecordPersistenceAdapter } from '../../domain/pr_record/persistence/pr-record.persistence.adapter';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ProjectModule } from './project.module';
 import { PrRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
 import {
@@ -20,8 +20,9 @@ const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
 ]);
 const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAdapter };
 
+@Global()
 @Module({
-    imports: [PR_RECORD_REPOSITORY, ProjectModule],
+    imports: [PR_RECORD_REPOSITORY],
     providers: [
         PR_RECORD_PORT,
         PrRecordMapper,

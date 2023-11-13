@@ -21,6 +21,9 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
             },
             order: {
                 createdAt: 'desc'
+            },
+            relations: {
+                project: true
             }
         });
 
@@ -36,6 +39,9 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
             await this.prRecordRepository.findOne({
                 where: {
                     id: prRecordId
+                },
+                relations: {
+                    project: true
                 }
             })
         );

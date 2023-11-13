@@ -11,7 +11,7 @@ export class ProjectTypeormEntity {
         onDelete: 'CASCADE'
     })
     @JoinColumn({ name: 'user_id' })
-    user: Promise<UserTypeormEntity>;
+    user: UserTypeormEntity;
 
     @Column('varchar', { nullable: false, length: 20 })
     name: string;
@@ -44,7 +44,7 @@ export class ProjectTypeormEntity {
     createdAt?: Date;
 
 
-    constructor(id: string, user: Promise<UserTypeormEntity>, name: string, skills: string[],
+    constructor(id: string, user: UserTypeormEntity, name: string, skills: string[],
                 isPublic: boolean, logoUrl: string, description: string, githubOwnerRepository: string,
                 isPublished: boolean, createdAt: Date, role?: string, learned?: string) {
         this.id = id;

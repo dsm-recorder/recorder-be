@@ -36,7 +36,7 @@ export class ProjectMapper {
         let user = await this.userRepository.findOneBy({ id: domain.userId });
         return new ProjectTypeormEntity(
             domain.id,
-            Promise.resolve(user),
+            user,
             domain.name,
             domain.skills,
             domain.isPublic,

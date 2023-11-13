@@ -14,14 +14,14 @@ export class DailyReportMapper {
     ) {}
 
     async toDomain(entity: DailyReportTypeormEntity): Promise<DailyReport> {
-        return entity
-            ? new DailyReport(
-                  entity.content,
-                  entity.isComplete,
-                  LocalDate.from(nativeJs(entity.date)),
-                  (await entity.project).id,
-                  entity.id,
-              )
+        return entity ?
+            new DailyReport(
+                entity.content,
+                entity.isComplete,
+                LocalDate.from(nativeJs(entity.date)),
+                entity.project.id,
+                entity.id
+            )
             : null;
     }
 
@@ -35,7 +35,7 @@ export class DailyReportMapper {
             domain.content,
             domain.isComplete,
             convert(domain.date).toDate(),
-            Promise.resolve(project),
+            project
         );
     }
 }

@@ -18,9 +18,9 @@ export class DailyReportTypeormEntity {
 
     @ManyToOne(() => ProjectTypeormEntity)
     @JoinColumn()
-    project: Promise<ProjectTypeormEntity>;
+    project: ProjectTypeormEntity;
 
-    constructor(id: string, content: string, isComplete: boolean, date: Date, project: Promise<ProjectTypeormEntity>) {
+    constructor(id: string, content: string, isComplete: boolean, date: Date, project: ProjectTypeormEntity) {
         this.id = id;
         this.content = content;
         this.isComplete = isComplete;

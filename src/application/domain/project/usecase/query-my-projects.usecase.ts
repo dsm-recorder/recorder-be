@@ -19,7 +19,9 @@ export class QueryMyProjectsUseCase {
                     id: project.id,
                     name: project.name,
                     logoImageUrl: project.logoUrl,
+                    isPublished: project.isPublished,
                     createdAt: project.createdAt,
+                    finishDate: project.finishDate,
                     description: project.description
                 };
             })

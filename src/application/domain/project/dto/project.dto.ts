@@ -20,7 +20,9 @@ export class ProjectResponse {
     id: string;
     name: string;
     logoImageUrl: string;
+    isPublished: boolean;
     createdAt: LocalDate;
+    finishDate: LocalDate;
     description: string;
 }
 

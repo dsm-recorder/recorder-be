@@ -15,6 +15,12 @@ export class Project {
     createdAt?: LocalDate;
 
 
+    public publish(role: string, learned: string) {
+        this.isPublished = true;
+        this.role = role;
+        this.learned = role;
+    }
+
     constructor(userId: string, name: string, skills: string[],
                 isPublic: boolean, logoUrl: string, githubOwnerRepository: string,
                 description: string, isPublished: boolean,

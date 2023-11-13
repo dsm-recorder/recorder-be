@@ -31,7 +31,7 @@ export class QueryProjectPrRecordsUseCase {
                     title: prRecord.title,
                     importance: prRecord.importance,
                     type: prRecord.type,
-                    date: prRecord.date
+                    date: prRecord.createdAt
                 };
             })
         };

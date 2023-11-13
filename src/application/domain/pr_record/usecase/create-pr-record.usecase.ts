@@ -30,6 +30,7 @@ export class CreatePRRecordUseCase {
                 project.id,
                 request.content,
                 request.importance,
+                false,
                 request.type,
                 request.solution
             )

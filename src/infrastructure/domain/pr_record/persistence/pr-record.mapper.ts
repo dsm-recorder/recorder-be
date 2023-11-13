@@ -17,13 +17,14 @@ export class PrRecordMapper {
         return entity ?
             new PrRecord(
                 entity.title,
-                (await entity.project).id,
+                entity.project.id,
                 entity.content,
                 entity.importance,
+                entity.isPublished,
                 entity.type,
                 entity.solution,
-                LocalDate.from(nativeJs(entity.createdAt)),
-                entity.id
+                entity.id,
+                LocalDate.from(nativeJs(entity.createdAt))
             )
             : null;
     }
@@ -34,13 +35,15 @@ export class PrRecordMapper {
         });
 
         return new PRRecordTypeormEntity(
+            project,
             domain.title,
-            Promise.resolve(project),
             domain.content,
             domain.importance,
+            domain.isPublished,
             domain.type,
+            domain.solution,
             domain.id,
-            domain.solution
+            domain.createdAt ? convert(domain.createdAt).toDate() : null
         );
     }
 }

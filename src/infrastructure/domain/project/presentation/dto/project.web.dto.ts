@@ -5,3 +5,9 @@ export class CreateProjectRequest {
     description: string;
     skills: string[];
 }
+
+export class PublishProjectRequest {
+    role: string;
+    learned: string;
+    prRecordIds: string[];
+}

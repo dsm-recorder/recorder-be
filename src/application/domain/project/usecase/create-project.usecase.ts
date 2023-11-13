@@ -15,22 +15,21 @@ export class CreateProjectUseCase {
         if (
             await this.projectPort.queryProjectByUserIdAndRepositoryName(
                 user.id,
-                request.repositoryName,
+                request.repositoryName
             )
         ) {
             throw new ConflictException('Project Already Exists');
         }
 
-        await this.projectPort.saveProject(
-            new Project(
-                user.id,
-                request.projectName,
-                request.skills,
-                false,
-                request.logoImageUrl,
-                request.repositoryName,
-                request.description,
-            ),
-        );
+        await this.projectPort.saveProject(new Project(
+            user.id,
+            request.projectName,
+            request.skills,
+            false,
+            request.logoImageUrl,
+            request.repositoryName,
+            request.description,
+            false
+        ));
     }
 }

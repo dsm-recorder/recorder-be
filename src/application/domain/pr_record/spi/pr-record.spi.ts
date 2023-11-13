@@ -6,6 +6,10 @@ export interface PrRecordPort {
     queryPrRecordById(prRecordId: string): Promise<PrRecord>;
 
     savePrRecord(prRecord: PrRecord): Promise<void>;
+
+    queryPrRecordsByIdIn(prRecordIds: string[]): Promise<PrRecord[]>;
+
+    saveAllPrRecords(prRecords: PrRecord[]): Promise<void>;
 }
 
 export const PrRecordPort = Symbol('IPrRecordPort');

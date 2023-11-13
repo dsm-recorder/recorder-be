@@ -23,3 +23,10 @@ export class ProjectResponse {
     createdAt: LocalDate;
     description: string;
 }
+
+export class UpdateProjectRequest {
+    name: string;
+    skills: string[];
+    logoUrl: string;
+    description?: string;
+}

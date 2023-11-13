@@ -33,16 +33,9 @@ export class Project {
     description?: string;
     createdAt?: LocalDate;
 
-    public update(
-        name: string,
-        skills: string[],
-        isPublic: boolean,
-        logoUrl: string,
-        description?: string,
-    ) {
+    public update(name: string, skills: string[], logoUrl: string, description?: string) {
         this.name = name;
         this.skills = skills;
-        this.isPublic = isPublic;
         this.logoUrl = logoUrl;
         this.description = description;
     }

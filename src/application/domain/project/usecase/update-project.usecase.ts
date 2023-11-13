@@ -12,13 +12,7 @@ export class UpdateProjectUseCase {
     async execute(projectId: string, request: UpdateProjectRequest): Promise<void> {
         const project = await this.projectPort.queryProjectById(projectId);
 
-        project.update(
-            request.name,
-            request.skills,
-            request.isPublic,
-            request.logoUrl,
-            request.description,
-        );
+        project.update(request.name, request.skills, request.logoUrl, request.description);
         await this.projectPort.saveProject(project);
     }
 }

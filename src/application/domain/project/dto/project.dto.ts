@@ -26,7 +26,6 @@ export class ProjectResponse {
 export class UpdateProjectRequest {
     name: string;
     skills: string[];
-    isPublic: boolean;
     logoUrl: string;
     description?: string;
 }

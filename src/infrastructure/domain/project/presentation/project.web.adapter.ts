@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { QueryCurrentRepositoryUseCase } from '../../../../application/domain/project/usecase/query-current-repository.usecase';
 import { CreateProjectUseCase } from '../../../../application/domain/project/usecase/create-project.usecase';
 import { CreateProjectRequest } from './dto/project.web.dto';
@@ -65,7 +65,7 @@ export class ProjectWebAdapter {
 
     @Permission([Authority.USER])
     @HttpCode(204)
-    @Put('/:projectId')
+    @Patch('/:projectId')
     async updateProject(
         @Param('projectId') projectId: string,
         @Body() request: UpdateProjectRequest,

@@ -18,7 +18,19 @@ export class Project {
     public publish(role: string, learned: string) {
         this.isPublished = true;
         this.role = role;
-        this.learned = role;
+        this.learned = learned;
+    }
+
+    public update(
+        name: string,
+        skills: string[],
+        logoUrl: string,
+        description?: string
+    ) {
+        this.name = name;
+        this.skills = skills;
+        this.logoUrl = logoUrl;
+        this.description = description;
     }
 
     constructor(userId: string, name: string, skills: string[],

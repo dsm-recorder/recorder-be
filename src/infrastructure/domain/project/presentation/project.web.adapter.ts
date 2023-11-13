@@ -18,6 +18,7 @@ import {
 } from '../../../../application/domain/project/dto/project.dto';
 import { QueryMyProjectsUseCase } from '../../../../application/domain/project/usecase/query-my-projects.usecase';
 import { UpdateProjectUseCase } from '../../../../application/domain/project/usecase/update-project.usecase';
+import { PublishProjectUseCase } from '../../../../application/domain/project/usecase/publish-project.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -27,7 +28,7 @@ export class ProjectWebAdapter {
         private readonly queryCurrentOrganizationsUseCase: QueryCurrentOrganizationsUseCase,
         private readonly queryOrganizationRepositoriesUseCase: QueryOrganizationRepositoriesUseCase,
         private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase,
-        private readonly publishProjectUseCase: PublishProjectUseCase
+        private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
     ) {}
 

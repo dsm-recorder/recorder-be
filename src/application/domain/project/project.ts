@@ -13,12 +13,14 @@ export class Project {
     role?: string;
     learned?: string;
     createdAt?: LocalDate;
+    finishDate: LocalDate;
 
 
     public publish(role: string, learned: string) {
         this.isPublished = true;
         this.role = role;
         this.learned = learned;
+        this.finishDate = LocalDate.now();
     }
 
     public update(
@@ -36,7 +38,7 @@ export class Project {
     constructor(userId: string, name: string, skills: string[],
                 isPublic: boolean, logoUrl: string, githubOwnerRepository: string,
                 description: string, isPublished: boolean,
-                createdAt?: LocalDate, role?: string, learned?: string, id?: string) {
+                createdAt?: LocalDate, finishDate?: LocalDate, role?: string, learned?: string, id?: string) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -49,5 +51,6 @@ export class Project {
         this.role = role;
         this.learned = learned;
         this.createdAt = createdAt;
+        this.finishDate = finishDate;
     }
 }

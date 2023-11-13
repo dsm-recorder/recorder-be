@@ -16,7 +16,7 @@ export class ProjectTypeormEntity {
     @Column('varchar', { nullable: false, length: 20 })
     name: string;
 
-    @Column('simple-array')
+    @Column('simple-array', { nullable: true })
     skills?: string[];
 
     @Column('tinyint', { nullable: false })
@@ -25,7 +25,7 @@ export class ProjectTypeormEntity {
     @Column('varchar', { length: 255, default: null })
     logoUrl?: string;
 
-    @Column('varchar', { length: 400, default: null })
+    @Column('varchar', { length: 400, default: null, nullable: true })
     description?: string;
 
     @Column('varchar', { nullable: false })
@@ -34,19 +34,21 @@ export class ProjectTypeormEntity {
     @Column('tinyint', { nullable: false })
     isPublished: boolean;
 
-    @Column('varchar', { length: 200 })
+    @Column('varchar', { length: 200, nullable: true })
     role?: string;
 
-    @Column('varchar', { length: 200 })
+    @Column('varchar', { length: 200, nullable: true })
     learned?: string;
 
     @CreateDateColumn()
     createdAt?: Date;
 
+    @Column('datetime', { nullable: true })
+    finishDate?: Date;
 
     constructor(id: string, user: UserTypeormEntity, name: string, skills: string[],
                 isPublic: boolean, logoUrl: string, description: string, githubOwnerRepository: string,
-                isPublished: boolean, createdAt: Date, role?: string, learned?: string) {
+                isPublished: boolean, createdAt: Date, finishDate: Date, role?: string, learned?: string) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -59,5 +61,6 @@ export class ProjectTypeormEntity {
         this.role = role;
         this.learned = learned;
         this.createdAt = createdAt;
+        this.finishDate = finishDate;
     }
 }

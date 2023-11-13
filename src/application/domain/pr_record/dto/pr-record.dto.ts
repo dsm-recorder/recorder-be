@@ -12,3 +12,17 @@ export class PrRecordResponse {
     type: RecordType;
     date: LocalDate;
 }
+
+export class QueryPublishedProjectsResponse {
+    projects: PublishedProjectResponse[]
+}
+
+export class PublishedProjectResponse {
+    id: string;
+    name: string;
+    startDate: string;
+    finishDate: string;
+    userProfileUrl: string;
+    userAccountId: string;
+    likeCount: number;
+}

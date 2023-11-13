@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectTypeormEntity } from './project.entity';
 import { Repository } from 'typeorm';
 import { ProjectMapper } from './project.mapper';
+import { PublishedProjectResponse } from '../../../../application/domain/pr_record/dto/pr-record.dto';
 
 @Injectable()
 export class ProjectPersistenceAdapter implements ProjectPort {
@@ -62,5 +63,28 @@ export class ProjectPersistenceAdapter implements ProjectPort {
                 }
             })
         );
+    }
+
+    async queryProjectsByPublished(published: boolean): Promise<PublishedProjectResponse[]> {
+        const projects = await this.projectRepository.createQueryBuilder('project')
+            .select('project.id', 'id')
+            .addSelect('project.name', 'name')
+            .addSelect('project.createdAt', 'createdAt')
+            .addSelect('project.finishDate', 'finishDate')
+            .innerJoinAndSelect('project.user', 'user')
+            .where('project.isPublished = :published', { published })
+            .getRawMany();
+
+        return projects.map((project): PublishedProjectResponse => {
+            return {
+                id: project.id,
+                name: project.name,
+                startDate: project.startDate,
+                finishDate: project.finishDate,
+                userAccountId: project.user_github_account_id,
+                userProfileUrl: project.user_profile_url,
+                likeCount: 10
+            };
+        });
     }
 }

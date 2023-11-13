@@ -5,24 +5,15 @@ import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 
 @Entity('tbl_pr_record')
 export class PRRecordTypeormEntity {
-    constructor(title: string, project: Promise<ProjectTypeormEntity>, content: string, importance: number, type: RecordType, id?: string, solution?: string) {
-        this.id = id;
-        this.title = title;
-        this.project = project;
-        this.content = content;
-        this.importance = importance;
-        this.solution = solution;
-        this.type = type;
-    }
 
     @PrimaryGeneratedColumn('uuid', { name: 'pr_record_id' })
-    id: string;
+    id?: string;
 
     @ManyToOne(() => ProjectTypeormEntity, (project) => project, {
         onDelete: 'CASCADE'
     })
     @JoinColumn({ name: 'project_id' })
-    project: Promise<ProjectTypeormEntity>;
+    project: ProjectTypeormEntity;
 
     @Column({ length: 50, nullable: false })
     title: string;
@@ -36,11 +27,14 @@ export class PRRecordTypeormEntity {
     @Column('tinyint', { nullable: false })
     importance: number;
 
+    @Column('tinyint')
+    isPublished: boolean;
+
     @Column('varchar', { length: 11, nullable: false })
     type: RecordType;
 
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt?: Date;
 
     @OneToMany(
         () => RecordAttachmentTypeormEntity,
@@ -50,4 +44,19 @@ export class PRRecordTypeormEntity {
         }
     )
     recordAttachments: RecordAttachmentTypeormEntity[];
+
+
+    constructor(project: ProjectTypeormEntity, title: string, content: string,
+                importance: number, isPublished: boolean, type: RecordType,
+                solution?: string, id?: string, createdAt?: Date) {
+        this.id = id;
+        this.project = project;
+        this.title = title;
+        this.content = content;
+        this.solution = solution;
+        this.importance = importance;
+        this.isPublished = isPublished;
+        this.type = type;
+        this.createdAt = createdAt;
+    }
 }

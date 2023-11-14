@@ -10,28 +10,28 @@ import { convert, LocalDate, nativeJs } from 'js-joda';
 export class PrRecordMapper {
     constructor(
         @InjectRepository(ProjectTypeormEntity)
-        private readonly dailyReportRepository: Repository<ProjectTypeormEntity>
+        private readonly dailyReportRepository: Repository<ProjectTypeormEntity>,
     ) {}
 
     async toDomain(entity: PRRecordTypeormEntity): Promise<PrRecord> {
-        return entity ?
-            new PrRecord(
-                entity.title,
-                entity.project.id,
-                entity.content,
-                entity.importance,
-                entity.isPublished,
-                entity.type,
-                entity.solution,
-                entity.id,
-                LocalDate.from(nativeJs(entity.createdAt))
-            )
+        return entity
+            ? new PrRecord(
+                  entity.title,
+                  entity.project.id,
+                  entity.content,
+                  entity.importance,
+                  entity.isPublished,
+                  entity.type,
+                  entity.solution,
+                  entity.id,
+                  LocalDate.from(nativeJs(entity.createdAt)),
+              )
             : null;
     }
 
     async toEntity(domain: PrRecord): Promise<PRRecordTypeormEntity> {
         const project = await this.dailyReportRepository.findOneBy({
-            id: domain.projectId
+            id: domain.projectId,
         });
 
         return new PRRecordTypeormEntity(
@@ -43,7 +43,6 @@ export class PrRecordMapper {
             domain.type,
             domain.solution,
             domain.id,
-            domain.createdAt ? convert(domain.createdAt).toDate() : null
         );
     }
 }

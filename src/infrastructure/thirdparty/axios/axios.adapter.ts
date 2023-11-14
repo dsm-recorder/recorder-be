@@ -53,4 +53,11 @@ export class AxiosAdapter implements AxiosPort {
     async getOrganizationRepositories(organization: string): Promise<QueryRepositoriesResponse[]> {
         return await getAndHandleError(`https://api.github.com/orgs/${organization}/repos`);
     }
+
+    async checkSpell(content: string): Promise<string> {
+        const formData = new FormData();
+        formData.append('text1', content);
+        const response = await axios.post('http://164.125.7.61/speller/results', formData);
+        return response.data;
+    }
 }

@@ -47,3 +47,7 @@ export class PublishedProjectResponse {
     likeCount: number;
     isLiked: boolean;
 }
+
+export class QueryProjectIdResponse {
+    projectId: string;
+}

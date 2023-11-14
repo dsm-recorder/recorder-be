@@ -102,4 +102,20 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             };
         });
     }
+
+    async queryProjectByRepositoryNameAndUserId(repositoryName: string, userId: string): Promise<Project> {
+        return await this.projectMapper.toDomain(
+            await this.projectRepository.findOne({
+                where: {
+                    githubOwnerRepository: repositoryName,
+                    user: {
+                        id: userId
+                    }
+                },
+                relations: {
+                    user: true
+                }
+            })
+        );
+    }
 }

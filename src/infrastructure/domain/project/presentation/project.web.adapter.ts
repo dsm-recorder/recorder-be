@@ -16,7 +16,9 @@ import {
 } from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import {
     QueryCurrentOrganizationsResponse,
-    QueryMyProjectsResponse, QueryPublishedProjectsResponse,
+    QueryMyProjectsResponse,
+    QueryProjectIdResponse,
+    QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
     UpdateProjectRequest
 } from '../../../../application/domain/project/dto/project.dto';
@@ -26,6 +28,7 @@ import { PublishProjectUseCase } from '../../../../application/domain/project/us
 import {
     QueryPublishedProjectsUseCase
 } from '../../../../application/domain/project/usecase/query-published-projects.usecase';
+import { QueryProjectIdUseCase } from '../../../../application/domain/project/usecase/query-project-id.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -37,7 +40,8 @@ export class ProjectWebAdapter {
         private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase,
         private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
-        private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase
+        private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase,
+        private readonly queryProjectIdUseCase: QueryProjectIdUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -67,6 +71,15 @@ export class ProjectWebAdapter {
         @Query('organization') organization: string
     ): Promise<QueryRepositoriesResponse> {
         return await this.queryOrganizationRepositoriesUseCase.execute(organization);
+    }
+
+    @Permission([Authority.USER])
+    @Get('/id')
+    async queryProjectId(
+        @Query('repositoryName') repositoryName: string,
+        @CurrentUser() user: User
+    ): Promise<QueryProjectIdResponse> {
+        return await this.queryProjectIdUseCase.execute(repositoryName, user.id);
     }
 
     @Permission([Authority.USER])

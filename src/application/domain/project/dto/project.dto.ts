@@ -32,3 +32,18 @@ export class UpdateProjectRequest {
     logoUrl: string;
     description?: string;
 }
+
+export class QueryPublishedProjectsResponse {
+    projects: PublishedProjectResponse[]
+}
+
+export class PublishedProjectResponse {
+    id: string;
+    name: string;
+    startDate: string;
+    finishDate: string;
+    userProfileUrl: string;
+    userAccountId: string;
+    likeCount: number;
+    isLiked: boolean;
+}

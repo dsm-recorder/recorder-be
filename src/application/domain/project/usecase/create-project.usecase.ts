@@ -28,7 +28,8 @@ export class CreateProjectUseCase {
             request.logoImageUrl,
             request.repositoryName,
             request.description,
-            false
+            false,
+            0
         ));
     }
 }

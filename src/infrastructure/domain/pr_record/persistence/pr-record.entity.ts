@@ -61,7 +61,6 @@ export class PRRecordTypeormEntity {
         type: RecordType,
         solution?: string,
         id?: string,
-        createdAt?: Date,
     ) {
         this.id = id;
         this.project = project;

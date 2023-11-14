@@ -14,5 +14,5 @@ export class CreatePRRecordRequest {
     importance: number;
     solution?: string;
     type: RecordType;
-    attachments: string[];
+    attachmentUrls: string[];
 }

@@ -37,7 +37,7 @@ export class CreatePRRecordUseCase {
             ),
         );
 
-        const attachments = request.attachments.map((attachment) => {
+        const attachments = request.attachmentUrls.map((attachment) => {
             return new RecordAttachment(attachment, prRecord.id);
         });
         await this.prRecordPort.saveAllAttachments(attachments);

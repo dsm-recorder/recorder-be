@@ -9,6 +9,7 @@ import { ImageModule } from './infrastructure/global/module/image.module';
 import { AwsModule } from './infrastructure/global/module/aws.module';
 import { DailyReportModule } from './infrastructure/global/module/daily-report.module';
 import { PRRecordModule } from './infrastructure/global/module/pr-record.module';
+import { LikeModule } from './infrastructure/global/module/like.module';
 
 @Module({
     imports: [
@@ -21,7 +22,8 @@ import { PRRecordModule } from './infrastructure/global/module/pr-record.module'
         ImageModule,
         AwsModule,
         PRRecordModule,
-        ConfigModule.forRoot({ isGlobal: true })
-    ]
+        LikeModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+    ],
 })
 export class AppModule {}

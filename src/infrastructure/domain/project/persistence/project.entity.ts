@@ -19,9 +19,6 @@ export class ProjectTypeormEntity {
     @Column('simple-array', { nullable: true })
     skills?: string[];
 
-    @Column('tinyint', { nullable: false })
-    isPublic: boolean;
-
     @Column('varchar', { length: 255, default: null })
     logoUrl?: string;
 
@@ -47,20 +44,18 @@ export class ProjectTypeormEntity {
     finishDate?: Date;
 
     constructor(id: string, user: UserTypeormEntity, name: string, skills: string[],
-                isPublic: boolean, logoUrl: string, description: string, githubOwnerRepository: string,
-                isPublished: boolean, createdAt: Date, finishDate: Date, role?: string, learned?: string) {
+                logoUrl: string, description: string, githubOwnerRepository: string,
+                isPublished: boolean, finishDate: Date, role?: string, learned?: string) {
         this.id = id;
         this.user = user;
         this.name = name;
         this.skills = skills;
-        this.isPublic = isPublic;
         this.logoUrl = logoUrl;
         this.description = description;
         this.githubOwnerRepository = githubOwnerRepository;
         this.isPublished = isPublished;
         this.role = role;
         this.learned = learned;
-        this.createdAt = createdAt;
         this.finishDate = finishDate;
     }
 }

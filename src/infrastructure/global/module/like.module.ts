@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ProjectModule } from './project.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LikeTypeormEntity } from '../../domain/like/persistence/like.entity';
 import { LikeUseCase } from '../../../application/domain/like/usecase/like.usecase';
@@ -12,7 +11,7 @@ const LIKE_REPOSITORY = TypeOrmModule.forFeature([LikeTypeormEntity]);
 const LIKE_PORT = { provide: LikePort, useClass: LikePersistenceAdapter };
 
 @Module({
-    imports: [ProjectModule, LIKE_REPOSITORY],
+    imports: [LIKE_REPOSITORY],
     exports: [LIKE_REPOSITORY, LIKE_PORT],
     providers: [LikeUseCase, LIKE_PORT, LikeMapper],
     controllers: [LikeWebAdapter],

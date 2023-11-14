@@ -2,7 +2,7 @@ import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 
-@Entity('tbl_likes')
+@Entity('tbl_like')
 export class LikeTypeormEntity {
     @ManyToOne(() => ProjectTypeormEntity, (project) => project, {
         onDelete: 'CASCADE',

@@ -5,14 +5,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectTypeormEntity } from './project.entity';
 import { Repository } from 'typeorm';
 import { ProjectMapper } from './project.mapper';
-import { PublishedProjectResponse } from '../../../../application/domain/pr_record/dto/pr-record.dto';
+import { LikeTypeormEntity } from '../../like/persistence/like.entity';
+import { PublishedProjectResponse } from '../../../../application/domain/project/dto/project.dto';
 
 @Injectable()
 export class ProjectPersistenceAdapter implements ProjectPort {
     constructor(
         @InjectRepository(ProjectTypeormEntity)
         private readonly projectRepository: Repository<ProjectTypeormEntity>,
-        private readonly projectMapper: ProjectMapper
+        private readonly projectMapper: ProjectMapper,
+        @InjectRepository(LikeTypeormEntity)
+        private readonly likeTypeormEntity: Repository<LikeTypeormEntity>
     ) {}
 
     async queryProjectByUserIdAndRepositoryName(
@@ -65,14 +68,25 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryProjectsByPublished(published: boolean): Promise<PublishedProjectResponse[]> {
-        const projects = await this.projectRepository.createQueryBuilder('project')
-            .select('project.id', 'id')
-            .addSelect('project.name', 'name')
-            .addSelect('project.createdAt', 'createdAt')
-            .addSelect('project.finishDate', 'finishDate')
-            .innerJoinAndSelect('project.user', 'user')
-            .where('project.isPublished = :published', { published })
+    async queryProjectsByPublished(published: boolean, userId: string): Promise<PublishedProjectResponse[]> {
+        const isLiked = this.likeTypeormEntity.createQueryBuilder('lk')
+            .select('COUNT(*)')
+            .where('lk.user_id = :userId', { userId });
+
+        const projects = await this.projectRepository.createQueryBuilder('p')
+            .leftJoin('tbl_like', 'lk', 'p.project_id = lk.project_id')
+            .leftJoin('p.user', 'user')
+            .select('p.id', 'id')
+            .addSelect('p.name', 'name')
+            .addSelect('p.createdAt', 'startDate')
+            .addSelect('p.finishDate', 'finishDate')
+            .addSelect('user.profileUrl', 'userProfileUrl')
+            .addSelect('user.githubAccountId', 'userAccountId')
+            .addSelect('COUNT(lk.project_id)', 'likeCount')
+            .addSelect('(' + isLiked.getQuery() + ') > 0', 'isLiked')
+            .setParameters(isLiked.getParameters())
+            .where('p.isPublished= :published', { published })
+            .groupBy('p.project_id')
             .getRawMany();
 
         return projects.map((project): PublishedProjectResponse => {
@@ -81,9 +95,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
                 name: project.name,
                 startDate: project.startDate,
                 finishDate: project.finishDate,
-                userAccountId: project.user_github_account_id,
-                userProfileUrl: project.user_profile_url,
-                likeCount: 10
+                userAccountId: project.userAccountId,
+                userProfileUrl: project.userProfileUrl,
+                likeCount: project.likeCount,
+                isLiked: project.isLiked == '1'
             };
         });
     }

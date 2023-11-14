@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProjectPort } from '../spi/project.spi';
-import { QueryPublishedProjectsResponse } from '../../pr_record/dto/pr-record.dto';
+import { QueryPublishedProjectsResponse } from '../dto/project.dto';
 
 @Injectable()
 export class QueryPublishedProjectsUseCase {
@@ -10,9 +10,9 @@ export class QueryPublishedProjectsUseCase {
     ) {
     }
 
-    async execute(): Promise<QueryPublishedProjectsResponse> {
+    async execute(currentUserId: string): Promise<QueryPublishedProjectsResponse> {
         return {
-            projects: await this.projectPort.queryProjectsByPublished(true)
+            projects: await this.projectPort.queryProjectsByPublished(true, currentUserId)
         };
     }
 }

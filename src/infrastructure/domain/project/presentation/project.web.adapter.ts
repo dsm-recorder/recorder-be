@@ -16,7 +16,7 @@ import {
 } from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import {
     QueryCurrentOrganizationsResponse,
-    QueryMyProjectsResponse,
+    QueryMyProjectsResponse, QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
     UpdateProjectRequest
 } from '../../../../application/domain/project/dto/project.dto';
@@ -26,7 +26,6 @@ import { PublishProjectUseCase } from '../../../../application/domain/project/us
 import {
     QueryPublishedProjectsUseCase
 } from '../../../../application/domain/project/usecase/query-published-projects.usecase';
-import { QueryPublishedProjectsResponse } from '../../../../application/domain/pr_record/dto/pr-record.dto';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -84,8 +83,8 @@ export class ProjectWebAdapter {
 
     @Permission([Authority.USER])
     @Get('/publish')
-    async queryPublishedProjects(): Promise<QueryPublishedProjectsResponse> {
-        return await this.queryPublishedProjectsUseCase.execute();
+    async queryPublishedProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.execute(user.id);
     }
 
     @Permission([Authority.USER])

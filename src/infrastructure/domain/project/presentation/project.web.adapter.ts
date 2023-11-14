@@ -95,7 +95,7 @@ export class ProjectWebAdapter {
     }
 
     @Permission([Authority.USER])
-    @Get('/publish')
+    @Get('/published')
     async queryPublishedProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
         return await this.queryPublishedProjectsUseCase.execute(user.id);
     }

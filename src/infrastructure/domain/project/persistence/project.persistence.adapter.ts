@@ -87,6 +87,7 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             .setParameters(isLiked.getParameters())
             .where('p.isPublished= :published', { published })
             .groupBy('p.project_id')
+            .orderBy('p.finishDate', 'DESC')
             .getRawMany();
 
         return projects.map((project): PublishedProjectResponse => {

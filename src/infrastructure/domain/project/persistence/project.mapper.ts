@@ -23,7 +23,7 @@ export class ProjectMapper {
                 entity.githubOwnerRepository,
                 entity.description,
                 entity.isPublished,
-                entity.finishDate ? LocalDate.from(nativeJs(entity.createdAt)): null,
+                entity.createdAt ? LocalDate.from(nativeJs(entity.createdAt)): null,
                 entity.finishDate ? LocalDate.from(nativeJs(entity.finishDate)) : null,
                 entity.role,
                 entity.learned,

@@ -7,8 +7,13 @@ export class RecordAttachmentTypeormEntity {
     attachmentUrl: string;
 
     @ManyToOne(() => PRRecordTypeormEntity, (prRecord) => prRecord.recordAttachments, {
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
     })
     @PrimaryColumn('varchar', { name: 'pr_record_id' })
     prRecord: PRRecordTypeormEntity;
+
+    constructor(attachmentUrl: string, prRecord: PRRecordTypeormEntity) {
+        this.attachmentUrl = attachmentUrl;
+        this.prRecord = prRecord;
+    }
 }

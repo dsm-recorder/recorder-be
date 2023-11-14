@@ -12,7 +12,19 @@ export class QueryPublishedProjectsUseCase {
 
     async execute(currentUserId: string): Promise<QueryPublishedProjectsResponse> {
         return {
-            projects: await this.projectPort.queryProjectsByPublished(true, currentUserId)
+            projects: await this.projectPort.queryPublishedProjects(currentUserId)
+        };
+    }
+
+    async queryMonthlyProjects(currentUserId: string): Promise<QueryPublishedProjectsResponse> {
+        return {
+            projects: await this.projectPort.queryPublishedProjectsOrderByLikeCountAndLimit(3, currentUserId)
+        };
+    }
+
+    async queryLikedProjects(currentUserId: string): Promise<QueryPublishedProjectsResponse> {
+        return {
+            projects: await this.projectPort.queryUserLikedProjects(currentUserId)
         };
     }
 }

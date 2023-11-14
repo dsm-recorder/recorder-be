@@ -23,6 +23,7 @@ export class ProjectResponse {
     isPublished: boolean;
     createdAt: LocalDate;
     finishDate: LocalDate;
+    description: string;
 }
 
 export class UpdateProjectRequest {

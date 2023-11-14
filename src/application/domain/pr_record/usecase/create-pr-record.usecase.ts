@@ -4,6 +4,7 @@ import { ProjectPort } from '../../project/spi/project.spi';
 import { User } from '../../user/user';
 import { PrRecord } from '../pr-record';
 import { CreatePRRecordRequest } from '../../../../infrastructure/domain/pr_record/presentation/pr-record.web.dto';
+import { RecordAttachment } from '../record-attachment';
 
 @Injectable()
 export class CreatePRRecordUseCase {
@@ -11,7 +12,7 @@ export class CreatePRRecordUseCase {
         @Inject(PrRecordPort)
         private readonly prRecordPort: PrRecordPort,
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort
+        private readonly projectPort: ProjectPort,
     ) {}
 
     async execute(projectId: string, request: CreatePRRecordRequest, user: User) {
@@ -24,7 +25,7 @@ export class CreatePRRecordUseCase {
             throw new UnauthorizedException('Invalid User');
         }
 
-        await this.prRecordPort.savePrRecord(
+        const prRecord = await this.prRecordPort.savePrRecord(
             new PrRecord(
                 request.title,
                 project.id,
@@ -32,8 +33,13 @@ export class CreatePRRecordUseCase {
                 request.importance,
                 false,
                 request.type,
-                request.solution
-            )
+                request.solution,
+            ),
         );
+
+        const attachments = request.attachments.map((attachment) => {
+            return new RecordAttachment(attachment, prRecord.id);
+        });
+        await this.prRecordPort.saveAllAttachments(attachments);
     }
 }

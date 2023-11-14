@@ -6,17 +6,15 @@ import { PrRecordPersistenceAdapter } from '../../domain/pr_record/persistence/p
 import { Global, Module } from '@nestjs/common';
 import { ProjectModule } from './project.module';
 import { PrRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
-import {
-    QueryProjectPrRecordsUseCase
-} from '../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
+import { QueryProjectPrRecordsUseCase } from '../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
 import { PrRecordWebAdapter } from '../../domain/pr_record/presentation/pr-record.web.adapter';
 import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
 import { UpdatePrRecordUseCase } from '../../../application/domain/pr_record/usecase/update-pr-record.usecase';
-
+import { RecordAttachmentMapper } from '../../domain/pr_record/persistence/record-attachment.mapper';
 
 const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
     PRRecordTypeormEntity,
-    RecordAttachmentTypeormEntity
+    RecordAttachmentTypeormEntity,
 ]);
 const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAdapter };
 
@@ -26,11 +24,12 @@ const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAda
     providers: [
         PR_RECORD_PORT,
         PrRecordMapper,
+        RecordAttachmentMapper,
         QueryProjectPrRecordsUseCase,
         CreatePRRecordUseCase,
-        UpdatePrRecordUseCase
+        UpdatePrRecordUseCase,
     ],
     exports: [PR_RECORD_PORT, PR_RECORD_REPOSITORY],
-    controllers: [PrRecordWebAdapter]
+    controllers: [PrRecordWebAdapter],
 })
 export class PRRecordModule {}

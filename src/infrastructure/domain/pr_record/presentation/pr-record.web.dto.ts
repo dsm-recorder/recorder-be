@@ -5,7 +5,7 @@ export class UpdatePrRecordRequest {
     content: string;
     importance: number;
     solution?: string;
-    type: RecordType
+    type: RecordType;
 }
 
 export class CreatePRRecordRequest {
@@ -14,4 +14,5 @@ export class CreatePRRecordRequest {
     importance: number;
     solution?: string;
     type: RecordType;
+    attachments: string[];
 }

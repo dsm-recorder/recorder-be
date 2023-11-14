@@ -4,6 +4,7 @@ import {
     QueryRepositoriesResponse,
     QueryRepositoryDetailsResponse
 } from '../../../../infrastructure/thirdparty/axios/dto/github.dto';
+import { PublishedProjectResponse } from '../dto/project.dto';
 
 export interface ProjectPort {
     saveProject(project: Project): Promise<Project>;
@@ -13,6 +14,10 @@ export interface ProjectPort {
     queryProjectById(id: String): Promise<Project>;
 
     queryProjectByUserIdAndRepositoryName(userId: string, repositoryName: string): Promise<Project>;
+
+    queryProjectsByPublished(published: boolean, userId: string): Promise<PublishedProjectResponse[]>;
+
+    queryProjectByRepositoryNameAndUserId(repositoryName: string, userId: string): Promise<Project>;
 }
 
 export interface ProjectGithubAxiosPort {

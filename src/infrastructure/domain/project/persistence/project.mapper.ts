@@ -10,21 +10,21 @@ import { convert, LocalDate, nativeJs } from 'js-joda';
 export class ProjectMapper {
     constructor(
         @InjectRepository(UserTypeormEntity)
-        private readonly userRepository: Repository<UserTypeormEntity>,
+        private readonly userRepository: Repository<UserTypeormEntity>
     ) {}
 
     async toDomain(entity: ProjectTypeormEntity): Promise<Project> {
         return entity
             ? new Project(
-                (await entity.user).id,
+                entity.user.id,
                 entity.name,
                 entity.skills,
-                entity.isPublic,
                 entity.logoUrl,
                 entity.githubOwnerRepository,
                 entity.description,
                 entity.isPublished,
-                LocalDate.from(nativeJs(entity.createdAt)),
+                entity.finishDate ? LocalDate.from(nativeJs(entity.createdAt)): null,
+                entity.finishDate ? LocalDate.from(nativeJs(entity.finishDate)) : null,
                 entity.role,
                 entity.learned,
                 entity.id
@@ -39,12 +39,11 @@ export class ProjectMapper {
             user,
             domain.name,
             domain.skills,
-            domain.isPublic,
             domain.logoUrl,
             domain.description,
             domain.githubOwnerRepository,
             domain.isPublished,
-            convert(domain.createdAt).toDate(),
+            domain.finishDate ? convert(domain.finishDate).toDate() : null,
             domain.role,
             domain.learned
         );

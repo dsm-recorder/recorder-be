@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LikeTypeormEntity } from '../../domain/like/persistence/like.entity';
 import { LikeUseCase } from '../../../application/domain/like/usecase/like.usecase';
@@ -10,6 +11,7 @@ import { LikeMapper } from '../../domain/like/persistence/like.mapper';
 const LIKE_REPOSITORY = TypeOrmModule.forFeature([LikeTypeormEntity]);
 const LIKE_PORT = { provide: LikePort, useClass: LikePersistenceAdapter };
 
+@Global()
 @Module({
     imports: [LIKE_REPOSITORY],
     exports: [LIKE_REPOSITORY, LIKE_PORT],

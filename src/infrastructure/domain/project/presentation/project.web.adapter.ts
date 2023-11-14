@@ -8,17 +8,27 @@ import { CurrentUser } from '../../../global/decorator/current-user.decorator';
 import { User } from '../../../../application/domain/user/user';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
-import { QueryCurrentOrganizationsUseCase } from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
-import { QueryOrganizationRepositoriesUseCase } from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
+import {
+    QueryCurrentOrganizationsUseCase
+} from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
+import {
+    QueryOrganizationRepositoriesUseCase
+} from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import {
     QueryCurrentOrganizationsResponse,
     QueryMyProjectsResponse,
+    QueryProjectIdResponse,
+    QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
-    UpdateProjectRequest,
+    UpdateProjectRequest
 } from '../../../../application/domain/project/dto/project.dto';
 import { QueryMyProjectsUseCase } from '../../../../application/domain/project/usecase/query-my-projects.usecase';
 import { UpdateProjectUseCase } from '../../../../application/domain/project/usecase/update-project.usecase';
 import { PublishProjectUseCase } from '../../../../application/domain/project/usecase/publish-project.usecase';
+import {
+    QueryPublishedProjectsUseCase
+} from '../../../../application/domain/project/usecase/query-published-projects.usecase';
+import { QueryProjectIdUseCase } from '../../../../application/domain/project/usecase/query-project-id.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -30,6 +40,8 @@ export class ProjectWebAdapter {
         private readonly queryMyProjectsUseCase: QueryMyProjectsUseCase,
         private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
+        private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase,
+        private readonly queryProjectIdUseCase: QueryProjectIdUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -48,7 +60,7 @@ export class ProjectWebAdapter {
     @Permission([Authority.USER])
     @Get('/organization')
     async queryCurrentOrganizations(
-        @CurrentUser() user: User,
+        @CurrentUser() user: User
     ): Promise<QueryCurrentOrganizationsResponse> {
         return await this.queryCurrentOrganizationsUseCase.execute(user);
     }
@@ -56,12 +68,20 @@ export class ProjectWebAdapter {
     @Permission([Authority.USER])
     @Get('/organization/repository')
     async queryOrganizationRepositories(
-        @Query('organization') organization: string,
+        @Query('organization') organization: string
     ): Promise<QueryRepositoriesResponse> {
         return await this.queryOrganizationRepositoriesUseCase.execute(organization);
     }
 
-    @HttpCode(204)
+    @Permission([Authority.USER])
+    @Get('/id')
+    async queryProjectId(
+        @Query('repositoryName') repositoryName: string,
+        @CurrentUser() user: User
+    ): Promise<QueryProjectIdResponse> {
+        return await this.queryProjectIdUseCase.execute(repositoryName, user.id);
+    }
+
     @Permission([Authority.USER])
     @Get('/my')
     async queryMyProjects(@CurrentUser() user: User): Promise<QueryMyProjectsResponse> {
@@ -75,11 +95,17 @@ export class ProjectWebAdapter {
     }
 
     @Permission([Authority.USER])
+    @Get('/published')
+    async queryPublishedProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.execute(user.id);
+    }
+
+    @Permission([Authority.USER])
     @HttpCode(204)
     @Patch('/:projectId')
     async updateProject(
         @Param('projectId') projectId: string,
-        @Body() request: UpdateProjectRequest,
+        @Body() request: UpdateProjectRequest
     ) {
         await this.updateProjectUseCase.execute(projectId, request);
     }

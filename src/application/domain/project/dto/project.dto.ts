@@ -20,7 +20,9 @@ export class ProjectResponse {
     id: string;
     name: string;
     logoImageUrl: string;
+    isPublished: boolean;
     createdAt: LocalDate;
+    finishDate: LocalDate;
     description: string;
 }
 
@@ -29,4 +31,23 @@ export class UpdateProjectRequest {
     skills: string[];
     logoUrl: string;
     description?: string;
+}
+
+export class QueryPublishedProjectsResponse {
+    projects: PublishedProjectResponse[]
+}
+
+export class PublishedProjectResponse {
+    id: string;
+    name: string;
+    startDate: string;
+    finishDate: string;
+    userProfileUrl: string;
+    userAccountId: string;
+    likeCount: number;
+    isLiked: boolean;
+}
+
+export class QueryProjectIdResponse {
+    projectId: string;
 }

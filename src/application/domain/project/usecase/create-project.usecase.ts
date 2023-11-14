@@ -25,7 +25,6 @@ export class CreateProjectUseCase {
             user.id,
             request.projectName,
             request.skills,
-            false,
             request.logoImageUrl,
             request.repositoryName,
             request.description,

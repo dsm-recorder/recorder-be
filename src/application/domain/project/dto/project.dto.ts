@@ -23,6 +23,7 @@ export class ProjectResponse {
     isPublished: boolean;
     createdAt: LocalDate;
     finishDate: LocalDate;
+    description: string;
 }
 
 export class UpdateProjectRequest {
@@ -43,6 +44,7 @@ export class PublishedProjectResponse {
     finishDate: string;
     userProfileUrl: string;
     userAccountId: string;
+    logoImageUrl: string;
     likeCount: number;
     isLiked: boolean;
 }

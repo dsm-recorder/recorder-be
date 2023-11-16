@@ -11,6 +11,7 @@ export class Project {
     isPublished: boolean;
     role?: string;
     learned?: string;
+    likeCount: number;
     createdAt?: LocalDate;
     finishDate: LocalDate;
 
@@ -34,9 +35,17 @@ export class Project {
         this.description = description;
     }
 
-    constructor(userId: string, name: string, skills: string[],
-                logoUrl: string, githubOwnerRepository: string, description: string, isPublished: boolean,
-                createdAt?: LocalDate, finishDate?: LocalDate, role?: string, learned?: string, id?: string) {
+    public addLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public reduceLikeCount() {
+        this.likeCount -= 1;
+    }
+
+    constructor(userId: string, name: string, skills: string[], logoUrl: string, githubOwnerRepository: string,
+                description: string, isPublished: boolean, likeCount: number, createdAt?: LocalDate, finishDate?: LocalDate,
+                role?: string, learned?: string, id?: string) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -47,6 +56,7 @@ export class Project {
         this.isPublished = isPublished;
         this.role = role;
         this.learned = learned;
+        this.likeCount = likeCount;
         this.createdAt = createdAt;
         this.finishDate = finishDate;
     }

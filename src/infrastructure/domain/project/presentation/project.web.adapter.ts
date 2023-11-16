@@ -119,4 +119,15 @@ export class ProjectWebAdapter {
     ): Promise<QueryProjectDetailsResponse> {
         return await this.queryProjectDetailsUseCase.execute(projectId, user);
     }
+          
+    @Get('/monthly')
+    async queryMonthlyProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.queryMonthlyProjects(user.id);
+    }
+
+    @Permission([Authority.USER])
+    @Get('/liked')
+    async queryLikedProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.queryLikedProjects(user.id);
+    }
 }

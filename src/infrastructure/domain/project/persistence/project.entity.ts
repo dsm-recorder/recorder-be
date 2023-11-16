@@ -37,15 +37,18 @@ export class ProjectTypeormEntity {
     @Column('varchar', { length: 200, nullable: true })
     learned?: string;
 
+    @Column('integer', { nullable: false })
+    likeCount: number;
+
     @CreateDateColumn()
     createdAt?: Date;
 
     @Column('datetime', { nullable: true })
     finishDate?: Date;
 
-    constructor(id: string, user: UserTypeormEntity, name: string, skills: string[],
-                logoUrl: string, description: string, githubOwnerRepository: string,
-                isPublished: boolean, finishDate: Date, role?: string, learned?: string) {
+    constructor(user: UserTypeormEntity, name: string, skills: string[], logoUrl: string, githubOwnerRepository: string,
+                description: string, isPublished: boolean, likeCount: number, finishDate?: Date,
+                role?: string, learned?: string, id?: string) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -56,6 +59,7 @@ export class ProjectTypeormEntity {
         this.isPublished = isPublished;
         this.role = role;
         this.learned = learned;
+        this.likeCount = likeCount;
         this.finishDate = finishDate;
     }
 }

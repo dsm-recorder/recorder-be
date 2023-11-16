@@ -4,14 +4,18 @@ import { RecordAttachmentTypeormEntity } from '../../domain/pr_record/persistenc
 import { PrRecordPort } from '../../../application/domain/pr_record/spi/pr-record.spi';
 import { PrRecordPersistenceAdapter } from '../../domain/pr_record/persistence/pr-record.persistence.adapter';
 import { Global, Module } from '@nestjs/common';
-import { ProjectModule } from './project.module';
 import { PrRecordMapper } from '../../domain/pr_record/persistence/pr-record.mapper';
-import { QueryProjectPrRecordsUseCase } from '../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
+import {
+    QueryProjectPrRecordsUseCase
+} from '../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
 import { PrRecordWebAdapter } from '../../domain/pr_record/presentation/pr-record.web.adapter';
 import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
 import { UpdatePrRecordUseCase } from '../../../application/domain/pr_record/usecase/update-pr-record.usecase';
 import { RecordAttachmentMapper } from '../../domain/pr_record/persistence/record-attachment.mapper';
 import { QueryPrRecordDetailsUseCase } from '../../../application/domain/pr_record/usecase/query-pr-record-details.usecase';
+import {
+    QueryPublishedProjectPrRecordUseCase
+} from '../../../application/domain/pr_record/usecase/query-published-project-pr-record.usecase';
 
 const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
     PRRecordTypeormEntity,
@@ -29,6 +33,7 @@ const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAda
         QueryProjectPrRecordsUseCase,
         CreatePRRecordUseCase,
         UpdatePrRecordUseCase,
+        QueryPublishedProjectPrRecordUseCase
         QueryPrRecordDetailsUseCase
     ],
     exports: [PR_RECORD_PORT, PR_RECORD_REPOSITORY],

@@ -2,24 +2,19 @@ import { Body, Controller, Get, HttpCode, Param, Patch, Post } from '@nestjs/com
 import { QueryProjectPrRecordsUseCase } from '../../../../application/domain/pr_record/usecase/query-project-pr-records.usecase';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
-import {
-    QueryProjectPrRecordsResponse,
-    QueryPrRecordDetailsResponse
-} from '../../../../application/domain/pr_record/dto/pr-record.dto';
+import { QueryProjectPrRecordsResponse } from '../../../../application/domain/pr_record/dto/pr-record.dto';
 import { CurrentUser } from '../../../global/decorator/current-user.decorator';
 import { User } from '../../../../application/domain/user/user';
 import { CreatePRRecordUseCase } from '../../../../application/domain/pr_record/usecase/create-pr-record.usecase';
 import { UpdatePrRecordUseCase } from '../../../../application/domain/pr_record/usecase/update-pr-record.usecase';
 import { CreatePRRecordRequest, UpdatePrRecordRequest } from './pr-record.web.dto';
-import { QueryPrRecordDetailsUseCase } from '../../../../application/domain/pr_record/usecase/query-pr-record-details.usecase';
 
 @Controller('pr-records')
 export class PrRecordWebAdapter {
     constructor(
         private readonly queryProjectPrRecordsUseCase: QueryProjectPrRecordsUseCase,
         private readonly createPRRecordUseCase: CreatePRRecordUseCase,
-        private readonly updatePrRecordUseCase: UpdatePrRecordUseCase,
-        private readonly queryPrRecordDetailsUseCase: QueryPrRecordDetailsUseCase
+        private readonly updatePrRecordUseCase: UpdatePrRecordUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -52,6 +47,10 @@ export class PrRecordWebAdapter {
         await this.updatePrRecordUseCase.execute(request, prRecordId);
     }
 
+    @Permission([Authority.USER])
+    @Get('/:projectId/published')
+    async queryPublishedProjectPrRecord(@Param('projectId') projectId: string): Promise<QueryPublishedPrRecordsResponse> {
+        return await this.queryPublishedPrRecordsUseCase.execute(projectId);
     @Get('/details/:prRecordId')
     async queryPrRecordDetails(
         @Param('prRecordId') prRecordId: string

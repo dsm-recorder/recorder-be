@@ -81,6 +81,7 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             .addSelect('p.createdAt', 'startDate')
             .addSelect('p.finishDate', 'finishDate')
             .addSelect('user.profileUrl', 'userProfileUrl')
+            .addSelect('p.logoUrl', 'logoImageUrl')
             .addSelect('user.githubAccountId', 'userAccountId')
             .addSelect('COUNT(lk.project_id)', 'likeCount')
             .addSelect('(' + isLiked.getQuery() + ') > 0', 'isLiked')
@@ -99,7 +100,8 @@ export class ProjectPersistenceAdapter implements ProjectPort {
                 userAccountId: project.userAccountId,
                 userProfileUrl: project.userProfileUrl,
                 likeCount: project.likeCount,
-                isLiked: project.isLiked == '1'
+                isLiked: project.isLiked == '1',
+                logoImageUrl: project.logoImageUrl
             };
         });
     }

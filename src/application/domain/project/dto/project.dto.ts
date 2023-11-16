@@ -43,6 +43,7 @@ export class PublishedProjectResponse {
     finishDate: string;
     userProfileUrl: string;
     userAccountId: string;
+    logoImageUrl: string;
     likeCount: number;
     isLiked: boolean;
 }

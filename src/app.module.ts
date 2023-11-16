@@ -10,6 +10,7 @@ import { AwsModule } from './infrastructure/global/module/aws.module';
 import { DailyReportModule } from './infrastructure/global/module/daily-report.module';
 import { PRRecordModule } from './infrastructure/global/module/pr-record.module';
 import { LikeModule } from './infrastructure/global/module/like.module';
+import { SpellModule } from './infrastructure/global/module/spell.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { LikeModule } from './infrastructure/global/module/like.module';
         AwsModule,
         PRRecordModule,
         LikeModule,
+        SpellModule,
         ConfigModule.forRoot({ isGlobal: true }),
     ],
 })

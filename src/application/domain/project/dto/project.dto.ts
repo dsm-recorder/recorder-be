@@ -33,7 +33,7 @@ export class UpdateProjectRequest {
 }
 
 export class QueryPublishedProjectsResponse {
-    projects: PublishedProjectResponse[]
+    projects: PublishedProjectResponse[];
 }
 
 export class PublishedProjectResponse {

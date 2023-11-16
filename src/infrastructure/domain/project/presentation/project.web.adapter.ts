@@ -1,22 +1,17 @@
 import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
-import {
-    QueryCurrentRepositoryUseCase
-} from '../../../../application/domain/project/usecase/query-current-repository.usecase';
+import { QueryCurrentRepositoryUseCase } from '../../../../application/domain/project/usecase/query-current-repository.usecase';
 import { CreateProjectUseCase } from '../../../../application/domain/project/usecase/create-project.usecase';
 import { CreateProjectRequest, PublishProjectRequest } from './dto/project.web.dto';
 import { CurrentUser } from '../../../global/decorator/current-user.decorator';
 import { User } from '../../../../application/domain/user/user';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
-import {
-    QueryCurrentOrganizationsUseCase
-} from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
-import {
-    QueryOrganizationRepositoriesUseCase
-} from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
+import { QueryCurrentOrganizationsUseCase } from '../../../../application/domain/project/usecase/query-current-organizations.usecase';
+import { QueryOrganizationRepositoriesUseCase } from '../../../../application/domain/project/usecase/query-organization-repositories.usecase';
 import {
     QueryCurrentOrganizationsResponse,
     QueryMyProjectsResponse,
+    QueryProjectDetailsResponse,
     QueryProjectIdResponse,
     QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
@@ -25,10 +20,9 @@ import {
 import { QueryMyProjectsUseCase } from '../../../../application/domain/project/usecase/query-my-projects.usecase';
 import { UpdateProjectUseCase } from '../../../../application/domain/project/usecase/update-project.usecase';
 import { PublishProjectUseCase } from '../../../../application/domain/project/usecase/publish-project.usecase';
-import {
-    QueryPublishedProjectsUseCase
-} from '../../../../application/domain/project/usecase/query-published-projects.usecase';
+import { QueryPublishedProjectsUseCase } from '../../../../application/domain/project/usecase/query-published-projects.usecase';
 import { QueryProjectIdUseCase } from '../../../../application/domain/project/usecase/query-project-id.usecase';
+import { QueryProjectDetailsUseCase } from '../../../../application/domain/project/usecase/query-project-details.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -41,7 +35,8 @@ export class ProjectWebAdapter {
         private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
         private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase,
-        private readonly queryProjectIdUseCase: QueryProjectIdUseCase
+        private readonly queryProjectIdUseCase: QueryProjectIdUseCase,
+        private readonly queryProjectDetailsUseCase: QueryProjectDetailsUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -90,13 +85,19 @@ export class ProjectWebAdapter {
 
     @Permission([Authority.USER])
     @Patch('/:projectId/publish')
-    async publishProject(@Body() request: PublishProjectRequest, @Param('projectId') projectId: string, @CurrentUser() user: User) {
+    async publishProject(
+        @Body() request: PublishProjectRequest,
+        @Param('projectId') projectId: string,
+        @CurrentUser() user: User
+    ) {
         await this.publishProjectUseCase.execute(request, projectId, user);
     }
 
     @Permission([Authority.USER])
     @Get('/published')
-    async queryPublishedProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+    async queryPublishedProjects(
+        @CurrentUser() user: User
+    ): Promise<QueryPublishedProjectsResponse> {
         return await this.queryPublishedProjectsUseCase.execute(user.id);
     }
 
@@ -108,5 +109,14 @@ export class ProjectWebAdapter {
         @Body() request: UpdateProjectRequest
     ) {
         await this.updateProjectUseCase.execute(projectId, request);
+    }
+
+    @Permission([Authority.USER])
+    @Get('/:projectId')
+    async queryProjectDetails(
+        @Param('projectId') projectId: string,
+        @CurrentUser() user: User
+    ): Promise<QueryProjectDetailsResponse> {
+        return await this.queryProjectDetailsUseCase.execute(projectId, user);
     }
 }

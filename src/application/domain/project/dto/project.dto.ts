@@ -50,3 +50,12 @@ export class PublishedProjectResponse {
 export class QueryProjectIdResponse {
     projectId: string;
 }
+
+export class QueryProjectDetailsResponse {
+    id: string;
+    name: string;
+    startDate: LocalDate;
+    finishDate: LocalDate;
+    logoUrl: string;
+    description: string;
+}

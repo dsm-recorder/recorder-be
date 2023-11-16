@@ -11,10 +11,11 @@ import { PrRecordWebAdapter } from '../../domain/pr_record/presentation/pr-recor
 import { CreatePRRecordUseCase } from '../../../application/domain/pr_record/usecase/create-pr-record.usecase';
 import { UpdatePrRecordUseCase } from '../../../application/domain/pr_record/usecase/update-pr-record.usecase';
 import { RecordAttachmentMapper } from '../../domain/pr_record/persistence/record-attachment.mapper';
+import { QueryPrRecordDetailsUseCase } from '../../../application/domain/pr_record/usecase/query-pr-record-details.usecase';
 
 const PR_RECORD_REPOSITORY = TypeOrmModule.forFeature([
     PRRecordTypeormEntity,
-    RecordAttachmentTypeormEntity,
+    RecordAttachmentTypeormEntity
 ]);
 const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAdapter };
 
@@ -28,8 +29,9 @@ const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAda
         QueryProjectPrRecordsUseCase,
         CreatePRRecordUseCase,
         UpdatePrRecordUseCase,
+        QueryPrRecordDetailsUseCase
     ],
     exports: [PR_RECORD_PORT, PR_RECORD_REPOSITORY],
-    controllers: [PrRecordWebAdapter],
+    controllers: [PrRecordWebAdapter]
 })
 export class PRRecordModule {}

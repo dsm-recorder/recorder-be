@@ -6,6 +6,7 @@ export class UpdatePrRecordRequest {
     importance: number;
     solution?: string;
     type: RecordType;
+    attachmentUrls: string[];
 }
 
 export class CreatePRRecordRequest {

@@ -13,6 +13,10 @@ export interface PrRecordPort {
     saveAllPrRecords(prRecords: PrRecord[]): Promise<void>;
 
     saveAllAttachments(attachments: RecordAttachment[]): Promise<void>;
+
+    queryAttachmentsByPrRecordId(prRecordId: string): Promise<RecordAttachment[]>;
+
+    deleteAllAttachments(attachments: RecordAttachment[]): Promise<void>;
 }
 
 export const PrRecordPort = Symbol('IPrRecordPort');

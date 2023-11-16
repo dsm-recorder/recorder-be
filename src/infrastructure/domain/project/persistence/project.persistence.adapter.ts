@@ -122,14 +122,17 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryPublishedProjects(userId: string): Promise<PublishedProjectResponse[]> {
+    async queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.finishDate';
 
-        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
-            .getRawMany())
+        const query = this.getQueryPublishedProjectQuery(orderByClause, userId);
+        if (name) {
+            query.where('p.name like :name', { name: `%${name}%` });
+        }
+
+        return (await query.getRawMany())
             .map((project) => {
                 project.isLiked = project.isLiked == '1';
-
                 return project;
             });
     }

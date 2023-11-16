@@ -10,9 +10,9 @@ export class QueryPublishedProjectsUseCase {
     ) {
     }
 
-    async execute(currentUserId: string): Promise<QueryPublishedProjectsResponse> {
+    async execute(currentUserId: string, name: string): Promise<QueryPublishedProjectsResponse> {
         return {
-            projects: await this.projectPort.queryPublishedProjects(currentUserId)
+            projects: await this.projectPort.queryPublishedProjectsByName(currentUserId, name)
         };
     }
 

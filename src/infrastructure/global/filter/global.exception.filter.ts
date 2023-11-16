@@ -17,7 +17,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         } else if (exception instanceof AxiosError) {
             console.error(exception.response.data);
             status = exception.response.status;
-            message = 'Axios Server Error';
+            message = exception.response.data.message;
         } else {
             console.error(exception);
         }
@@ -29,8 +29,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             path: request.path
         };
 
-        response
-            .status(status)
-            .json(responseBody);
+        response.status(status).json(responseBody);
     }
 }

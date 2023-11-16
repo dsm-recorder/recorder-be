@@ -23,6 +23,7 @@ export class ProjectMapper {
                 entity.githubOwnerRepository,
                 entity.description,
                 entity.isPublished,
+                entity.likeCount,
                 entity.createdAt ? LocalDate.from(nativeJs(entity.createdAt)): null,
                 entity.finishDate ? LocalDate.from(nativeJs(entity.finishDate)) : null,
                 entity.role,
@@ -35,7 +36,6 @@ export class ProjectMapper {
     async toEntity(domain: Project): Promise<ProjectTypeormEntity> {
         let user = await this.userRepository.findOneBy({ id: domain.userId });
         return new ProjectTypeormEntity(
-            domain.id,
             user,
             domain.name,
             domain.skills,
@@ -43,9 +43,11 @@ export class ProjectMapper {
             domain.description,
             domain.githubOwnerRepository,
             domain.isPublished,
+            domain.likeCount,
             domain.finishDate ? convert(domain.finishDate).toDate() : null,
             domain.role,
-            domain.learned
+            domain.learned,
+            domain.id
         );
     }
 }

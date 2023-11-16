@@ -121,4 +121,65 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             })
         );
     }
+
+    async queryPublishedProjects(userId: string): Promise<PublishedProjectResponse[]> {
+        const orderByClause = 'p.finishDate';
+
+        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
+            .getRawMany())
+            .map((project) => {
+                project.isLiked = project.isLiked == '1';
+
+                return project;
+            });
+    }
+
+    async queryPublishedProjectsOrderByLikeCountAndLimit(limit: number, userId: string): Promise<PublishedProjectResponse[]> {
+        const orderByClause = 'p.likeCount';
+
+        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
+            .limit(limit)
+            .getRawMany())
+            .map((project) => {
+                project.isLiked = project.isLiked == '1';
+
+                return project;
+            });
+    }
+
+    async queryUserLikedProjects(userId: string): Promise<PublishedProjectResponse[]> {
+        const orderByClause = 'p.finishDate';
+        const likeOnClause = 'p.project_id = lk.project_id and lk.user_id = :userId';
+
+        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
+            .setParameters({ userId })
+            .innerJoin('tbl_like', 'lk', likeOnClause)
+            .getRawMany())
+            .map((project) => {
+                project.isLiked = project.isLiked == '1';
+
+                return project;
+            });
+    }
+
+    private getQueryPublishedProjectQuery(orderByClause: string, userId: string) {
+        const isLiked = this.likeTypeormEntity.createQueryBuilder('lk')
+            .select('COUNT(*)')
+            .where('lk.user_id = :userId and lk.project_id = id', { userId });
+
+        return this.projectRepository.createQueryBuilder('p')
+            .leftJoin('p.user', 'user')
+            .select('p.id', 'id')
+            .addSelect('p.name', 'name')
+            .addSelect('p.createdAt', 'startDate')
+            .addSelect('p.finishDate', 'finishDate')
+            .addSelect('user.profileUrl', 'userProfileUrl')
+            .addSelect('user.githubAccountId', 'userAccountId')
+            .addSelect('p.likeCount', 'likeCount')
+            .addSelect('(' + isLiked.getQuery() + ') > 0', 'isLiked')
+            .setParameters(isLiked.getParameters())
+            .where('p.isPublished= :published', { published: true })
+            .groupBy('p.project_id')
+            .orderBy(orderByClause, 'DESC');
+    }
 }

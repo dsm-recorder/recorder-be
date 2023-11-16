@@ -21,7 +21,8 @@ export class QueryMyProjectsUseCase {
                     logoImageUrl: project.logoUrl,
                     isPublished: project.isPublished,
                     createdAt: project.createdAt,
-                    finishDate: project.finishDate
+                    finishDate: project.finishDate,
+                    description: project.description
                 };
             })
         };

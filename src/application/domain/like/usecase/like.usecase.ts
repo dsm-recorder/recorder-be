@@ -10,7 +10,7 @@ export class LikeUseCase {
         @Inject(LikePort)
         private readonly likePort: LikePort,
         @Inject(ProjectPort)
-        private readonly projectPort: ProjectPort,
+        private readonly projectPort: ProjectPort
     ) {}
 
     async execute(projectId: string, user: User) {
@@ -24,8 +24,12 @@ export class LikeUseCase {
 
         const like: Like = await this.likePort.queryLikeByUserIdAndProjectId(user.id, projectId);
         if (!like) {
+            project.addLikeCount();
+            await this.projectPort.saveProject(project);
             await this.likePort.saveLike(new Like(projectId, user.id));
         } else {
+            project.reduceLikeCount();
+            await this.projectPort.saveProject(project);
             await this.likePort.deleteLike(like);
         }
     }

@@ -14,6 +14,9 @@ import { PublishProjectUseCase } from '../../../application/domain/project/useca
 import { UpdateProjectUseCase } from '../../../application/domain/project/usecase/update-project.usecase';
 import { QueryPublishedProjectsUseCase } from '../../../application/domain/project/usecase/query-published-projects.usecase';
 import { QueryProjectIdUseCase } from '../../../application/domain/project/usecase/query-project-id.usecase';
+import {
+    QueryPublishedProjectDetailUseCase
+} from '../../../application/domain/project/usecase/query-published-project-detail.usecase';
 
 const PROJECT_PORT = { provide: ProjectPort, useClass: ProjectPersistenceAdapter };
 const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
@@ -32,7 +35,8 @@ const PROJECT_REPOSITORY = TypeOrmModule.forFeature([ProjectTypeormEntity]);
         PublishProjectUseCase,
         UpdateProjectUseCase,
         QueryPublishedProjectsUseCase,
-        QueryProjectIdUseCase
+        QueryProjectIdUseCase,
+        QueryPublishedProjectDetailUseCase
     ],
     exports: [PROJECT_PORT, PROJECT_REPOSITORY],
     controllers: [ProjectWebAdapter]

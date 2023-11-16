@@ -14,14 +14,14 @@ export class QueryPrRecordDetailsUseCase {
         if (!prRecord) {
             throw new NotFoundException('PrRecord Not Found');
         }
-        const attachment = await this.prRecordPort.queryAttachmentsByPrRecordId(prRecordId);
+        const attachments = await this.prRecordPort.queryAttachmentsByPrRecordId(prRecordId);
 
         return {
             title: prRecord.title,
             type: prRecord.type,
             content: prRecord.content,
             solution: prRecord.solution,
-            attachmentUrls: attachment.map((attachment) => attachment.attachmentUrl)
+            attachmentUrls: attachments.map((attachment) => attachment.attachmentUrl)
         };
     }
 }

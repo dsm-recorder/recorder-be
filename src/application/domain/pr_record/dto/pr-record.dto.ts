@@ -12,3 +12,11 @@ export class PrRecordResponse {
     type: RecordType;
     date: LocalDate;
 }
+
+export class QueryPrRecordDetailsResponse {
+    title: string;
+    type: RecordType;
+    content: string;
+    solution: string;
+    attachmentUrls: string[];
+}

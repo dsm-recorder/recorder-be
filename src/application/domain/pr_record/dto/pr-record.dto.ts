@@ -13,6 +13,18 @@ export class PrRecordResponse {
     date: LocalDate;
 }
 
+export class QueryPublishedPrRecordsResponse {
+    prRecords: PublishedPrRecordResponse[];
+}
+
+export class PublishedPrRecordResponse {
+    title: string;
+    type: RecordType;
+    content: string;
+    solution: string;
+    attachmentUrls: string[];
+}
+
 export class QueryPrRecordDetailsResponse {
     title: string;
     type: RecordType;

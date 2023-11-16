@@ -11,7 +11,6 @@ import { QueryOrganizationRepositoriesUseCase } from '../../../../application/do
 import {
     QueryCurrentOrganizationsResponse,
     QueryMyProjectsResponse,
-    QueryProjectDetailsResponse,
     QueryProjectIdResponse,
     QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
@@ -22,7 +21,6 @@ import { UpdateProjectUseCase } from '../../../../application/domain/project/use
 import { PublishProjectUseCase } from '../../../../application/domain/project/usecase/publish-project.usecase';
 import { QueryPublishedProjectsUseCase } from '../../../../application/domain/project/usecase/query-published-projects.usecase';
 import { QueryProjectIdUseCase } from '../../../../application/domain/project/usecase/query-project-id.usecase';
-import { QueryProjectDetailsUseCase } from '../../../../application/domain/project/usecase/query-project-details.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -35,8 +33,7 @@ export class ProjectWebAdapter {
         private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
         private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase,
-        private readonly queryProjectIdUseCase: QueryProjectIdUseCase,
-        private readonly queryProjectDetailsUseCase: QueryProjectDetailsUseCase
+        private readonly queryProjectIdUseCase: QueryProjectIdUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -111,15 +108,6 @@ export class ProjectWebAdapter {
         await this.updateProjectUseCase.execute(projectId, request);
     }
 
-    @Permission([Authority.USER])
-    @Get('/:projectId')
-    async queryProjectDetails(
-        @Param('projectId') projectId: string,
-        @CurrentUser() user: User
-    ): Promise<QueryProjectDetailsResponse> {
-        return await this.queryProjectDetailsUseCase.execute(projectId, user);
-    }
-          
     @Get('/monthly')
     async queryMonthlyProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
         return await this.queryPublishedProjectsUseCase.queryMonthlyProjects(user.id);

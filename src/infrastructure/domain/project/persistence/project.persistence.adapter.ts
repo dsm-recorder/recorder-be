@@ -140,6 +140,7 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             .addSelect('p.finishDate', 'finishDate')
             .addSelect('user.profileUrl', 'userProfileUrl')
             .addSelect('user.githubAccountId', 'userAccountId')
+            .addSelect('p.logoUrl', 'logoImageUrl')
             .addSelect('p.likeCount', 'likeCount')
             .addSelect('(' + isLiked.getQuery() + ') > 0', 'isLiked')
             .setParameters(isLiked.getParameters())

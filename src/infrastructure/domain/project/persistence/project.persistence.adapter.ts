@@ -68,44 +68,6 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryProjectsByPublished(published: boolean, userId: string): Promise<PublishedProjectResponse[]> {
-        const isLiked = this.likeTypeormEntity.createQueryBuilder('lk')
-            .select('COUNT(*)')
-            .where('lk.user_id = :userId', { userId });
-
-        const projects = await this.projectRepository.createQueryBuilder('p')
-            .leftJoin('tbl_like', 'lk', 'p.project_id = lk.project_id')
-            .leftJoin('p.user', 'user')
-            .select('p.id', 'id')
-            .addSelect('p.name', 'name')
-            .addSelect('p.createdAt', 'startDate')
-            .addSelect('p.finishDate', 'finishDate')
-            .addSelect('user.profileUrl', 'userProfileUrl')
-            .addSelect('p.logoUrl', 'logoImageUrl')
-            .addSelect('user.githubAccountId', 'userAccountId')
-            .addSelect('COUNT(lk.project_id)', 'likeCount')
-            .addSelect('(' + isLiked.getQuery() + ') > 0', 'isLiked')
-            .setParameters(isLiked.getParameters())
-            .where('p.isPublished= :published', { published })
-            .groupBy('p.project_id')
-            .orderBy('p.finishDate', 'DESC')
-            .getRawMany();
-
-        return projects.map((project): PublishedProjectResponse => {
-            return {
-                id: project.id,
-                name: project.name,
-                startDate: project.startDate,
-                finishDate: project.finishDate,
-                userAccountId: project.userAccountId,
-                userProfileUrl: project.userProfileUrl,
-                likeCount: project.likeCount,
-                isLiked: project.isLiked == '1',
-                logoImageUrl: project.logoImageUrl
-            };
-        });
-    }
-
     async queryProjectByRepositoryNameAndUserId(repositoryName: string, userId: string): Promise<Project> {
         return await this.projectMapper.toDomain(
             await this.projectRepository.findOne({
@@ -122,14 +84,17 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryPublishedProjects(userId: string): Promise<PublishedProjectResponse[]> {
+    async queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.finishDate';
 
-        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
-            .getRawMany())
+        const query = this.getQueryPublishedProjectQuery(orderByClause, userId);
+        if (name) {
+            query.where('p.name like :name', { name: `%${name}%` });
+        }
+
+        return (await query.getRawMany())
             .map((project) => {
                 project.isLiked = project.isLiked == '1';
-
                 return project;
             });
     }

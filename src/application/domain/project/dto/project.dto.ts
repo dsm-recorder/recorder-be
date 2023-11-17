@@ -33,6 +33,19 @@ export class UpdateProjectRequest {
     description?: string;
 }
 
+export class QueryPublishedProjectDetailResponse {
+    name: string;
+    logoImageUrl: string;
+    startDate: LocalDate;
+    finishDate: LocalDate;
+    likeCount: number;
+    skills: string[];
+    about: string;
+    role: string;
+    learned: string;
+    isLiked: boolean;
+}
+
 export class QueryPublishedProjectsResponse {
     projects: PublishedProjectResponse[];
 }

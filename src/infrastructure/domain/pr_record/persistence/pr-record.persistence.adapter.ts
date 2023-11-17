@@ -7,6 +7,7 @@ import { PrRecordMapper } from './pr-record.mapper';
 import { RecordAttachment } from '../../../../application/domain/pr_record/record-attachment';
 import { RecordAttachmentMapper } from './record-attachment.mapper';
 import { RecordAttachmentTypeormEntity } from './record-attachment.entity';
+import { PublishedPrRecordResponse } from '../../../../application/domain/pr_record/dto/pr-record.dto';
 
 export class PrRecordPersistenceAdapter implements PrRecordPort {
     constructor(
@@ -115,5 +116,34 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
             })
         );
         await this.recordAttachmentRepository.remove(entities);
+    }
+
+    async queryPublishedPrRecordsByProjectId(projectId: string): Promise<PublishedPrRecordResponse[]> {
+        const prRecords = await this.prRecordRepository.createQueryBuilder('pr')
+            .select([
+                'pr.id as id',
+                'pr.title as title',
+                'pr.type as type',
+                'pr.content as content',
+                'pr.solution as solution',
+                'ra.attachmentUrl as attachmentUrls'
+            ])
+            .leftJoin('pr.recordAttachments', 'ra')
+            .where('pr.project_id = :projectId')
+            .where('pr.isPublished = :isPublished')
+            .setParameters({ projectId, isPublished: true })
+            .getRawMany();
+
+        const transformed = new Map<string, PublishedPrRecordResponse>();
+        for (const prRecord of prRecords) {
+            if (transformed.has(prRecord.id)) {
+                transformed.get(prRecord.id).attachmentUrls.push(prRecord.attachmentUrls);
+            } else {
+                prRecord.attachmentUrls = [prRecord.attachmentUrls]
+                transformed.set(prRecord.id, prRecord);
+            }
+        }
+
+        return [...transformed.values()];
     }
 }

@@ -11,12 +11,12 @@ export class LikePersistenceAdapter implements LikePort {
     constructor(
         @InjectRepository(LikeTypeormEntity)
         private readonly likeRepository: Repository<LikeTypeormEntity>,
-        private readonly likeMapper: LikeMapper,
+        private readonly likeMapper: LikeMapper
     ) {}
 
     async saveLike(like: Like): Promise<Like> {
         return this.likeMapper.toDomain(
-            await this.likeRepository.save(await this.likeMapper.toEntity(like)),
+            await this.likeRepository.save(await this.likeMapper.toEntity(like))
         );
     }
 
@@ -30,9 +30,17 @@ export class LikePersistenceAdapter implements LikePort {
                 .createQueryBuilder()
                 .where('user_id = :userId && project_id = :projectId', {
                     userId: userId,
-                    projectId: projectId,
+                    projectId: projectId
                 })
-                .getOne(),
+                .getOne()
         );
+    }
+
+    async existsLikeByProjectIdAndUserId(projectId: string, userId: string): Promise<boolean> {
+        return await this.likeRepository.createQueryBuilder('lk')
+            .where('lk.project_id = :projectId')
+            .where('lk.user_id = :userId')
+            .setParameters({ projectId, userId })
+            .getOne() !== null;
     }
 }

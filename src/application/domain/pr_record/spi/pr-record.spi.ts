@@ -1,5 +1,6 @@
 import { PrRecord } from '../pr-record';
 import { RecordAttachment } from '../record-attachment';
+import { PublishedPrRecordResponse } from '../dto/pr-record.dto';
 
 export interface PrRecordPort {
     queryPrRecordsByProjectId(projectId: string): Promise<PrRecord[]>;
@@ -17,6 +18,8 @@ export interface PrRecordPort {
     queryAttachmentsByPrRecordId(prRecordId: string): Promise<RecordAttachment[]>;
 
     deleteAllAttachments(attachments: RecordAttachment[]): Promise<void>;
+
+    queryPublishedPrRecordsByProjectId(projectId: string): Promise<PublishedPrRecordResponse[]>;
 }
 
 export const PrRecordPort = Symbol('IPrRecordPort');

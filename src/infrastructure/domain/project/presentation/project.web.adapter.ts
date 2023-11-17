@@ -11,7 +11,7 @@ import { QueryOrganizationRepositoriesUseCase } from '../../../../application/do
 import {
     QueryCurrentOrganizationsResponse,
     QueryMyProjectsResponse,
-    QueryProjectIdResponse,
+    QueryProjectIdResponse, QueryPublishedProjectDetailResponse,
     QueryPublishedProjectsResponse,
     QueryRepositoriesResponse,
     UpdateProjectRequest
@@ -21,6 +21,9 @@ import { UpdateProjectUseCase } from '../../../../application/domain/project/use
 import { PublishProjectUseCase } from '../../../../application/domain/project/usecase/publish-project.usecase';
 import { QueryPublishedProjectsUseCase } from '../../../../application/domain/project/usecase/query-published-projects.usecase';
 import { QueryProjectIdUseCase } from '../../../../application/domain/project/usecase/query-project-id.usecase';
+import {
+    QueryPublishedProjectDetailUseCase
+} from '../../../../application/domain/project/usecase/query-published-project-detail.usecase';
 
 @Controller('projects')
 export class ProjectWebAdapter {
@@ -33,7 +36,8 @@ export class ProjectWebAdapter {
         private readonly publishProjectUseCase: PublishProjectUseCase,
         private readonly updateProjectUseCase: UpdateProjectUseCase,
         private readonly queryPublishedProjectsUseCase: QueryPublishedProjectsUseCase,
-        private readonly queryProjectIdUseCase: QueryProjectIdUseCase
+        private readonly queryProjectIdUseCase: QueryProjectIdUseCase,
+        private readonly queryPublishedProjectDetailUseCase: QueryPublishedProjectDetailUseCase
     ) {}
 
     @Permission([Authority.USER])
@@ -92,10 +96,17 @@ export class ProjectWebAdapter {
 
     @Permission([Authority.USER])
     @Get('/published')
-    async queryPublishedProjects(
+    async queryPublishedProjects(@Query('name') name: string, @CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.execute(user.id, name);
+    }
+
+    @Permission([Authority.USER])
+    @Get('/published/:projectId')
+    async queryPublishedProjectDetail(
+        @Param('projectId') projectId: string,
         @CurrentUser() user: User
-    ): Promise<QueryPublishedProjectsResponse> {
-        return await this.queryPublishedProjectsUseCase.execute(user.id);
+    ): Promise<QueryPublishedProjectDetailResponse> {
+        return await this.queryPublishedProjectDetailUseCase.execute(projectId, user.id);
     }
 
     @Permission([Authority.USER])

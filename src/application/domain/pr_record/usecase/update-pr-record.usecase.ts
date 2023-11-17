@@ -26,7 +26,7 @@ export class UpdatePrRecordUseCase {
         );
         await this.prRecordPort.deleteAllAttachments(attachments);
         await this.prRecordPort.saveAllAttachments(
-            request.attachmentUrls.map(
+            request.attachmentUrls?.map(
                 (attachmentUrl) => new RecordAttachment(attachmentUrl, prRecord.id)
             )
         );

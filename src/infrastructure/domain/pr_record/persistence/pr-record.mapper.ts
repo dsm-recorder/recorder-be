@@ -24,7 +24,7 @@ export class PrRecordMapper {
                   entity.type,
                   entity.solution,
                   entity.id,
-                  LocalDate.from(nativeJs(entity.createdAt)),
+                  entity.createdAt ? LocalDate.from(nativeJs(entity.createdAt)) : null,
               )
             : null;
     }

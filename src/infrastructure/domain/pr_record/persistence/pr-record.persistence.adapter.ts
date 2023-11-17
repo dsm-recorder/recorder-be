@@ -88,7 +88,7 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
 
     async saveAllAttachments(attachments: RecordAttachment[]): Promise<void> {
         const entities = await Promise.all(
-            attachments.map(async (attachment) => {
+            attachments?.map(async (attachment) => {
                 return await this.recordAttachmentMapper.toEntity(attachment);
             })
         );

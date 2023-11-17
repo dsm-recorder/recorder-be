@@ -33,7 +33,7 @@ const PR_RECORD_PORT = { provide: PrRecordPort, useClass: PrRecordPersistenceAda
         QueryProjectPrRecordsUseCase,
         CreatePRRecordUseCase,
         UpdatePrRecordUseCase,
-        QueryPublishedProjectPrRecordUseCase
+        QueryPublishedProjectPrRecordUseCase,
         QueryPrRecordDetailsUseCase
     ],
     exports: [PR_RECORD_PORT, PR_RECORD_REPOSITORY],

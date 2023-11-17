@@ -109,15 +109,6 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
         );
     }
 
-    async deleteAllAttachments(attachments: RecordAttachment[]): Promise<void> {
-        const entities = await Promise.all(
-            attachments.map(async (attachment) => {
-                return await this.recordAttachmentMapper.toEntity(attachment);
-            })
-        );
-        await this.recordAttachmentRepository.remove(entities);
-    }
-
     async queryPublishedPrRecordsByProjectId(projectId: string): Promise<PublishedPrRecordResponse[]> {
         const prRecords = await this.prRecordRepository.createQueryBuilder('pr')
             .select([
@@ -145,5 +136,12 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
         }
 
         return [...transformed.values()];
+    }
+
+    async deleteAllAttachmentsByPrRecordId(prRecordId: string): Promise<void> {
+        await this.recordAttachmentRepository.createQueryBuilder('ra')
+            .delete()
+            .where('pr_record_id = :prRecordId', { prRecordId })
+            .execute()
     }
 }

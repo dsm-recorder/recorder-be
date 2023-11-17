@@ -15,7 +15,7 @@ export class UpdatePrRecordUseCase {
         if (!prRecord) {
             throw new NotFoundException('PrRecord Not Found');
         }
-        const attachments = await this.prRecordPort.queryAttachmentsByPrRecordId(prRecordId);
+        const attachments = await this.prRecordPort.deleteAllAttachmentsByPrRecordId(prRecordId);
 
         prRecord.update(
             request.title,
@@ -24,7 +24,7 @@ export class UpdatePrRecordUseCase {
             request.type,
             request.solution
         );
-        await this.prRecordPort.deleteAllAttachments(attachments);
+
         await this.prRecordPort.saveAllAttachments(
             request.attachmentUrls?.map(
                 (attachmentUrl) => new RecordAttachment(attachmentUrl, prRecord.id)

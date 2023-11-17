@@ -17,9 +17,9 @@ export interface PrRecordPort {
 
     queryAttachmentsByPrRecordId(prRecordId: string): Promise<RecordAttachment[]>;
 
-    deleteAllAttachments(attachments: RecordAttachment[]): Promise<void>;
-
     queryPublishedPrRecordsByProjectId(projectId: string): Promise<PublishedPrRecordResponse[]>;
+
+    deleteAllAttachmentsByPrRecordId(prRecordId: string): Promise<void>;
 }
 
 export const PrRecordPort = Symbol('IPrRecordPort');

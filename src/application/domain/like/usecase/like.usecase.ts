@@ -30,7 +30,7 @@ export class LikeUseCase {
         } else {
             project.reduceLikeCount();
             await this.projectPort.saveProject(project);
-            await this.likePort.deleteLike(like);
+            await this.likePort.deleteLikeByUserIdAndProjectId(user.id, project.id);
         }
     }
 }

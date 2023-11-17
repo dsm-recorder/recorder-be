@@ -20,8 +20,11 @@ export class LikePersistenceAdapter implements LikePort {
         );
     }
 
-    async deleteLike(like: Like): Promise<void> {
-        await this.likeRepository.remove(await this.likeMapper.toEntity(like));
+    async deleteLikeByUserIdAndProjectId(userId:string, projectId:string): Promise<void> {
+        await this.likeRepository.createQueryBuilder('lk')
+            .delete()
+            .where('lk.user_id = :userId and lk.project_id = :projetId', { userId, projectId})
+            .execute();
     }
 
     async queryLikeByUserIdAndProjectId(userId: string, projectId: string): Promise<Like> {

@@ -23,7 +23,7 @@ export class LikePersistenceAdapter implements LikePort {
     async deleteLikeByUserIdAndProjectId(userId:string, projectId:string): Promise<void> {
         await this.likeRepository.createQueryBuilder('lk')
             .delete()
-            .where('lk.user_id = :userId and lk.project_id = :projetId', { userId, projectId})
+            .where('lk.user_id = :userId and lk.project_id = :projectId', { userId, projectId})
             .execute();
     }
 

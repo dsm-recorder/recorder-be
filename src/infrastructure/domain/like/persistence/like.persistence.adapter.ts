@@ -20,10 +20,11 @@ export class LikePersistenceAdapter implements LikePort {
         );
     }
 
-    async deleteLikeByUserIdAndProjectId(userId:string, projectId:string): Promise<void> {
+    async deleteLikeByUserIdAndProjectId(userId: string, projectId: string): Promise<void> {
         await this.likeRepository.createQueryBuilder('lk')
             .delete()
-            .where('lk.user_id = :userId and lk.project_id = :projectId', { userId, projectId})
+            .from(LikeTypeormEntity)
+            .where('lk.user_id = :userId and lk.project_id = :projectId', { userId, projectId })
             .execute();
     }
 
@@ -31,7 +32,7 @@ export class LikePersistenceAdapter implements LikePort {
         return this.likeMapper.toDomain(
             await this.likeRepository
                 .createQueryBuilder()
-                .where('user_id = :userId && project_id = :projectId', {
+                .where('user_id = :userId and project_id = :projectId', {
                     userId: userId,
                     projectId: projectId
                 })

@@ -44,9 +44,28 @@ export class CommentPersistenceAdapter implements CommentPort {
         });
     }
 
+    async queryCommentById(commentId: string): Promise<Comment> {
+        return this.commentMapper.toDomain(await this.commentRepository.findOne({
+            where: {
+                id: commentId
+            },
+            relations: {
+                user: true,
+                project: true
+            }
+        }));
+    }
+
     async saveComment(comment: Comment): Promise<Comment> {
         return this.commentMapper.toDomain(
             await this.commentRepository.save(await this.commentMapper.toEntity(comment))
         );
     }
+
+    async removeComment(comment: Comment): Promise<void> {
+        await this.commentRepository.remove(
+            await this.commentMapper.toEntity(comment)
+        );
+    }
+
 }

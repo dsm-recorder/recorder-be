@@ -119,10 +119,9 @@ export class ProjectWebAdapter {
         await this.updateProjectUseCase.execute(projectId, request);
     }
 
-    @Permission([Authority.USER])
     @Get('/monthly')
-    async queryMonthlyProjects(@CurrentUser() user: User): Promise<QueryPublishedProjectsResponse> {
-        return await this.queryPublishedProjectsUseCase.queryMonthlyProjects(user.id);
+    async queryMonthlyProjects(): Promise<QueryPublishedProjectsResponse> {
+        return await this.queryPublishedProjectsUseCase.queryMonthlyProjects();
     }
 
     @Permission([Authority.USER])

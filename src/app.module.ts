@@ -11,12 +11,14 @@ import { DailyReportModule } from './infrastructure/global/module/daily-report.m
 import { PRRecordModule } from './infrastructure/global/module/pr-record.module';
 import { LikeModule } from './infrastructure/global/module/like.module';
 import { SpellModule } from './infrastructure/global/module/spell.module';
+import { CommentModule } from './infrastructure/global/module/comment.module';
 
 @Module({
     imports: [
         UserModule,
         AuthModule,
         ProjectModule,
+        CommentModule,
         DailyReportModule,
         AxiosModule,
         TypeormConfigModule,

@@ -8,6 +8,7 @@ export class SpellWebAdapter {
 
     @Get()
     async checkSpell(@Query('content') content: string): Promise<CheckSpellResponse> {
+
         return await this.checkSpellUseCase.execute(content);
     }
 }

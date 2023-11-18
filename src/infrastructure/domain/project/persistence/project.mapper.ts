@@ -40,7 +40,7 @@ export class ProjectMapper {
             domain.name,
             domain.skills,
             domain.logoUrl,
-            domain.description,
+            domain.githubOwnerRepository,
             domain.githubOwnerRepository,
             domain.isPublished,
             domain.likeCount,

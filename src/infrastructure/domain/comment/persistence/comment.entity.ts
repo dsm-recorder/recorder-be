@@ -11,11 +11,11 @@ export class CommentTypeormEntity {
     content: string;
 
     @ManyToOne(() => UserTypeormEntity)
-    @JoinColumn()
+    @JoinColumn({ name: 'user_id' })
     user: UserTypeormEntity;
 
     @ManyToOne(() => ProjectTypeormEntity)
-    @JoinColumn()
+    @JoinColumn({ name: 'project_id' })
     project: ProjectTypeormEntity;
 
 

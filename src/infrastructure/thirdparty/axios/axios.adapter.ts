@@ -55,7 +55,16 @@ export class AxiosAdapter implements AxiosPort {
     }
 
     async getOrganizationRepositories(organization: string): Promise<QueryRepositoriesResponse[]> {
-        return await axios.get(`https://api.github.com/orgs/${organization}/repos`);
+        const response =
+            (await axios.get(`https://api.github.com/orgs/${organization}/repos`)).data;
+
+        return response.map((item): QueryRepositoriesResponse => {
+            return {
+                full_name: item.full_name,
+                description: item.description,
+                language: item.language
+            };
+        });
     }
 
     async checkSpell(content: string): Promise<string> {

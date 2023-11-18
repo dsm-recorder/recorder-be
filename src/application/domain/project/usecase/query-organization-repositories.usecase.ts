@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+ import { Inject, Injectable } from '@nestjs/common';
 import { AxiosPort } from '../../../common/spi/axios.spi';
 import { ProjectGithubAxiosPort } from '../spi/project.spi';
 import { QueryRepositoriesResponse } from '../dto/project.dto';
@@ -12,7 +12,6 @@ export class QueryOrganizationRepositoriesUseCase {
 
     async execute(organization: string): Promise<QueryRepositoriesResponse> {
         const repositories = await this.githubPort.getOrganizationRepositories(organization);
-
         return {
             repos: repositories.map((item) => ({
                 name: item.full_name,

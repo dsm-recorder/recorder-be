@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
 import { QueryProjectCommentsResponse } from '../../../../application/domain/comment/dto/comment.dto';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
@@ -25,6 +25,7 @@ export class CommentWebAdapter {
     }
 
     @Permission([Authority.USER])
+    @HttpCode(201)
     @Post('/:projectId')
     async createComment(
         @Param('projectId') projectId: string,

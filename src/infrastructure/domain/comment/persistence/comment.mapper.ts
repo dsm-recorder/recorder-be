@@ -30,12 +30,6 @@ export class CommentMapper {
         const user = await this.userRepository.findOneBy({ id: domain.userId });
         const project = await this.projectRepository.findOneBy({ id: domain.projectId });
 
-        return new CommentTypeormEntity(
-            domain.content,
-            user,
-            project,
-            domain.id,
-            domain.createdAt ? convert(domain.createdAt).toDate() : null
-        );
+        return new CommentTypeormEntity(domain.content, user, project, domain.id);
     }
 }

@@ -14,7 +14,7 @@ export class CreateCommentUseCase {
         private readonly projectPort: ProjectPort
     ) {}
 
-    async execute(projectId: string, request: CreateCommentRequest, user: string) {
+    async execute(projectId: string, request: CreateCommentRequest, userId: string) {
         const project = await this.projectPort.queryProjectById(projectId);
         if (!project) {
             throw new NotFoundException('Project Not Found');
@@ -24,6 +24,6 @@ export class CreateCommentUseCase {
             throw new ForbiddenException('Project Not Published');
         }
 
-        await this.commentPort.saveComment(new Comment(request.content, user.id, project.id));
+        await this.commentPort.saveComment(new Comment(request.content, userId, project.id));
     }
 }

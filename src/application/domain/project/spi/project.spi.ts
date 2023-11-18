@@ -17,7 +17,7 @@ export interface ProjectPort {
 
     queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]>;
 
-    queryPublishedProjectsOrderByLikeCountAndLimit(limit: number, userId: string): Promise<PublishedProjectResponse[]>;
+    queryPublishedProjectsOrderByLikeCountAndLimit(limit: number): Promise<PublishedProjectResponse[]>
 
     queryUserLikedProjects(userId: string): Promise<PublishedProjectResponse[]>;
 

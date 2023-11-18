@@ -99,10 +99,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             });
     }
 
-    async queryPublishedProjectsOrderByLikeCountAndLimit(limit: number, userId: string): Promise<PublishedProjectResponse[]> {
+    async queryPublishedProjectsOrderByLikeCountAndLimit(limit: number): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.likeCount';
 
-        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
+        return (await this.getQueryPublishedProjectQuery(orderByClause)
             .limit(limit)
             .getRawMany())
             .map((project) => {
@@ -127,7 +127,7 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             });
     }
 
-    private getQueryPublishedProjectQuery(orderByClause: string, userId: string) {
+    private getQueryPublishedProjectQuery(orderByClause: string, userId?: string) {
         const isLiked = this.likeTypeormEntity.createQueryBuilder('lk')
             .select('COUNT(*)')
             .where('lk.user_id = :userId and lk.project_id = id', { userId });

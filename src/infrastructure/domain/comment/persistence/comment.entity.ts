@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 
 @Entity('tbl_comment')
 export class CommentTypeormEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'comment_id' })
-    id: string;
+    id?: string;
 
     @Column('varchar', { length: 50 })
     content: string;
@@ -18,11 +18,14 @@ export class CommentTypeormEntity {
     @JoinColumn({ name: 'project_id' })
     project: ProjectTypeormEntity;
 
+    @CreateDateColumn()
+    createdAt?: Date;
 
-    constructor(content: string, user: UserTypeormEntity, project: ProjectTypeormEntity, id?: string) {
+    constructor(content: string, user: UserTypeormEntity, project: ProjectTypeormEntity, id?: string, createdAt?: Date) {
         this.id = id;
         this.content = content;
         this.user = user;
         this.project = project;
+        this.createdAt = createdAt;
     }
 }

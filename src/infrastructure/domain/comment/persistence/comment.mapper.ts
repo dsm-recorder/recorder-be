@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 import { Repository } from 'typeorm';
 import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
+import { convert, LocalDate, nativeJs } from 'js-joda';
 
 @Injectable()
 export class CommentMapper {
@@ -20,7 +21,8 @@ export class CommentMapper {
             entity.content,
             entity.user.id,
             entity.project.id,
-            entity.id
+            entity.id,
+            LocalDate.from(nativeJs(entity.createdAt))
         );
     }
 
@@ -32,7 +34,8 @@ export class CommentMapper {
             domain.content,
             user,
             project,
-            domain.id
+            domain.id,
+            domain.createdAt ? convert(domain.createdAt).toDate() : null
         );
     }
 }

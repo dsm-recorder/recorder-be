@@ -5,21 +5,26 @@ import { CommentTypeormEntity } from './comment.entity';
 import { Repository } from 'typeorm';
 import { CommentResponse } from '../../../../application/domain/comment/dto/comment.dto';
 import { LocalDate, nativeJs } from 'js-joda';
+import { Comment } from '../../../../application/domain/comment/comment';
+import { CommentMapper } from './comment.mapper';
 
 @Injectable()
 export class CommentPersistenceAdapter implements CommentPort {
     constructor(
         @InjectRepository(CommentTypeormEntity)
-        private readonly commentRepository: Repository<CommentTypeormEntity>
+        private readonly commentRepository: Repository<CommentTypeormEntity>,
+        private readonly commentMapper: CommentMapper
     ) {}
 
     async queryProjectComments(projectId: string, userId: string): Promise<CommentResponse[]> {
-        const isMineQuery = this.commentRepository.createQueryBuilder('comment')
+        const isMineQuery = this.commentRepository
+            .createQueryBuilder('comment')
             .select('COUNT(*)')
             .where(`comment.user_id = '${userId}' and comment.project_id = '${projectId}'`)
             .getQuery();
 
-        const comments = await this.commentRepository.createQueryBuilder('c')
+        const comments = await this.commentRepository
+            .createQueryBuilder('c')
             .innerJoin('tbl_user', 'u', 'u.user_id = c.user_id')
             .select([
                 'c.id as id',
@@ -39,5 +44,9 @@ export class CommentPersistenceAdapter implements CommentPort {
         });
     }
 
-
+    async saveComment(comment: Comment): Promise<Comment> {
+        return this.commentMapper.toDomain(
+            await this.commentRepository.save(await this.commentMapper.toEntity(comment))
+        );
+    }
 }

@@ -3,7 +3,6 @@ import { CommentPort } from '../spi/comment.spi';
 import { CreateCommentRequest } from '../../../../infrastructure/domain/comment/presentation/comment.web.dto';
 import { ProjectPort } from '../../project/spi/project.spi';
 import { Comment } from '../comment';
-import { User } from '../../user/user';
 
 @Injectable()
 export class CreateCommentUseCase {

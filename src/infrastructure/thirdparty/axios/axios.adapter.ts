@@ -68,9 +68,7 @@ export class AxiosAdapter implements AxiosPort {
     }
 
     async checkSpell(content: string): Promise<string> {
-        const formData = new FormData();
-        formData.append('text1', content);
-        const response = await axios.post('http://164.125.7.61/speller/results', formData);
+        const response = await axios.post(`http://164.125.7.61/speller/results?text1=${content}`);
         return response.data;
     }
 }

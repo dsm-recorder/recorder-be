@@ -9,6 +9,7 @@ import {
 } from '../../../application/domain/comment/usecase/query-project-comments.usecase';
 import { RemoveCommentUseCase } from '../../../application/domain/comment/usecase/remove-comment.usecase';
 import { CommentMapper } from '../../domain/comment/persistence/comment.mapper';
+import { CreateCommentUseCase } from '../../../application/domain/comment/usecase/create-comment..usecase';
 
 const COMMENT_REPOSITORY = TypeOrmModule.forFeature([CommentTypeormEntity]);
 const COMMENT_PORT = { provide: CommentPort, useClass: CommentPersistenceAdapter };
@@ -20,7 +21,8 @@ const COMMENT_PORT = { provide: CommentPort, useClass: CommentPersistenceAdapter
         COMMENT_PORT,
         CommentMapper,
         QueryProjectCommentsUseCase,
-        RemoveCommentUseCase
+        RemoveCommentUseCase,
+        CreateCommentUseCase
     ],
     exports: [COMMENT_REPOSITORY, COMMENT_PORT],
     controllers: [CommentWebAdapter]

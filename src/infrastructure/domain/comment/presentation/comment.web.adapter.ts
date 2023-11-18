@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, HttpCode, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { QueryProjectCommentsResponse } from '../../../../application/domain/comment/dto/comment.dto';
 import { Permission } from '../../../global/decorator/authority.decorator';
 import { Authority } from '../../user/persistence/user.entity';
@@ -8,12 +8,15 @@ import {
     QueryProjectCommentsUseCase
 } from '../../../../application/domain/comment/usecase/query-project-comments.usecase';
 import { RemoveCommentUseCase } from '../../../../application/domain/comment/usecase/remove-comment.usecase';
+import { CreateCommentRequest } from './comment.web.dto';
+import { CreateCommentUseCase } from '../../../../application/domain/comment/usecase/create-comment..usecase';
 
 @Controller('comments')
 export class CommentWebAdapter {
     constructor(
         private readonly queryProjectCommentsUseCase: QueryProjectCommentsUseCase,
-        private readonly removeCommentUseCase: RemoveCommentUseCase
+        private readonly removeCommentUseCase: RemoveCommentUseCase,
+        private readonly createCommentUseCase: CreateCommentUseCase
     ) {}
 
     @Permission([Authority.USER])

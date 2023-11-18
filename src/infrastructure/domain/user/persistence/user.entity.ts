@@ -5,12 +5,16 @@ import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 export class UserTypeormEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
     id: string;
+
     @Column('varchar', { unique: true, nullable: false, length: 50 })
     githubAccountId: string;
+
     @Column('varchar')
     profileUrl: string;
+
     @Column('varchar', { length: 5 })
     authority: string;
+
     @OneToMany(() => ProjectTypeormEntity, (project) => project.user, {
         cascade: true
     })

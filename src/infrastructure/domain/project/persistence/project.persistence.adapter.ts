@@ -148,4 +148,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             .groupBy('p.project_id')
             .orderBy(orderByClause, 'DESC');
     }
+
+    async existsProjectById(projectId: string): Promise<boolean> {
+        return await this.projectRepository.exist({
+            where: { id: projectId }
+        });
+    }
 }

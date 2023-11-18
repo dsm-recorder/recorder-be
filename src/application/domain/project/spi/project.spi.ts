@@ -17,11 +17,13 @@ export interface ProjectPort {
 
     queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]>;
 
-    queryPublishedProjectsOrderByLikeCountAndLimit(limit: number, userId: string): Promise<PublishedProjectResponse[]>
+    queryPublishedProjectsOrderByLikeCountAndLimit(limit: number, userId: string): Promise<PublishedProjectResponse[]>;
 
     queryUserLikedProjects(userId: string): Promise<PublishedProjectResponse[]>;
 
     queryProjectByRepositoryNameAndUserId(repositoryName: string, userId: string): Promise<Project>;
+
+    existsProjectById(projectId: string): Promise<boolean>;
 }
 
 export interface ProjectGithubAxiosPort {

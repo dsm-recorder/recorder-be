@@ -11,13 +11,15 @@ export interface ProjectPort {
 
     queryProjectsByUserId(userId: string): Promise<Project[]>;
 
-    queryProjectById(id: String): Promise<Project>;
+    queryProjectById(id: string): Promise<Project>;
 
     queryProjectByUserIdAndRepositoryName(userId: string, repositoryName: string): Promise<Project>;
 
     queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]>;
 
-    queryPublishedProjectsOrderByLikeCountAndLimit(limit: number): Promise<PublishedProjectResponse[]>
+    queryPublishedProjectsOrderByLikeCountAndLimit(
+        limit: number
+    ): Promise<PublishedProjectResponse[]>;
 
     queryUserLikedProjects(userId: string): Promise<PublishedProjectResponse[]>;
 

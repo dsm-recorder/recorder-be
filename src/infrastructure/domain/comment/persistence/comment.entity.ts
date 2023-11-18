@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn
+} from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 import { ProjectTypeormEntity } from '../../project/persistence/project.entity';
 
@@ -21,11 +28,15 @@ export class CommentTypeormEntity {
     @CreateDateColumn()
     createdAt?: Date;
 
-    constructor(content: string, user: UserTypeormEntity, project: ProjectTypeormEntity, id?: string, createdAt?: Date) {
+    constructor(
+        content: string,
+        user: UserTypeormEntity,
+        project: ProjectTypeormEntity,
+        id?: string
+    ) {
         this.id = id;
         this.content = content;
         this.user = user;
         this.project = project;
-        this.createdAt = createdAt;
     }
 }

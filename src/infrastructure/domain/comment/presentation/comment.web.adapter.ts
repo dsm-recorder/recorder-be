@@ -32,6 +32,6 @@ export class CommentWebAdapter {
         @Body() request: CreateCommentRequest,
         @CurrentUser() user: User
     ) {
-        return await this.createCommentUseCase.execute(projectId, request, user);
+        return await this.createCommentUseCase.execute(projectId, request, user.id);
     }
 }

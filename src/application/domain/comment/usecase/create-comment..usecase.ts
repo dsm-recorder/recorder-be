@@ -14,7 +14,7 @@ export class CreateCommentUseCase {
         private readonly projectPort: ProjectPort
     ) {}
 
-    async execute(projectId: string, request: CreateCommentRequest, user: User) {
+    async execute(projectId: string, request: CreateCommentRequest, user: string) {
         const project = await this.projectPort.queryProjectById(projectId);
         if (!project) {
             throw new NotFoundException('Project Not Found');

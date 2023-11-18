@@ -41,7 +41,7 @@ export class ProjectMapper {
             domain.skills,
             domain.logoUrl,
             domain.githubOwnerRepository,
-            domain.githubOwnerRepository,
+            domain.description,
             domain.isPublished,
             domain.likeCount,
             domain.finishDate ? convert(domain.finishDate).toDate() : null,

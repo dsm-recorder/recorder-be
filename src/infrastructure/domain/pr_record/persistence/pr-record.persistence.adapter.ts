@@ -119,11 +119,11 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
                 'pr.solution as solution',
                 'ra.attachmentUrl as attachmentUrls'
             ])
-            .leftJoin('pr.recordAttachments', 'ra')
-            .where('pr.project_id = :projectId')
-            .where('pr.isPublished = :isPublished')
+            .leftJoin('tbl_record_attachment', 'ra', 'pr.pr_record_id = ra.pr_record_id')
+            .where('pr.project_id = :projectId and pr.isPublished = :isPublished')
             .setParameters({ projectId, isPublished: true })
             .getRawMany();
+        console.log(prRecords);
 
         const transformed = new Map<string, PublishedPrRecordResponse>();
         for (const prRecord of prRecords) {

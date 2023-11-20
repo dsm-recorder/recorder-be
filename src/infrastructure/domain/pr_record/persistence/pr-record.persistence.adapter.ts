@@ -123,7 +123,6 @@ export class PrRecordPersistenceAdapter implements PrRecordPort {
             .where('pr.project_id = :projectId and pr.isPublished = :isPublished')
             .setParameters({ projectId, isPublished: true })
             .getRawMany();
-        console.log(prRecords);
 
         const transformed = new Map<string, PublishedPrRecordResponse>();
         for (const prRecord of prRecords) {

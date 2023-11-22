@@ -1,15 +1,19 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn
+} from 'typeorm';
 import { UserTypeormEntity } from '../../user/persistence/user.entity';
 
 @Entity('tbl_project')
 export class ProjectTypeormEntity {
-
     @PrimaryGeneratedColumn('uuid', { name: 'project_id' })
     id: string;
 
-    @ManyToOne(() => UserTypeormEntity, (user) => user.projects, {
-        onDelete: 'CASCADE'
-    })
+    @ManyToOne(() => UserTypeormEntity, (user) => user.projects)
     @JoinColumn({ name: 'user_id' })
     user: UserTypeormEntity;
 
@@ -46,9 +50,20 @@ export class ProjectTypeormEntity {
     @Column('datetime', { nullable: true })
     finishDate?: Date;
 
-    constructor(user: UserTypeormEntity, name: string, skills: string[], logoUrl: string, githubOwnerRepository: string,
-                description: string, isPublished: boolean, likeCount: number, finishDate?: Date,
-                role?: string, learned?: string, id?: string) {
+    constructor(
+        user: UserTypeormEntity,
+        name: string,
+        skills: string[],
+        logoUrl: string,
+        githubOwnerRepository: string,
+        description: string,
+        isPublished: boolean,
+        likeCount: number,
+        finishDate?: Date,
+        role?: string,
+        learned?: string,
+        id?: string
+    ) {
         this.id = id;
         this.user = user;
         this.name = name;

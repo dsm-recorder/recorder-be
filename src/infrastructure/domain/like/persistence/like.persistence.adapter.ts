@@ -21,7 +21,8 @@ export class LikePersistenceAdapter implements LikePort {
     }
 
     async deleteLikeByUserIdAndProjectId(userId: string, projectId: string): Promise<void> {
-        await this.likeRepository.createQueryBuilder()
+        await this.likeRepository
+            .createQueryBuilder()
             .delete()
             .from(LikeTypeormEntity)
             .where('user_id = :userId and project_id = :projectId', { userId, projectId })
@@ -30,21 +31,27 @@ export class LikePersistenceAdapter implements LikePort {
 
     async queryLikeByUserIdAndProjectId(userId: string, projectId: string): Promise<Like> {
         return this.likeMapper.toDomain(
-            await this.likeRepository
-                .createQueryBuilder()
-                .where('user_id = :userId and project_id = :projectId', {
+            await this.likeRepository.findOne({
+                where: {
                     userId: userId,
                     projectId: projectId
-                })
-                .getOne()
+                },
+                relations: {
+                    user: true,
+                    project: true
+                }
+            })
         );
     }
 
     async existsLikeByProjectIdAndUserId(projectId: string, userId: string): Promise<boolean> {
-        return await this.likeRepository.createQueryBuilder('lk')
-            .where('lk.project_id = :projectId')
-            .where('lk.user_id = :userId')
-            .setParameters({ projectId, userId })
-            .getOne() !== null;
+        return (
+            (await this.likeRepository
+                .createQueryBuilder('lk')
+                .where('lk.project_id = :projectId')
+                .where('lk.user_id = :userId')
+                .setParameters({ projectId, userId })
+                .getOne()) !== null
+        );
     }
 }

@@ -4,16 +4,20 @@ import { UserTypeormEntity } from '../../user/persistence/user.entity';
 
 @Entity('tbl_like')
 export class LikeTypeormEntity {
-    @ManyToOne(() => ProjectTypeormEntity, (project) => project, {
-        onDelete: 'CASCADE',
-    })
+    @PrimaryColumn('varchar', { name: 'user_id' })
+    userId: string;
+
     @PrimaryColumn('varchar', { name: 'project_id' })
+    projectId: string;
+
+    @ManyToOne(() => ProjectTypeormEntity, (project) => project, {
+        onDelete: 'CASCADE'
+    })
     project: ProjectTypeormEntity;
 
     @ManyToOne(() => UserTypeormEntity, (user) => user, {
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE'
     })
-    @PrimaryColumn('varchar', { name: 'user_id' })
     user: UserTypeormEntity;
 
     constructor(project: ProjectTypeormEntity, user: UserTypeormEntity) {

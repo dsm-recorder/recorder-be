@@ -6,10 +6,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalFilters(new GlobalExceptionFilter());
     app.enableCors({
-        origin: [
-            "https://dsm-recorder.vercel.app/",
-            "localhost:3000"
-        ],
+        origin: "*",
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
     });
     await app.listen(3030);

@@ -5,7 +5,7 @@ import {
     JoinColumn,
     ManyToOne,
     OneToMany,
-    PrimaryGeneratedColumn,
+    PrimaryGeneratedColumn
 } from 'typeorm';
 import { RecordType } from '../../../../application/domain/pr_record/pr-record';
 import { RecordAttachmentTypeormEntity } from './record-attachment.entity';
@@ -16,9 +16,7 @@ export class PRRecordTypeormEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'pr_record_id' })
     id?: string;
 
-    @ManyToOne(() => ProjectTypeormEntity, (project) => project, {
-        onDelete: 'CASCADE',
-    })
+    @ManyToOne(() => ProjectTypeormEntity, (project) => project)
     @JoinColumn({ name: 'project_id' })
     project: ProjectTypeormEntity;
 
@@ -43,13 +41,7 @@ export class PRRecordTypeormEntity {
     @CreateDateColumn()
     createdAt?: Date;
 
-    @OneToMany(
-        () => RecordAttachmentTypeormEntity,
-        (recordAttachment) => recordAttachment.prRecord,
-        {
-            cascade: true,
-        },
-    )
+    @OneToMany(() => RecordAttachmentTypeormEntity, (recordAttachment) => recordAttachment.prRecord)
     recordAttachments: RecordAttachmentTypeormEntity[];
 
     constructor(
@@ -60,7 +52,7 @@ export class PRRecordTypeormEntity {
         isPublished: boolean,
         type: RecordType,
         solution?: string,
-        id?: string,
+        id?: string
     ) {
         this.id = id;
         this.project = project;

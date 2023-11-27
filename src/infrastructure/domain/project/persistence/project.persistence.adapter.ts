@@ -33,25 +33,18 @@ export class ProjectPersistenceAdapter implements ProjectPort {
     async saveProject(project: Project): Promise<Project> {
         const entity = await this.projectMapper.toEntity(project);
 
-        return this.projectMapper.toDomain(
-            await this.projectRepository.save(entity)
-        );
+        return this.projectMapper.toDomain(await this.projectRepository.save(entity));
     }
 
     async queryProjectsByUserId(userId: string): Promise<Project[]> {
         const projects = await this.projectRepository.find({
             where: {
-                user: { id: userId }
-            },
-            relations: {
-                user: true
+                userId: userId
             }
         });
 
         return Promise.all(
-            projects.map(async (project) =>
-                await this.projectMapper.toDomain(project)
-            )
+            projects.map(async (project) => await this.projectMapper.toDomain(project))
         );
     }
 
@@ -68,7 +61,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryProjectByRepositoryNameAndUserId(repositoryName: string, userId: string): Promise<Project> {
+    async queryProjectByRepositoryNameAndUserId(
+        repositoryName: string,
+        userId: string
+    ): Promise<Project> {
         return await this.projectMapper.toDomain(
             await this.projectRepository.findOne({
                 where: {
@@ -84,7 +80,10 @@ export class ProjectPersistenceAdapter implements ProjectPort {
         );
     }
 
-    async queryPublishedProjectsByName(userId: string, name: string): Promise<PublishedProjectResponse[]> {
+    async queryPublishedProjectsByName(
+        userId: string,
+        name: string
+    ): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.finishDate';
 
         const query = this.getQueryPublishedProjectQuery(orderByClause, userId);
@@ -92,47 +91,50 @@ export class ProjectPersistenceAdapter implements ProjectPort {
             query.where('p.name like :name', { name: `%${name}%` });
         }
 
-        return (await query.getRawMany())
-            .map((project) => {
-                project.isLiked = project.isLiked == '1';
-                return project;
-            });
+        return (await query.getRawMany()).map((project) => {
+            project.isLiked = project.isLiked == '1';
+            return project;
+        });
     }
 
-    async queryPublishedProjectsOrderByLikeCountAndLimit(limit: number): Promise<PublishedProjectResponse[]> {
+    async queryPublishedProjectsOrderByLikeCountAndLimit(
+        limit: number
+    ): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.likeCount';
 
-        return (await this.getQueryPublishedProjectQuery(orderByClause)
-            .limit(limit)
-            .getRawMany())
-            .map((project) => {
-                project.isLiked = project.isLiked == '1';
+        return (
+            await this.getQueryPublishedProjectQuery(orderByClause).limit(limit).getRawMany()
+        ).map((project) => {
+            project.isLiked = project.isLiked == '1';
 
-                return project;
-            });
+            return project;
+        });
     }
 
     async queryUserLikedProjects(userId: string): Promise<PublishedProjectResponse[]> {
         const orderByClause = 'p.finishDate';
         const likeOnClause = 'p.project_id = lk.project_id and lk.user_id = :userId';
 
-        return (await this.getQueryPublishedProjectQuery(orderByClause, userId)
-            .setParameters({ userId })
-            .innerJoin('tbl_like', 'lk', likeOnClause)
-            .getRawMany())
-            .map((project) => {
-                project.isLiked = project.isLiked == '1';
+        return (
+            await this.getQueryPublishedProjectQuery(orderByClause, userId)
+                .setParameters({ userId })
+                .innerJoin('tbl_like', 'lk', likeOnClause)
+                .getRawMany()
+        ).map((project) => {
+            project.isLiked = project.isLiked == '1';
 
-                return project;
-            });
+            return project;
+        });
     }
 
     private getQueryPublishedProjectQuery(orderByClause: string, userId?: string) {
-        const isLiked = this.likeTypeormEntity.createQueryBuilder('lk')
+        const isLiked = this.likeTypeormEntity
+            .createQueryBuilder('lk')
             .select('COUNT(*)')
             .where('lk.user_id = :userId and lk.project_id = id', { userId });
 
-        return this.projectRepository.createQueryBuilder('p')
+        return this.projectRepository
+            .createQueryBuilder('p')
             .leftJoin('p.user', 'user')
             .select('p.id', 'id')
             .addSelect('p.name', 'name')

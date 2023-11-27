@@ -15,9 +15,7 @@ export class UserTypeormEntity {
     @Column('varchar', { length: 5 })
     authority: string;
 
-    @OneToMany(() => ProjectTypeormEntity, (project) => project.user, {
-        cascade: true
-    })
+    @OneToMany(() => ProjectTypeormEntity, (project) => project.user)
     projects: ProjectTypeormEntity[];
 
     constructor(githubAccountId: string, profileUrl: string, authority: string, id?: string) {

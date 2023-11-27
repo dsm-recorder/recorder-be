@@ -35,10 +35,6 @@ export class LikePersistenceAdapter implements LikePort {
                 where: {
                     userId: userId,
                     projectId: projectId
-                },
-                relations: {
-                    user: true,
-                    project: true
                 }
             })
         );

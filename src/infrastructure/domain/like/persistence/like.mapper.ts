@@ -14,11 +14,11 @@ export class LikeMapper {
         @InjectRepository(ProjectTypeormEntity)
         private readonly projectRepository: Repository<ProjectTypeormEntity>,
         @InjectRepository(UserTypeormEntity)
-        private readonly userRepository: Repository<UserTypeormEntity>,
+        private readonly userRepository: Repository<UserTypeormEntity>
     ) {}
 
     async toDomain(entity: LikeTypeormEntity): Promise<Like> {
-        return entity ? new Like(entity.project.id, entity.user.id) : null;
+        return entity ? new Like(entity.projectId, entity.userId) : null;
     }
 
     async toEntity(domain: Like): Promise<LikeTypeormEntity> {

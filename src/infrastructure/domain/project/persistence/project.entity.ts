@@ -13,6 +13,9 @@ export class ProjectTypeormEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'project_id' })
     id: string;
 
+    @Column({ name: 'user_id' })
+    userId: string;
+
     @ManyToOne(() => UserTypeormEntity, (user) => user.projects)
     @JoinColumn({ name: 'user_id' })
     user: UserTypeormEntity;

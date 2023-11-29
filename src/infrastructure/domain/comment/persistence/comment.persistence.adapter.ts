@@ -52,6 +52,9 @@ export class CommentPersistenceAdapter implements CommentPort {
             relations: {
                 user: true,
                 project: true
+            },
+            order: {
+                createdAt: 'desc'
             }
         }));
     }

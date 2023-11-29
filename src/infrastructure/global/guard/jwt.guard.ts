@@ -23,6 +23,10 @@ export class JwtAuthGuard implements CanActivate {
             return true;
         }
         const token = this.extractTokenFromHeader(request.headers);
+        if (authority.includes('OPTIONAL') && token == null) {
+            return true;
+        }
+
         const { sub } = this.parseToken(token);
 
         const currentUser = await this.queryUserById(sub);

@@ -100,13 +100,13 @@ export class ProjectWebAdapter {
         return await this.queryPublishedProjectsUseCase.execute(user.id, name);
     }
 
-    @Permission([Authority.USER])
+    @Permission([Authority.USER, 'OPTIONAL'])
     @Get('/published/:projectId')
     async queryPublishedProjectDetail(
         @Param('projectId') projectId: string,
-        @CurrentUser() user: User
+        @CurrentUser() user?: User
     ): Promise<QueryPublishedProjectDetailResponse> {
-        return await this.queryPublishedProjectDetailUseCase.execute(projectId, user.id);
+        return await this.queryPublishedProjectDetailUseCase.execute(projectId, user?.id);
     }
 
     @Permission([Authority.USER])

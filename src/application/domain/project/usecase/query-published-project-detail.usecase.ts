@@ -13,7 +13,7 @@ export class QueryPublishedProjectDetailUseCase {
     ) {}
 
 
-    async execute(projectId: string, userId: string): Promise<QueryPublishedProjectDetailResponse> {
+    async execute(projectId: string, userId?: string): Promise<QueryPublishedProjectDetailResponse> {
         const project = await this.projectPort.queryProjectById(projectId);
         if (!project) {
             throw new NotFoundException('Project Not Found');
@@ -23,7 +23,10 @@ export class QueryPublishedProjectDetailUseCase {
             throw new ForbiddenException('Project Not Published');
         }
 
-        const isLiked = await this.likePort.existsLikeByProjectIdAndUserId(projectId, userId);
+        let isLiked = false;
+        if (userId != null) {
+            await this.likePort.existsLikeByProjectIdAndUserId(projectId, userId);
+        }
 
         return {
             name: project.name,

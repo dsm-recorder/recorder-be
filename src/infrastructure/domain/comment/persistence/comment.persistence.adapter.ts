@@ -34,6 +34,7 @@ export class CommentPersistenceAdapter implements CommentPort {
                 'u.githubAccountId as userAccountId',
                 '(' + isMineQuery + ') > 0 as isMine'
             ])
+            .where(`comment.project_id = ${projectId}`)
             .getRawMany();
 
         return comments.map((comment) => {

@@ -17,6 +17,7 @@ export class CommentPersistenceAdapter implements CommentPort {
     ) {}
 
     async queryProjectComments(projectId: string, userId: string): Promise<CommentResponse[]> {
+        console.log(projectId);
         const isMineQuery = this.commentRepository
             .createQueryBuilder('comment')
             .select('COUNT(*)')
@@ -34,7 +35,7 @@ export class CommentPersistenceAdapter implements CommentPort {
                 'u.githubAccountId as userAccountId',
                 '(' + isMineQuery + ') > 0 as isMine'
             ])
-            .where(`c.project_id = ${projectId}`)
+            .where(`c.project_id = '${projectId}'`)
             .getRawMany();
 
         return comments.map((comment) => {
